@@ -1,0 +1,305 @@
+                               PHYSICAL REVIEW LETTERS 123, 023901 (2019)
+
+
+
+                                Fourier-space Diffractive Deep Neural Network
+                           Tao Yan,1,* Jiamin Wu,1,* Tiankuang Zhou,1,2,* Hao Xie,1 Feng Xu,3
+                                Jingtao Fan,1 Lu Fang,2 Xing Lin,1,4,† and Qionghai Dai1,‡
+                1
+                 Department of Automation, Tsinghua University, Beijing, 100084, People’s Republic of China
+    2
+     Tsinghua Shenzhen International Graduate School, Tsinghua University, Shenzhen, 518055, People’s Republic of China
+                     3
+                      School of Software, Tsinghua University, Beijing 100084, People’s Republic of China
+      4
+        Department of Electrical and Computer Engineering, University of California, Los Angeles, California 90095, USA
+                      (Received 2 April 2019; revised manuscript received 6 June 2019; published 9 July 2019)
+
+                In this Letter we propose the Fourier-space diffractive deep neural network (F-D2NN) for all-optical
+             image processing that performs advanced computer vision tasks at the speed of light. The F-D2NN is
+             achieved by placing the extremely compact diffractive modulation layers at the Fourier plane or both
+             Fourier and imaging planes of an optical system, where the optical nonlinearity is introduced from
+             ferroelectric thin films. We demonstrated that F-D2NN can be trained with deep learning algorithms for all-
+             optical saliency detection and high-accuracy object classification.
+
+             DOI: 10.1103/PhysRevLett.123.023901
+
+
+
+   Performing modern computer vision tasks, especially              efficiently representing a scene [26–30]. Different from the
+with the resurgent deep learning algorithms, requires large-        saliency prediction [31,32] that tries to predict human eye
+scale image processing and an increase in demand for                fixation over an image at first glance, we focus on high-
+computational resources [1–3]. However, Moore’s law for             lighting the most important object regions in an image. As
+electronic computing is continuously slowing down, and              the number of sensor measurements for capturing larger
+the scale of an electronic transistor is approaching the            field of view and higher resolution images in both pho-
+physical limit [4,5]. Optical computing offers low power            tography and microscopy areas [33,34] has continuously
+consumption, light-speed processing, and high-throughput            increased, using only electronic computing has placed a
+capability, which possesses the inherent potential to serve         major bottleneck for processing such high-throughput data
+as significant support for high-performance computing               efficiently. This Letter introduces the all-optical salient
+[6–8]. Recent research on metamaterials and nanophoton-             object detection by simply placing the D2NN at the Fourier
+ics have paved the way to the all-optical signal processing         plane of an optical system, where the sensor directly
+and integrated optical circuit, but most of them can                measures the salient object detection results. The proposed
+only implement simple image processing operations, such             architecture is set to work under a visible wavelength of
+as differentiation, integration, and convolution [9–17].            532 nm, which offers the network with a high resolution
+Building the optical neural network has been proven                 and integration. The quantitative evaluation of the all-
+effective for solving more complex computational prob-              optical saliency detection for both macroscale scenes and
+lems, including image classification and speech recognition         microscopic samples demonstrates the effectiveness of the
+[7,18–25]. In this line of work, an all-optical machine             proposed approach.
+learning framework, termed as a diffractive deep neural                The nonlinear activation function is one of the crucial
+network (D2NN) [18], was recently introduced to perform             components in artificial neural networks. We propose to
+the light-speed classification and high-resolution imaging.         employ a specific type of ferroelectric thin film, i.e.,
+However, it only operates in real space and has limited             photorefractive crystal (SBN:60) [35–37] as an optical
+capability to address more advanced computer vision tasks.          nonlinearity layer and present different system configura-
+This Letter proposes the Fourier-space D2NN (F-D2NN)                tions to incorporate the nonlinearity layers physically. The
+and demonstrates the success of its application for salient         photorefractive crystal’s (SBN:60) nonlinear material
+object detection. Besides, we conduct various numerical             modifies its refractive index with the changing of light
+evaluations and show that the classification accuracy and           intensity in the medium, which performs the complex
+robustness of D2NN is significantly improved by training it         activation function for the output complex field of a neuron.
+in Fourier space and including the optical nonlinearity.            Such complex threshold preserves the light efficiency in
+   Salient object detection refers to the detection and             contrast to the intensity threshold. Training the diffractive
+segmentation of salient objects in natural scenes, which            modulation layers of D2NN in both Fourier and real spaces
+has attracted great interest in the computer vision commu-          with nonlinear activation layers enables the fitting of more
+nity due to its capability of finding objects or regions for        complex mapping functions, which significantly improves
+
+0031-9007=19=123(2)=023901(6)                                023901-1                        © 2019 American Physical Society
+                                    PHYSICAL REVIEW LETTERS 123, 023901 (2019)
+
+                                                                   the diffractive neural network and eventually minimize
+                                                                   the loss function. After the training, the F-D2NN frame-
+                                                                   work is fixed and diffractive modulation coefficients are
+                                                                   determined, which can be used for physical fabrication.
+                                                                   More details of network training are provided in the
+                                                                   Supplemental Material [38].
+                                                                      Compared with the real-space D2NN [18], our frame-
+                                                                   work is more natural to preserve the spatial correspondence
+                                                                   by incorporating a dual 2f optical system, which facilitates
+                                                                   those tasks that require an image-to-image mapping. The
+                                                                   transform function is learned in Fourier space since every
+                                                                   different object will have a very different Fourier transform
+                                                                   pattern. To demonstrate, we take the first step to address the
+FIG. 1. Salient object detection with Fourier-space diffractive    task of salient object detection all optically with the
+deep neural network (F-D2NN). The F-D2NN optical image             proposed F-D2NN framework. In the proposed framework,
+processing module is formed by inserting the D2NN along with       each input point of the target scene is fully connected to all
+a photorefractive crystal (SBN:60) at the Fourier plane of an      of the neurons in the D2NN and maps to the corresponding
+optical system under coherent light. F-D2NN can achieve all-       location on the detector, where the D2NN statistically learns
+optical segmentation of the salient objects for the target scene   to perform saliency filtering on different spatial frequency
+after deep learning design of modulation layers.                   components of the target scene after the training, similar to
+                                                                   the spectral residual approach proposed in Ref. [29].
+its performance on the task of classification. With the            Besides, the employed nonlinear layer can facilitate the
+presented optical nonlinearity, we also demonstrate that           nonlinear representation of the target scene to better capture
+Fourier-space D2NN can achieve higher classification               its structures than a linear representation. These underline
+accuracy and much more compact structure than real-space           physical principles place constraints on the searching space
+D2NN [18] under the visible spectrum.                              of network and guarantee the reliable estimation of visual
+   The framework of the proposed Fourier-space D2NN is             saliency.
+demonstrated in Fig. 1. Under the coherent illumination,              We validated the proposed F-D2NN for performing an
+the complex optical field of a target scene U0 is Fourier          all-optical salient object detection by demonstrating its
+transformed and fed into the input diffractive layer of D2NN       application in cell segmentation. For this task, the phase-
+through a 2f optical system: Û0 ¼ FU0 , where F is the            only modulation layers were designed by training a five-
+Fourier transform matrix. The D2NN performs a complex              layer F-D2NN with the pathology slide images from
+transform function M̂ in the Fourier space for the input           National Cancer Institute GDC Data Portal [39]. During
+optical field after training with deep learning algorithms,        the implementation, the numerical aperture of the dual 2f
+which computes the output optical field Û1 of a network           system was set to match the neuron size of the D2NN so that
+through optical diffractions layer by layer: Û1 ¼ M̂Û0 ¼         the optical diffraction used for computing can be captured
+M̂FU0 . In this Letter, we target to train phase-only              for generating saliency maps on the sensor. We first
+diffractive modulation layers. By attaching a photorefrac-         demonstrated the unit-magnification system with the net-
+tive crystal, the optical field after propagating through          work setting details in the Supplemental Material [38]. To
+nonlinear material with complex activation function φ can          facilitate the practical fabrication of phase modulation
+be formulated as Û2 ¼ φðÛ1 Þ ¼ φðM̂FU0 Þ, which is then          layers with direct femtosecond laser writing [40,41], the
+Fourier transformed back to the real space with another 2f         distance between successive layers was optimized and set
+optical system and the sensor measures the intensity               to be 100 μm that offers the network a highly compact
+distribution of the optical field at the output plane:             structure. The network was trained using pathology slide
+O ¼ jFÛ2 j2 ¼ jFφðM̂FU0 Þj2 .                                     images of cell type 1 with 2750 images and 250 validation
+   During the training, input images are encoded into the          images. The ground truth saliency detection results used for
+amplitude of complex field U0 and sensor measurements O            training and evaluation are obtained with state-of-the-art
+are computed with the formulated forward model, which              algorithms, including cosaliency detection [27] and robust
+are then used to calculate errors with respect to the ground       background detection (RBD) algorithms [30].
+truth targets Ogt . The loss function with mean squared error         We blindly tested the trained F-D2NN with cell type 1
+evaluation criterion can be defined as eðM̂Þ ¼ kO−                 from testing dataset (500 images) as well as the cell type 2
+ΓðOgt Þk, where Γ represents the operator of reversing             (250 images) and cell type 3 (250 images) for evaluating
+coordinate axes due to the using of two optical Fourier            the generalization of the network, as demonstrated in Fig. 2.
+transforms. The resulting errors are backpropagated to             The ground truth results in this implementation were
+iteratively update the phase modulation coefficients of            obtained with the cosaliency detection algorithm. The
+
+
+                                                             023901-2
+                                       PHYSICAL REVIEW LETTERS 123, 023901 (2019)
+
+
+
+
+                                                                         FIG. 3. Video salient object detection with F-D2NN. F-D2NN is
+FIG. 2. Cell segmentation with F-D2NN on testing images. The             trained with CIFAR-10 database and tested with online video
+F-D2NN is trained (Cell Type 1) and tested (Cell Type 1, 2 and 3)        sequence [42]. F-D2NN modulation layers are converged to the
+with pathology slide images from National Cancer Institute GDC           patterns as shown in the fourth row, which are then used for
+Data Portal [39] for salient object detection and applying it to cell    performing all-optical salient detection (third row) for input
+segmentation. After the training, the patterns of F-D2NN modu-           image sequences (first row). (Scale bar: 80 μm).
+lation layers (fourth row) are fixed and used to perform all-optical
+salient object detection (third row, intensity represents the
+saliency level), which can achieve comparable accuracy com-                 We further demonstrate the generality of F-D2NN for
+pared with the state-of-the-art cosaliency detection algorithm [27]      video saliency detection of dynamic natural scenes at the
+(second row) for the input images (first row). (Scale bar: 200 μm        macroscopic scale. With the network setting details in the
+for the first to the third row, 400 μm for the fourth row. Cell scales   Supplemental Material [38] and using the cosaliency detec-
+are optically magnified).                                                tion results as the ground truth, Fig. 3 shows the testing of
+                                                                         online video sequence [42] after training five layers F-D2NN
+results demonstrated that F-D2NN successfully learned to                 with CIFAR-10 dataset [43]. The trained diffractive modu-
+perform visual saliency detection (third row) for the target             lation layers are demonstrated in the last row of Fig. 3, with
+specimen (first row) and obtained comparable results with                which the input video sequence (first row) was tested frame
+respect to the ground truths (second row). As expected, the              by frame (240 frames in total) to generate the saliency video
+saliency detection results segmented out the cells and                   sequence (third row). The Supplemental Video 1 shows the
+revealed their shapes and locations. The cosaliency detec-               result of whole video sequences, and the maximum F
+tion approach proposed in Ref. [27] imposes a location                   measure on the averaged PR curve with respect to the
+constraint that the salient object has a higher probability of           cosaliency detection algorithm (second row) is calculated
+being in the center of a human-made image. However, the                  to be 0.726. The results demonstrate the potential application
+                                                                         of the proposed approach for high-speed and robustness
+trained F-D2NN is able to learn and average various spatial
+                                                                         saliency detection of dynamic scenes. To quantitatively
+features at different locations of the training images; thus
+                                                                         evaluate the performance of the proposed all-optical com-
+the detection and segmentation results are even better than
+                                                                         puting framework with respect to the state-of-the-art visual
+the cosaliency detection approach on the peripheral
+                                                                         saliency detection algorithms, we also test the trained model
+regions, as marked out in Fig. 2. For the quantitative                   with benchmark datasets including the DAVIS [44] and
+evaluation, we calculate the precision-recall (PR) curve                 ECSSD [45]. The corresponding results are shown in the
+[26] by comparing the saliency detection results of testing              Figs. S4 and S5 as well as Supplemental Video 2, where the
+images with respect to the ground truths. The maximum F                  maximum F measures on the results of the proposed
+measures of average PR curve over three testing datasets for             approach are 0.498 and 0.423, respectively.
+cell type 1, 2, and 3 are 0.613, 0.653, and 0.451,                          Furthermore, we compared the Fourier- and real-space
+respectively. The proposed F-D2NN also works for the                     D2NN under different configurations for both tasks of
+magnification or demagnification system, as demonstrated                 saliency detection and object classification, as shown in
+in Fig. S1. The same conclusion can be obtained by using                 Fig. 4. The phase modulation range of each neuron was
+4f system instead of dual 2f system or changing the                      constrained to a certain range as details in Fig. S6. We trained
+ground truth reconstruction algorithm from cosaliency                    both five-layer Fourier and real-space D2NN on CIFAR-10
+detection to RBD algorithm as shown in the Figs. S2                      dataset “Cat” category and tested the trained model on
+and S3, respectively.                                                    “Horse” category. As expected, the real-space D2NNs with
+
+                                                                  023901-3
+                                      PHYSICAL REVIEW LETTERS 123, 023901 (2019)
+
+
+
+
+FIG. 4. The comparisons between Fourier- and real-space D2NN for salient object detection and object classification. (a) Real-space
+D2NN cannot achieve correct localization and segmentation of the target while Fourier-space D2NN successfully detects the salient
+object and performs the segmentation. The transforming of D2NN from real-space into Fourier-space and the incorporating of the
+nonlinear optical layer significantly reduce its thickness and improve the classification accuracy. (b) The classification accuracy of linear
+real-space D2NN saturates with the increasing of layer number. However, with the incorporating of nonlinear optical layers, the
+classification accuracy increases with the increasing of layer number, and the hybrid method of Fourier and real-space D2NN can further
+improve the accuracy.
+
+
+or without the nonlinearity fail on the task of salient object          92.7 to 93.5%). By using a single nonlinearity layer behind
+detection due to its difficulty of finding spatial correspond-          modulation layers to the Fourier-space configuration, the
+ences, while F-D2NN successfully performs the detection by              classification accuracy was significantly improved to 97.0%
+training and testing on the same datasets that real-space               with the optimal layer distance of 100 μm. The resulting
+D2NN used [Fig. 4(a)]. The maximum F measure of saliency                compact network structure facilitates network fabrication
+detection on the testing dataset for the nonlinear F-D2NN is            and physical experiments. Increasing the number of non-
+0.641, which outperformed the linear configuration (0.634).             linearity layers achieves comparable classification accuracy
+For the task of object classification, we use the MNIST                 (Fig. S7), but it decreases the performance of saliency
+handwritten digit dataset like Ref. [18] for quantitatively             detection (Fig. S2) and reduces the feasibility for physical
+evaluating different D2NN configurations and calculating the            implementation. Therefore, the nonlinear F-D2NN in this
+classification accuracy. The photorefractive crystal is incor-          Letter is configured with a single nonlinearity layer. With a
+porated as the nonlinearity layer by setting the thickness to be        comparable system length of nonlinear F-D2NN, the five-
+1 mm for generating enough strength of phase variation                  layer real-space D2NN configured with five nonlinearity
+(details in the Supplemental Material [38]). We found that              layers has the classification accuracy of 95.4%. The classi-
+training linear D2NN in Fourier space not only reduces the              fication accuracy of linear real-space D2NN saturates with the
+thickness of a five-layer D2NN (layer distance from 3 mm to             increasing of layer number from five to ten, but with the
+100 μm) but also improves its classification accuracy (from             nonlinearity layer, ten layers of nonlinear D2NN at real space
+
+                                                                023901-4
+                                     PHYSICAL REVIEW LETTERS 123, 023901 (2019)
+
+has the classification accuracy of 96.8%. By placing the              [10] N. M. Estakhri, B. Edwards, and N. Engheta, Science 363,
+diffractive modulation layers on both Fourier space and real               1333 (2019).
+space, a five-layer nonlinear hybrid D2NN configuration has           [11] H. Kwon, D. Sounas, A. Cordaro, A. Polman, and A. Alù,
+the classification accuracy of 96.4%, which can be improved                Phys. Rev. Lett. 121, 173004 (2018).
+                                                                      [12] T. Zhu, Y. Zhou, Y. Lou, H. Ye, M. Qiu, Z. Ruan, and S. Fan,
+to 98.1% with ten layers. All convergence plots of the
+                                                                           Nat. Commun. 8, 15391 (2017).
+described D2NN configurations on the MNIST blind testing
+                                                                      [13] M. Ferrera, Y. Park, L. Razzari, B. E. Little, S. T. Chu, R.
+dataset are demonstrated in Fig. 4 (bottom row). In the                    Morandotti, D. Moss, and J. Azaña, Nat. Commun. 1, 29
+Supplemental Material [38], we further evaluated the robust-               (2010).
+ness of F-D2NN with respect to the fabrication and alignment          [14] C. Guo, M. Xiao, M. Minkov, Y. Shi, and S. Fan, Optica 5,
+errors on performing the tasks of classification (Fig. S8) and             251 (2018).
+saliency detection (Fig. S9) and demonstrated the feasibility         [15] A. Pors, M. G. Nielsen, and S. I. Bozhevolnyi, Nano Lett.
+of the proposed architecture for physical experiments.                     15, 791 (2015).
+   To conclude, we have shown that the F-D2NN can be                  [16] J. Xu, X. Zhang, J. Dong, D. Liu, and D. Huang, Opt. Lett.
+applied to achieve advanced image processing and com-                      32, 1872 (2007).
+puter vision tasks at the speed of light. We validated the            [17] A. Chizari, S. Abdollahramezani, M. V. Jamali, and J. A.
+effectiveness of the proposed approach for high-accuracy                   Salehi, Opt. Lett. 41, 3451 (2016).
+                                                                      [18] X. Lin, Y. Rivenson, N. T. Yardimci, M. Veli, Y. Luo, M.
+visual saliency detection and object classification through
+                                                                           Jarrahi, and A. Ozcan, Science 361, 1004 (2018).
+various numerical experiments. Similar to coded aperture
+                                                                      [19] J. Bueno, S. Maktoobi, L. Froehly, I. Fischer, M. Jacquot, L.
+imaging techniques, such as phase contrast microscopy, our                 Larger, and D. Brunner, Optica 5, 756 (2018).
+method can be implemented as an intelligent optical filter            [20] T. W. Hughes, M. Minkov, Y. Shi, and S. Fan, Optica 5, 864
+and adapted to different imaging systems including com-                    (2018).
+mercial microscopes and cameras.                                      [21] J. Chang, V. Sitzmann, X. Dun, W. Heidrich, and G.
+                                                                           Wetzstein, Sci. Rep. 8, 12324 (2018).
+  The executable codes and datasets in this Letter are
+                                                                      [22] I. Chakraborty, G. Saha, A. Sengupta, and K. Roy, Sci. Rep.
+available upon reasonable request.                                         8, 12980 (2018).
+  This Letter was supported by the Project of Beijing                 [23] A. N. Tait, T. F. de Lima, E. Zhou, A. X. Wu, M. A.
+Municipal Commission of Science and Technology                             Nahmias, B. J. Shastri, and P. R. Prucnal, Sci. Rep. 7,
+(No. Z181100003118014) and National Natural Science                        7430 (2017).
+                                                                      [24] M. Hermans, M. Burm, T. Van Vaerenbergh, J. Dambre, and
+Foundation of China (No. 61327902 and No. 61722209).
+                                                                           P. Bienstman, Nat. Commun. 6, 6729 (2015).
+                                                                      [25] D. Brunner, M. C. Soriano, C. R. Mirasso, and I. Fischer,
+                                                                           Nat. Commun. 4, 1364 (2013).
+    *                                                                 [26] A. Borji, M.-M. Cheng, H. Jiang, and J. Li, IEEE Trans.
+       T. Y., J. W. and T. Z. contributed equally to this Letter.
+    †                                                                      Image Process. 24, 5706 (2015).
+       linx2019@tsinghua.edu.cn
+     ‡                                                                [27] H. Fu, X. Cao, and Z. Tu, IEEE Trans. Image Process. 22,
+       qhdai@tsinghua.edu.cn
+ [1] Y. LeCun, Y. Bengio, and G. Hinton, Nature (London) 521,              3766 (2013).
+      436 (2015).                                                     [28] W. Wang, J. Shen, and L. Shao, IEEE Trans. Image Process.
+ [2] A. Krizhevsky, I. Sutskever, and G. E. Hinton, in Advances            27, 38 (2018).
+      in Neural Information Processing Systems (Curran Asso-          [29] X. Hou and L. Zhang, in Proceedings of the IEEE
+      ciates, Inc., New York, USA, 2012), pp. 1097–1105.                   Conference on Computer Vision and Pattern Recognition
+ [3] D. Silver, A. Huang, C. J. Maddison, A. Guez, L. Sifre, G.            (IEEE, Piscataway, 2007), pp. 1–8.
+      Van Den Driessche, J. Schrittwieser, I. Antonoglou, V.          [30] W. Zhu, S. Liang, Y. Wei, and J. Sun, in Proceedings
+      Panneershelvam, M. Lanctot et al., Nature (London) 529,              of the IEEE Conference on Computer Vision and
+      484 (2016).                                                          Pattern Recognition (IEEE, Piscataway, 2014), pp. 2814–
+ [4] B. J. Shastri, A. N. Tait, T. Ferreira de Lima, M. A. Nahmias,        2821.
+      H.-T. Peng, and P. R. Prucnal, Unconventional Computing:        [31] J. Pan, E. Sayrol, X. Giro-i Nieto, K. McGuinness, and N. E.
+      A Volume in the Encyclopedia of Complexity and Systems               O’Connor, in Proceedings of the IEEE Conference on
+      Science, 2nd ed. (Springer, New York, 2018), Vol. 83.                Computer Vision and Pattern Recognition (IEEE, Piscat-
+ [5] J. M. Shainline, S. M. Buckley, R. P. Mirin, and S. W. Nam,           away, 2016), pp. 598–606.
+      Phys. Rev. Applied 7, 034013 (2017).                            [32] M. Cornia, L. Baraldi, G. Serra, and R. Cucchiara, in
+ [6] D. R. Solli and B. Jalali, Nat. Photonics 9, 704 (2015).              Proceedings of the IEEE International Conference on
+ [7] Y. Shen, N. C. Harris, S. Skirlo, M. Prabhu, T. Baehr-Jones,          Pattern Recognition (ICPR) (IEEE, Piscataway, 2016),
+      M. Hochberg, X. Sun, S. Zhao, H. Larochelle, D. Englund              pp. 3488–3493.
+      et al., Nat. Photonics 11, 441 (2017).                          [33] D. J. Brady, M. E. Gehm, R. A. Stack, D. L. Marks, D. S.
+ [8] D. Psaltis, D. Brady, X.-G. Gu, and S. Lin, Nature (London)           Kittle, D. R. Golish, E. Vera, and S. D. Feller, Nature
+      343, 325 (1990).                                                     (London) 486, 386 (2012).
+ [9] A. Silva, F. Monticone, G. Castaldi, V. Galdi, A. Alù, and       [34] G. Zheng, R. Horstmeyer, and C. Yang, Nat. Photonics 7,
+      N. Engheta, Science 343, 160 (2014).                                 739 (2013).
+
+
+                                                               023901-5
+                                     PHYSICAL REVIEW LETTERS 123, 023901 (2019)
+
+[35] L. Waller, G. Situ, and J. W. Fleischer, Nat. Photonics 6, 474   [41] A. Ródenas, M. Gu, G. Corrielli, P. Paiè, S. John, A. K. Kar,
+     (2012).                                                               and R. Osellame, Nat. Photonics 13, 105 (2019).
+[36] D. N. Christodoulides, T. H. Coskun, M. Mitchell, and M.         [42] Online Horse Video, http://3g.163.com/v/video/VXI1LO67N
+     Segev, Phys. Rev. Lett. 78, 646 (1997).                               .html.
+[37] R. W. Boyd, Nonlinear Optics (Elsevier, Amsterdam, 2003).        [43] A. Krizhevsky and G. Hinton, Learning multiple layers of
+[38] See Supplemental Material at http://link.aps.org/                     features from tiny images, University of Toronto Technical
+     supplemental/10.1103/PhysRevLett.123.023901 for details               Report, Citeseer, 2009, http://www.cs.toronto.edu/~kriz/
+     about the network training, optical nonlinearity property, as         learning-features-2009-TR.pdf.
+     well as the ablation and sensitivity analysis of the network     [44] F. Perazzi, J. Pont-Tuset, B. McWilliams, L. Van Gool, M.
+     with different configurations and evaluation datasets.                Gross, and A. Sorkine-Hornung, in Proceedings of the IEEE
+[39] National Cancer Institute GDC Data Portal, https://portal             Conference on Computer Vision and Pattern Recognition
+     .gdc.cancer.gov.                                                      (IEEE, Piscataway, 2016), pp. 724–732.
+[40] Y.-L. Zhang, Q.-D. Chen, H. Xia, and H.-B. Sun, Nano             [45] J. Shi, Q. Yan, L. Xu, and J. Jia, IEEE Trans. Pattern Anal.
+     Today 5, 435 (2010).                                                  Mach. Intell. 38, 717 (2016).
+
+
+
+
+                                                               023901-6
+

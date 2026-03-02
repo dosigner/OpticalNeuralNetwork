@@ -1,0 +1,43 @@
+Metadata-Version: 2.4
+Name: tao2019-fd2nn
+Version: 0.1.0
+Summary: Reproducible Fourier-space D2NN simulator (tao2019)
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: numpy>=1.24
+Requires-Dist: torch>=2.2
+Requires-Dist: torchvision>=0.17
+Requires-Dist: matplotlib>=3.8
+Requires-Dist: PyYAML>=6.0
+Requires-Dist: scikit-image>=0.22
+Provides-Extra: dev
+Requires-Dist: pytest>=8.0; extra == "dev"
+
+# tao2019_fourier_space_d2nn
+
+Config-driven simulator for Fourier-space Diffractive Deep Neural Networks (F-D2NN).
+
+## Quick start
+
+```bash
+cd tao2019_fourier_space_d2nn
+python -m pip install -e ".[dev]"
+```
+
+Classification:
+
+```bash
+tao2019-train-classifier --config src/tao2019_fd2nn/config/cls_mnist_linear_fourier_5l_f1mm.yaml
+```
+
+Saliency:
+
+```bash
+tao2019-train-saliency --config src/tao2019_fd2nn/config/saliency_cifar_video.yaml
+```
+
+Run tests:
+
+```bash
+pytest
+```

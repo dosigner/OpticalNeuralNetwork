@@ -1,0 +1,66 @@
+experiment:
+  name: fashion_phase_only_5l
+  task: classifier
+
+physics:
+  N: 200
+  dx: 0.0004
+  wavelength: 0.00075
+  z_layer: 0.03
+  z_out: 0.03
+  bandlimit: true
+  fftshifted: false
+
+model:
+  num_layers: 5
+  phase_max: 6.283185307179586
+  phase_constraint_mode: symmetric_tanh
+  phase_init: zeros
+  train_amplitude: false
+  amplitude_range: [0.0, 1.0]
+  dtype: complex64
+
+data:
+  dataset: fashion_mnist
+  root: data
+  object_size: 80
+  download: true
+  batch_size: 8
+  num_workers: 0
+
+training:
+  epochs: 10
+  lr: 0.001
+  max_steps_per_epoch: null
+
+loss:
+  leakage_weight: 0.1
+  temperature: 1.0
+
+viz:
+  phase_display_max: 6.283185307179586
+  phase_shift_to_display_max: true
+  phase_wrap_to_display_max: false
+  phase_stretch_to_display_max: false
+
+detector_layout:
+  path: configs/layouts/mnist_fashion_3_4_3_v1.json
+
+error_model:
+  max_misalignment_m: 0.0
+  absorption_alpha: 0.0
+
+runtime:
+  seed: 1234
+  deterministic: true
+  run_id_mode: timestamp
+  device: auto
+  runs_dir: runs
+
+export:
+  delta_n: 0.7227
+  quantization_levels: null
+  lumerical:
+    enabled: false
+    mock_mode: true
+    temp_dir: runs/lumerical

@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tao2019-fd2nn"
+version = "0.1.0"
+description = "Reproducible Fourier-space D2NN simulator (tao2019)"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "numpy>=1.24",
+  "torch>=2.2",
+  "torchvision>=0.17",
+  "matplotlib>=3.8",
+  "colorama>=0.4.6",
+  "PyYAML>=6.0",
+  "scikit-image>=0.22",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+tao2019-train-classifier = "tao2019_fd2nn.cli.train_classifier:main"
+tao2019-train-saliency = "tao2019_fd2nn.cli.train_saliency:main"
+tao2019-make-figures = "tao2019_fd2nn.cli.make_figures:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]

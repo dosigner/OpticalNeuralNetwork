@@ -1,0 +1,6 @@
+sweep:
+  name: imaging_z_vs_ssim
+  parameter: z_layer
+  values: [0.002, 0.003, 0.004, 0.005, 0.006]
+  base_config: configs/imaging_lens_5l.yaml
+  max_steps_per_epoch: 10

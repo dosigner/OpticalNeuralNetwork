@@ -1,0 +1,92 @@
+experiment:
+  name: "fig4a_cls_mnist_nonlinear_real_5l"
+  seed: 42
+  device: "cuda"
+  dtype: "float32"
+  deterministic: false
+  save_dir: "runs"
+
+optics:
+  wavelength_m: 5.32e-7
+  n: 1.0
+  grid:
+    nx: 200
+    ny: 200
+    dx_m: 1.0e-6
+    dy_m: 1.0e-6
+  propagation:
+    method: "ASM"
+    layer_spacing_m: 3.0e-3
+    bandlimit: true
+    evanescent: "mask"
+
+model:
+  type: "real_d2nn"
+  num_layers: 5
+  modulation:
+    kind: "phase_only"
+    phase_constraint: "sigmoid"
+    phase_max_rad: 3.141592653589793
+    init: "uniform"
+    init_scale: 0.1
+  nonlinearity:
+    type: "sbn60"
+    enabled: true
+    position: "per_layer"
+    phi_max_rad: 3.141592653589793
+    intensity_norm: "background_perturbation"
+    background_intensity: 0.0
+    saturation_intensity: 1.0
+    clamp_negative_perturbation: true
+    voltage_v: 972.0
+    electrode_gap_m: 1.0e-3
+    kappa_m_per_v: 2.7366255e-10
+    thickness_m: 1.0e-3
+    wavelength_m: 5.32e-7
+    eps: 1.0e-12
+
+task:
+  name: "classification"
+  detector:
+    width_um: 12.0
+    layout: "default10"
+  logits:
+    mode: "energy"
+    normalize: "sum_to_one"
+
+data:
+  dataset: "mnist"
+  root: "data/mnist/"
+  split:
+    train: 55000
+    val: 5000
+    test: 10000
+  preprocess:
+    grayscale: true
+    normalize: "minmax_0_1"
+    upsample_factor: 3
+    resize_mode: "bilinear"
+    pad_to: [200, 200]
+    pad_mode: "constant"
+    pad_value: 0.0
+    pad_align: "center"
+
+training:
+  optimizer: "adam"
+  lr: 0.01
+  batch_size: 10
+  num_workers: 8
+  pin_memory: true
+  prefetch_factor: 4
+  persistent_workers: true
+  epochs: 30
+  loss: "mse_onehot"
+
+eval:
+  metric: "accuracy"
+
+viz:
+  enabled: true
+  dpi: 300
+  export_formats: ["png"]
+  save_convergence: true

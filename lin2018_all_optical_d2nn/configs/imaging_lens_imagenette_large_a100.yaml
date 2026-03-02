@@ -1,0 +1,61 @@
+experiment:
+  name: imaging_lens_imagenette_large_a100
+  task: imager
+
+physics:
+  N: 220
+  dx: 0.0003
+  wavelength: 0.00075
+  z_layer: 0.004
+  z_out: 0.007
+  bandlimit: true
+  fftshifted: false
+
+model:
+  num_layers: 5
+  phase_max: 6.283185307179586
+  train_amplitude: false
+  amplitude_range: [0.0, 1.0]
+  dtype: complex64
+
+data:
+  dataset: image_folder
+  root_train: data/imagenette_large/train
+  root_val: data/imagenette_large/val
+  object_size: 140
+  batch_size: 64
+  num_workers: 8
+  pin_memory: true
+  persistent_workers: true
+  prefetch_factor: 4
+
+training:
+  epochs: 36
+  lr: 0.001
+  max_steps_per_epoch: null
+
+viz:
+  phase_display_max: 6.283185307179586
+
+runtime:
+  seed: 1234
+  deterministic: true
+  device: cuda
+  runs_dir: runs
+
+error_model:
+  max_misalignment_m: 0.0
+  absorption_alpha: 0.0
+  height_quantization_levels: null
+
+export:
+  delta_n: 0.7227
+  quantization_levels: null
+  lumerical:
+    enabled: true
+    mock_mode: true
+    temp_dir: runs/lumerical
+    base_fsp: base.fsp
+    out_fsp: final.fsp
+    material_name: VeroBlackPlus_RGD875
+    refractive_index: 1.7227

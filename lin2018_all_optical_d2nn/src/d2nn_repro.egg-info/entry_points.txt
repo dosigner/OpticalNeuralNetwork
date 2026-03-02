@@ -1,0 +1,6 @@
+[console_scripts]
+d2nn-eval = d2nn.cli.eval:main
+d2nn-export-heightmap = d2nn.cli.export_heightmap:main
+d2nn-make-figures = d2nn.cli.make_figures:main
+d2nn-train-classifier = d2nn.cli.train_classifier:main
+d2nn-train-imager = d2nn.cli.train_imager:main

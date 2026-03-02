@@ -1,0 +1,114 @@
+{
+  "created_at_utc": "2026-02-26T13:50:07Z",
+  "dataset": "mnist",
+  "splits": {
+    "validation": "5k",
+    "test": "10k"
+  },
+  "metric": {
+    "val": "val_acc",
+    "test": "test_acc"
+  },
+  "batch_size": 1024,
+  "epochs": 30,
+  "configurations": [
+    "Nonlinear Fourier, Multi SBN",
+    "Nonlinear Fourier, Single SBN",
+    "Linear Fourier",
+    "Nonlinear Real, Multi SBN"
+  ],
+  "panel_c_1layer": [
+    {
+      "label": "Nonlinear Fourier, Multi SBN",
+      "config": "src/tao2019_fd2nn/config/cls_mnist_nonlinear_fourier_multi_sbn_1l.yaml",
+      "run_dir": "runs/supp_s7_cls_mnist_nonlinear_fourier_multi_sbn_1l/260226_132410",
+      "epochs_recorded": 30,
+      "max_val_acc": 0.7687999606132507,
+      "final_val_acc": 0.7681999802589417,
+      "best_epoch": 28,
+      "test_acc": 0.7802000045776367,
+      "trained_this_run": false
+    },
+    {
+      "label": "Nonlinear Fourier, Single SBN",
+      "config": "src/tao2019_fd2nn/config/cls_mnist_nonlinear_fourier_1l_f1mm.yaml",
+      "run_dir": "runs/supp_s7c_cls_mnist_nonlinear_fourier_1l_f1mm/260226_132855",
+      "epochs_recorded": 30,
+      "max_val_acc": 0.7687999606132507,
+      "final_val_acc": 0.7681999802589417,
+      "best_epoch": 28,
+      "test_acc": 0.7802000045776367,
+      "trained_this_run": false
+    },
+    {
+      "label": "Linear Fourier",
+      "config": "src/tao2019_fd2nn/config/cls_mnist_linear_fourier_1l_f1mm.yaml",
+      "run_dir": "runs/supp_s7c_cls_mnist_linear_fourier_1l_f1mm/260226_133331",
+      "epochs_recorded": 30,
+      "max_val_acc": 0.7721999883651733,
+      "final_val_acc": 0.7673999667167664,
+      "best_epoch": 28,
+      "test_acc": 0.7732999920845032,
+      "trained_this_run": false
+    },
+    {
+      "label": "Nonlinear Real, Multi SBN",
+      "config": "src/tao2019_fd2nn/config/cls_mnist_nonlinear_real_1l.yaml",
+      "run_dir": "runs/supp_s7c_cls_mnist_nonlinear_real_1l/260226_133802",
+      "epochs_recorded": 30,
+      "max_val_acc": 0.840999960899353,
+      "final_val_acc": 0.8395999670028687,
+      "best_epoch": 26,
+      "test_acc": 0.8440999984741211,
+      "trained_this_run": false
+    }
+  ],
+  "panel_d_5layer": [
+    {
+      "label": "Nonlinear Fourier, Multi SBN",
+      "config": "src/tao2019_fd2nn/config/cls_mnist_nonlinear_fourier_multi_sbn_5l.yaml",
+      "run_dir": "runs/supp_s7_cls_mnist_nonlinear_fourier_multi_sbn_5l/260226_134255",
+      "epochs_recorded": 30,
+      "max_val_acc": 0.9405999779701233,
+      "final_val_acc": 0.9399999976158142,
+      "best_epoch": 29,
+      "test_acc": 0.9469000101089478,
+      "trained_this_run": false
+    },
+    {
+      "label": "Nonlinear Fourier, Single SBN",
+      "config": "src/tao2019_fd2nn/config/cls_mnist_nonlinear_fourier_5l_f4mm.yaml",
+      "run_dir": "runs/fig4a_cls_mnist_nonlinear_fourier_5l_f4mm/260226_121743",
+      "epochs_recorded": 30,
+      "max_val_acc": 0.9375999569892883,
+      "final_val_acc": 0.9371999502182007,
+      "best_epoch": 29,
+      "test_acc": 0.9520000219345093,
+      "trained_this_run": false
+    },
+    {
+      "label": "Linear Fourier",
+      "config": "src/tao2019_fd2nn/config/cls_mnist_linear_fourier_5l_f1mm.yaml",
+      "run_dir": "runs/fig4a_cls_mnist_linear_fourier_5l_f1mm/260226_120240",
+      "epochs_recorded": 30,
+      "max_val_acc": 0.9001999497413635,
+      "final_val_acc": 0.8985999822616577,
+      "best_epoch": 23,
+      "test_acc": 0.911300003528595,
+      "trained_this_run": false
+    },
+    {
+      "label": "Nonlinear Real, Multi SBN",
+      "config": "src/tao2019_fd2nn/config/cls_mnist_nonlinear_real_5l.yaml",
+      "run_dir": "runs/fig4a_cls_mnist_nonlinear_real_5l/260226_114246",
+      "epochs_recorded": 30,
+      "max_val_acc": 0.9357999563217163,
+      "final_val_acc": 0.9357999563217163,
+      "best_epoch": 30,
+      "test_acc": 0.9477999806404114,
+      "trained_this_run": false
+    }
+  ],
+  "figure_c": "/root/dj/D2NN/tao2019_fourier_space_d2nn/supp_s7c_mnist_1l_convergence.png",
+  "figure_d": "/root/dj/D2NN/tao2019_fourier_space_d2nn/supp_s7d_mnist_5l_convergence.png"
+}

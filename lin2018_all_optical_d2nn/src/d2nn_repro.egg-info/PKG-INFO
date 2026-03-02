@@ -1,0 +1,44 @@
+Metadata-Version: 2.4
+Name: d2nn-repro
+Version: 0.1.0
+Summary: Reproducible D2NN simulation and training toolkit
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: numpy>=1.24
+Requires-Dist: torch>=2.2
+Requires-Dist: torchvision>=0.17
+Requires-Dist: matplotlib>=3.8
+Requires-Dist: PyYAML>=6.0
+Requires-Dist: scikit-image>=0.22
+Requires-Dist: colorama>=0.4
+Provides-Extra: dev
+Requires-Dist: pytest>=8.0; extra == "dev"
+
+# D2NN Reproducible Simulation
+
+This repository implements a reproducible simulation/training stack for diffractive deep neural networks (D2NN), aligned with the 2018 Science D2NN paper.
+
+## Scope
+- Physics core: scalar wave + Angular Spectrum propagation
+- Tasks: MNIST/Fashion classification and imaging lens training
+- Reproducibility: config-driven runs, deterministic seeds, fixed artifacts
+- Export: phase-to-height conversion and optional Lumerical pipeline
+
+## Install
+```bash
+pip install -e .[dev]
+```
+
+## Run
+```bash
+d2nn-train-classifier --config configs/mnist_phase_only_5l.yaml
+d2nn-train-imager --config configs/imaging_lens_5l.yaml
+d2nn-eval --config configs/mnist_phase_only_5l.yaml --checkpoint path/to/checkpoint.pt
+d2nn-export-heightmap --config configs/mnist_phase_only_5l.yaml --checkpoint path/to/checkpoint.pt
+d2nn-make-figures --run-dir runs/...
+```
+
+## Test
+```bash
+pytest
+```

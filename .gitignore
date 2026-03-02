@@ -1,0 +1,23 @@
+miniconda3/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Datasets
+**/data/MNIST/
+**/data/FashionMNIST/
+**/data/cifar10/
+**/data/mnist/
+
+# Experiment runs (checkpoints, logs, results)
+**/runs/
+
+# Wandb
+wandb/
+
+# IDE
+.vscode/
+*.egg-info/
+
+# Claude
+.claude/

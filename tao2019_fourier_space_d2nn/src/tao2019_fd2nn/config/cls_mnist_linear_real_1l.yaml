@@ -1,0 +1,82 @@
+experiment:
+  name: "supp_s7c_cls_mnist_linear_real_1l"
+  seed: 42
+  device: "cuda"
+  dtype: "float32"
+  deterministic: false
+  save_dir: "runs"
+
+optics:
+  wavelength_m: 5.32e-7
+  n: 1.0
+  grid:
+    nx: 200
+    ny: 200
+    dx_m: 1.0e-6
+    dy_m: 1.0e-6
+  propagation:
+    method: "ASM"
+    layer_spacing_m: 3.0e-3
+    bandlimit: true
+    evanescent: "mask"
+  aperture:
+    enabled: false
+    na: 0.16
+
+model:
+  type: "real_d2nn"
+  num_layers: 1
+  modulation:
+    kind: "phase_only"
+    phase_constraint: "sigmoid"
+    phase_max_rad: 3.141592653589793
+    init: "uniform"
+    init_scale: 0.1
+  nonlinearity:
+    enabled: false
+
+task:
+  name: "classification"
+  detector:
+    width_um: 12.0
+    layout: "default10"
+  logits:
+    mode: "energy"
+    normalize: "sum_to_one"
+
+data:
+  dataset: "mnist"
+  root: "data/mnist/"
+  split:
+    train: 55000
+    val: 5000
+    test: 10000
+  preprocess:
+    grayscale: true
+    normalize: "minmax_0_1"
+    upsample_factor: 3
+    resize_mode: "bilinear"
+    pad_to: [200, 200]
+    pad_mode: "constant"
+    pad_value: 0.0
+    pad_align: "center"
+
+training:
+  optimizer: "adam"
+  lr: 0.01
+  batch_size: 1024
+  num_workers: 8
+  pin_memory: true
+  prefetch_factor: 4
+  persistent_workers: true
+  epochs: 30
+  loss: "mse_onehot"
+
+eval:
+  metric: "accuracy"
+
+viz:
+  enabled: true
+  dpi: 300
+  export_formats: ["png"]
+  save_convergence: true

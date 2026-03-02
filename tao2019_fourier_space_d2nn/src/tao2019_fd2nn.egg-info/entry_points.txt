@@ -1,0 +1,4 @@
+[console_scripts]
+tao2019-make-figures = tao2019_fd2nn.cli.make_figures:main
+tao2019-train-classifier = tao2019_fd2nn.cli.train_classifier:main
+tao2019-train-saliency = tao2019_fd2nn.cli.train_saliency:main
