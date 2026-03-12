@@ -1,0 +1,83 @@
+experiment:
+  id: fig2_baseline_n20
+  mode: simulate
+  seed: 20220126
+  save_dir: runs/${experiment.id}
+
+optics:
+  frequency_ghz: 400.0
+  wavelength_mm: 0.75
+  coherent: true
+  scalar_model: true
+  detector_type: intensity
+
+grid:
+  nx: 240
+  ny: 240
+  pitch_mm: 0.3
+  pad_factor: 2
+  crop_after_propagation: true
+
+geometry:
+  object_to_diffuser_mm: 40.0
+  diffuser_to_layer1_mm: 2.0
+  layer_to_layer_mm: 2.0
+  num_layers: 4
+  last_layer_to_output_mm: 7.0
+
+dataset:
+  name: mnist
+  train_count: 50000
+  val_count: 10000
+  test_count: 10000
+  source_resolution_px: 28
+  resize_to_px: 160
+  final_resolution_px: 240
+  resize_mode: bilinear
+  amplitude_encoding: grayscale
+  mask_strategy: positive_pixels
+  deterministic_split: first_50000_train_last_10000_val
+
+diffuser:
+  type: thin_random_phase
+  delta_n: 0.74
+  height_mean_lambda: 25.0
+  height_std_lambda: 8.0
+  smoothing_sigma_lambda: 4.0
+  target_correlation_length_lambda: 10.0
+  uniqueness_delta_phi_min_rad: 1.5707963267948966
+
+model:
+  type: d2nn_phase_only
+  num_layers: 4
+  phase_parameterization: wrapped_phase
+  init_phase_distribution: uniform_0_2pi
+
+training:
+  epochs: 100
+  batch_size_objects: 4
+  diffusers_per_epoch: 20
+  optimizer: adam
+  learning_rate_initial: 1.0e-3
+  learning_rate_schedule:
+    type: epoch_multiplicative
+    gamma: 0.99
+  loss:
+    type: pcc_plus_energy
+    alpha: 1.0
+    beta: 0.5
+
+evaluation:
+  metrics: [pcc]
+  use_raw_images_for_metrics: true
+  known_diffuser_count_from_last_epoch: 20
+  blind_test_new_diffuser_count: 20
+
+visualization:
+  paper_style: true
+  contrast_enhancement:
+    type: percentile_stretch
+    lower_percentile: 1.0
+    upper_percentile: 99.0
+  save_raw: true
+  save_display: true
