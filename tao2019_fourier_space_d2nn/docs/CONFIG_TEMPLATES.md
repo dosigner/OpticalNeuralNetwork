@@ -8,7 +8,6 @@ Units:
 ## Saliency
 - `saliency_cell.yaml`: Fig.2 unit magnification (`f1=f2=10mm`, NA `0.112`, `800x800`, `dx=2um`)
 - `saliency_cell_mag2x.yaml`: Supp S1 magnification (`f1=10mm`, `f2=20mm`)
-- `saliency_cifar_video.yaml`: Fig.3 (`160x160`, `f1=f2=2mm`, resize `100x100`, pad `160x160`)
 
 ## MNIST classification (Fig.4)
 - `cls_mnist_linear_real_5l.yaml`

@@ -1,0 +1,73 @@
+{
+  "root": "data/cifar10_cosaliency_fu2013_variants/binary",
+  "train": {
+    "count": 5000,
+    "mean": {
+      "center_offset_norm": 0.16409508883953094,
+      "component_count": 3.934999942779541,
+      "edge_density": 0.1645236313343048,
+      "foreground_ratio": 0.31369102001190186,
+      "largest_component_ratio": 0.734607994556427,
+      "peak_value": 1.0
+    },
+    "p10": {
+      "center_offset_norm": 0.056135572493076324,
+      "component_count": 1.0,
+      "edge_density": 0.11328125,
+      "foreground_ratio": 0.1875,
+      "largest_component_ratio": 0.4192453622817993,
+      "peak_value": 1.0
+    },
+    "p50": {
+      "center_offset_norm": 0.15251585841178894,
+      "component_count": 4.0,
+      "edge_density": 0.1650390625,
+      "foreground_ratio": 0.310546875,
+      "largest_component_ratio": 0.7624228000640869,
+      "peak_value": 1.0
+    },
+    "p90": {
+      "center_offset_norm": 0.28534987568855286,
+      "component_count": 7.0,
+      "edge_density": 0.2158203125,
+      "foreground_ratio": 0.4404296875,
+      "largest_component_ratio": 1.0,
+      "peak_value": 1.0
+    }
+  },
+  "val": {
+    "count": 1000,
+    "mean": {
+      "center_offset_norm": 0.1464591771364212,
+      "component_count": 3.5429999828338623,
+      "edge_density": 0.16945214569568634,
+      "foreground_ratio": 0.3294296860694885,
+      "largest_component_ratio": 0.7691471576690674,
+      "peak_value": 1.0
+    },
+    "p10": {
+      "center_offset_norm": 0.04896554350852966,
+      "component_count": 1.0,
+      "edge_density": 0.123046875,
+      "foreground_ratio": 0.21484375,
+      "largest_component_ratio": 0.46141111850738525,
+      "peak_value": 1.0
+    },
+    "p50": {
+      "center_offset_norm": 0.13309019804000854,
+      "component_count": 3.0,
+      "edge_density": 0.169921875,
+      "foreground_ratio": 0.330078125,
+      "largest_component_ratio": 0.8204702138900757,
+      "peak_value": 1.0
+    },
+    "p90": {
+      "center_offset_norm": 0.2650834321975708,
+      "component_count": 6.0,
+      "edge_density": 0.2138671875,
+      "foreground_ratio": 0.44365227222442627,
+      "largest_component_ratio": 1.0,
+      "peak_value": 1.0
+    }
+  }
+}

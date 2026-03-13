@@ -1,0 +1,12 @@
+{
+  "train_loss_last": 0.1901565334200859,
+  "train_loss_best": 0.1887950825691223,
+  "train_fmax_last": NaN,
+  "train_fmax_best": null,
+  "val_loss_last": 0.19383744776248932,
+  "val_loss_best": 0.19383744776248932,
+  "val_fmax_last": 0.4392184019088745,
+  "val_fmax_best": 0.4415927827358246,
+  "eval_fmax": 0.4415927827358246,
+  "best_epoch": 10
+}

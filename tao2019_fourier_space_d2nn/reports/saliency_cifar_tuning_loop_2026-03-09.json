@@ -1,0 +1,29 @@
+[
+  {
+    "name": "pilot_sbn_off_mse_s100_e15",
+    "run_dir": "/root/dj/D2NN/tao2019_fourier_space_d2nn/reports/tuning_runs/pilot_sbn_off_mse_s100_e15/260309_021038",
+    "eval_fmax": 0.24881841242313385,
+    "val_fmax_best": 0.24881841242313385,
+    "best_epoch": 10,
+    "train_loss_last": 0.04992991361767054,
+    "val_loss_last": 0.05129850290715694
+  },
+  {
+    "name": "pilot_sbn_off_structured_s100_e15",
+    "run_dir": "/root/dj/D2NN/tao2019_fourier_space_d2nn/reports/tuning_runs/pilot_sbn_off_structured_s100_e15/260309_021600",
+    "eval_fmax": 0.24114759266376495,
+    "val_fmax_best": 0.24114759266376495,
+    "best_epoch": 10,
+    "train_loss_last": 2.3628119015693665,
+    "val_loss_last": 2.3500181221961975
+  },
+  {
+    "name": "pilot_sbn_off_iou_dominant_s100_e15",
+    "run_dir": "/root/dj/D2NN/tao2019_fourier_space_d2nn/reports/tuning_runs/pilot_sbn_off_iou_dominant_s100_e15/260309_022002",
+    "eval_fmax": 0.25333720445632935,
+    "val_fmax_best": 0.25333720445632935,
+    "best_epoch": 10,
+    "train_loss_last": 4.368852243423462,
+    "val_loss_last": 4.333921012878418
+  }
+]

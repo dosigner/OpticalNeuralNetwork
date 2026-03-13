@@ -1,0 +1,43 @@
+{
+  "baseline_reference": {
+    "config": "src/tao2019_fd2nn/config/saliency_cifar_fu2013_cat2horse_bs10_100pad160_f2mm.yaml",
+    "known_full_run_eval_fmax": 0.2587,
+    "note": "Previous full 100-epoch crop-local run remembered from prior experiment log; artifact directory was later removed."
+  },
+  "gt_audit": {
+    "raw_summary": "reports/gt_audit/summary.json",
+    "variant_summaries": {
+      "raw": "reports/gt_audit_variants/raw/summary.json",
+      "binary": "reports/gt_audit_variants/binary/summary.json",
+      "sharpened": "reports/gt_audit_variants/sharpened/summary.json"
+    }
+  },
+  "pilots": [
+    {
+      "variant": "raw",
+      "run_dir": "reports/tuning_runs/pilot_gt_raw_s100_e15/260309_033335",
+      "eval_fmax": 0.24336178600788116,
+      "best_epoch": 10,
+      "qualitative_note": "Diffuse plaid-like blob with weak object structure."
+    },
+    {
+      "variant": "binary",
+      "run_dir": "reports/tuning_runs/pilot_gt_binary_s100_e15/260309_033944",
+      "eval_fmax": 0.44380974769592285,
+      "best_epoch": 10,
+      "qualitative_note": "Still blob-like, but object-correlated bright branches are stronger than raw."
+    },
+    {
+      "variant": "sharpened",
+      "run_dir": "reports/tuning_runs/pilot_gt_sharpened_s100_e15/260309_034541",
+      "eval_fmax": 0.273043155670166,
+      "best_epoch": 5,
+      "qualitative_note": "Slight improvement over raw, but output remains broad low-frequency blob."
+    }
+  ],
+  "interpretation": {
+    "cross_variant_fmax_caveat": "F-max values are not directly apples-to-apples because each pilot uses a different GT definition for both training and validation.",
+    "root_cause_signal": "GT topology strongly changes training behavior. Binary masks materially improve measured alignment, while sharpened soft masks do not.",
+    "remaining_issue": "Blob-like predictions persist for all variants, so GT quality is a primary but not sole cause."
+  }
+}

@@ -25,8 +25,7 @@ def confusion_matrix(energies: torch.Tensor, labels: torch.Tensor, num_classes: 
     preds = predict_from_energies(energies).detach().cpu().numpy()
     y = labels.detach().cpu().numpy()
     cm = np.zeros((num_classes, num_classes), dtype=np.int64)
-    for yi, pi in zip(y, preds, strict=False):
-        cm[int(yi), int(pi)] += 1
+    np.add.at(cm, (y.astype(np.intp), preds.astype(np.intp)), 1)
     return cm
 
 

@@ -1,0 +1,37 @@
+{
+  "method": "fu2013_cluster_based_cosaliency_approx",
+  "citation": "H. Fu, X. Cao, Z. Tu, Cluster-based co-saliency detection, IEEE TIP 2013",
+  "notes": [
+    "Dedicated paper-like CIFAR saliency GT path.",
+    "Single-image cues: cluster contrast + spatial cue.",
+    "Multi-image cues: single-saliency cluster mean + inter-image contrast + spatial + corresponding cue.",
+    "Continuous saliency maps saved as grayscale 0..255 pseudo-GT."
+  ],
+  "params": {
+    "group_size": 5,
+    "seed": 42,
+    "k_single": 6,
+    "k_group_formula": "min(3*M, 20)",
+    "gabor_orientations": 8,
+    "gabor_frequency": 0.25,
+    "gabor_bandwidth": 1.0
+  },
+  "train": {
+    "class": "cat",
+    "class_idx": 3,
+    "group_size": 5,
+    "num_groups": 1000,
+    "num_images": 5000,
+    "mean_mask_intensity": 0.26953,
+    "mean_active_ratio_at_0_5": 0.159593
+  },
+  "val": {
+    "class": "horse",
+    "class_idx": 7,
+    "group_size": 5,
+    "num_groups": 200,
+    "num_images": 1000,
+    "mean_mask_intensity": 0.274693,
+    "mean_active_ratio_at_0_5": 0.166026
+  }
+}

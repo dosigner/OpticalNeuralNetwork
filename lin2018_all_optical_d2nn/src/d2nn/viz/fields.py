@@ -6,12 +6,7 @@ from pathlib import Path
 
 import numpy as np
 
-from d2nn.viz.style import apply_style
-
-
-def _extent_mm(N: int, dx: float) -> list[float]:
-    L_mm = N * dx * 1e3
-    return [-L_mm / 2.0, L_mm / 2.0, -L_mm / 2.0, L_mm / 2.0]
+from d2nn.viz.style import apply_style, extent_mm as _extent_mm
 
 
 def plot_phase_mask(

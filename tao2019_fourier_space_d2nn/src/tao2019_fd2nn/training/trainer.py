@@ -11,7 +11,8 @@ import torch
 from torch.utils.data import DataLoader
 
 from tao2019_fd2nn.models.detectors import integrate_detector_energies
-from tao2019_fd2nn.training.losses import classification_loss, saliency_mse_loss
+from tao2019_fd2nn.optics.fft2c import gamma_flip2d
+from tao2019_fd2nn.training.losses import classification_loss, saliency_mse_loss, saliency_structured_loss
 from tao2019_fd2nn.training.metrics_classification import accuracy
 from tao2019_fd2nn.training.metrics_saliency import max_f_measure
 from tao2019_fd2nn.utils.math import intensity
@@ -31,6 +32,39 @@ class SaliencyEpochResult:
 
 StepCallback = Callable[[dict[str, Any]], None]
 EpochCallback = Callable[[dict[str, Any]], None]
+
+
+def _per_sample_minmax(x: torch.Tensor) -> torch.Tensor:
+    x_min = x.amin(dim=(-2, -1), keepdim=True)
+    x_max = x.amax(dim=(-2, -1), keepdim=True)
+    return (x - x_min) / (x_max - x_min).clamp_min(1e-8)
+
+
+def _prepare_saliency_loss_maps(
+    pred_intensity: torch.Tensor,
+    gt_intensity: torch.Tensor,
+    *,
+    eval_crop_box: tuple[int, int, int, int] | None,
+    loss_normalization: str,
+    loss_scope: str,
+) -> tuple[torch.Tensor, torch.Tensor]:
+    pred = pred_intensity
+    target = gt_intensity.clamp(0.0, 1.0)
+    if loss_scope == "crop":
+        if eval_crop_box is not None:
+            y0, y1, x0, x1 = eval_crop_box
+            pred = pred[..., y0:y1, x0:x1]
+            target = target[..., y0:y1, x0:x1]
+    elif loss_scope != "full":
+        raise ValueError(f"unsupported saliency loss_scope: {loss_scope}")
+
+    pred = _per_sample_minmax(pred)
+    if loss_normalization == "pred_and_target":
+        target = _per_sample_minmax(target)
+    elif loss_normalization != "pred_only":
+        raise ValueError(f"unsupported saliency loss_normalization: {loss_normalization}")
+
+    return pred, target
 
 
 def _total_steps(loader: DataLoader, max_steps: int | None) -> int | None:
@@ -170,6 +204,10 @@ def run_saliency_epoch(
     compute_fmax: bool = True,
     eval_crop_box: tuple[int, int, int, int] | None = None,
     step_callback: StepCallback | None = None,
+    loss_mode: str = "mse",
+    loss_weights: dict[str, float] | None = None,
+    loss_normalization: str = "pred_only",
+    loss_scope: str = "crop",
 ) -> SaliencyEpochResult:
     """Run one saliency epoch."""
 
@@ -195,18 +233,19 @@ def run_saliency_epoch(
             optimizer.zero_grad(set_to_none=True)
         out_field = model(fields)
         out_i = intensity(out_field)
-        _i_min = out_i.amin(dim=(-2, -1), keepdim=True)
-        _i_max = out_i.amax(dim=(-2, -1), keepdim=True)
-        out_i = (out_i - _i_min) / (_i_max - _i_min).clamp_min(1e-8)
-        tgt = targets.clamp(0.0, 1.0)
-        if eval_crop_box is not None:
-            y0, y1, x0, x1 = eval_crop_box
-            out_i_loss = out_i[..., y0:y1, x0:x1]
-            tgt_loss = tgt[..., y0:y1, x0:x1]
-        else:
-            out_i_loss = out_i
-            tgt_loss = tgt
-        loss = saliency_mse_loss(out_i_loss, tgt_loss, gamma_flip=gamma_flip)
+        out_i_loss, tgt_loss = _prepare_saliency_loss_maps(
+            out_i,
+            targets,
+            eval_crop_box=eval_crop_box,
+            loss_normalization=loss_normalization,
+            loss_scope=loss_scope,
+        )
+
+        # Select loss function based on loss_mode
+        if loss_mode == "structured":
+            loss = saliency_structured_loss(out_i_loss, tgt_loss, gamma_flip=gamma_flip, loss_weights=loss_weights)
+        else:  # default "mse"
+            loss = saliency_mse_loss(out_i_loss, tgt_loss, gamma_flip=gamma_flip)
         if train_mode:
             loss.backward()
             optimizer.step()
@@ -240,12 +279,16 @@ def run_saliency_epoch(
                 }
             )
         if compute_fmax:
-            p = out_i.detach().cpu()
-            g = tgt.detach().cpu()
+            p = out_i.detach()
+            g = targets.clamp(0.0, 1.0).detach()
             if eval_crop_box is not None:
                 y0, y1, x0, x1 = eval_crop_box
                 p = p[..., y0:y1, x0:x1]
                 g = g[..., y0:y1, x0:x1]
+            p = _per_sample_minmax(p).cpu()
+            g = g.cpu()
+            if gamma_flip:
+                p = gamma_flip2d(p)
             preds.append(p)
             gts.append(g)
 
@@ -375,6 +418,10 @@ def train_saliency(
     step_callback: StepCallback | None = None,
     epoch_callback: EpochCallback | None = None,
     best_state_callback: Callable[[dict], None] | None = None,
+    loss_mode: str = "mse",
+    loss_weights: dict[str, float] | None = None,
+    loss_normalization: str = "pred_only",
+    loss_scope: str = "crop",
 ) -> dict[str, list[float]]:
     """Saliency training orchestration."""
 
@@ -411,6 +458,10 @@ def train_saliency(
             phase="train",
             eval_crop_box=eval_crop_box,
             step_callback=step_callback,
+            loss_mode=loss_mode,
+            loss_weights=loss_weights,
+            loss_normalization=loss_normalization,
+            loss_scope=loss_scope,
         )
         va = run_saliency_epoch(
             model,
@@ -426,6 +477,10 @@ def train_saliency(
             phase="val",
             eval_crop_box=eval_crop_box,
             step_callback=step_callback,
+            loss_mode=loss_mode,
+            loss_weights=loss_weights,
+            loss_normalization=loss_normalization,
+            loss_scope=loss_scope,
         )
 
         if scheduler is not None:

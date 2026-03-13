@@ -12,7 +12,10 @@ _REQ_TOP = ("experiment", "optics", "model", "task", "data", "training", "eval",
 _TASKS = {"classification", "saliency"}
 _MODEL_TYPES = {"fd2nn", "real_d2nn", "hybrid_d2nn"}
 _EVANESCENT = {"mask", "decay", "keep"}
-_INTENSITY_NORM = {"none", "background_perturbation"}
+_INTENSITY_NORM = {"none", "background_perturbation", "per_sample_minmax", "per_minmax"}
+_PERTURBATION_MODES = {"always", "test_only"}
+_SALIENCY_LOSS_NORMALIZATION = {"pred_only", "pred_and_target"}
+_SALIENCY_LOSS_SCOPE = {"crop", "full"}
 
 
 def _require(out: dict[str, Any], key: str) -> Any:
@@ -46,6 +49,11 @@ def validate_config(cfg: dict[str, Any]) -> dict[str, Any]:
     optics = out["optics"]
     _positive(_require(optics, "wavelength_m"), "optics.wavelength_m")
     _positive(optics.get("n", 1.0), "optics.n")
+    optics.setdefault("alignment_shift_um", 0.0)
+    float(optics["alignment_shift_um"])
+    optics.setdefault("alignment_shift_um", 0.0)
+    if float(optics["alignment_shift_um"]) < 0.0:
+        raise ValueError("optics.alignment_shift_um must be >= 0")
 
     grid = _require(optics, "grid")
     nx = int(_require(grid, "nx"))
@@ -90,6 +98,13 @@ def validate_config(cfg: dict[str, Any]) -> dict[str, Any]:
         raise ValueError(f"model.type must be one of {_MODEL_TYPES}")
     if int(_require(model, "num_layers")) <= 0:
         raise ValueError("model.num_layers must be > 0")
+    model.setdefault("fabrication_blur_sigma_px", 0.0)
+    model.setdefault("fabrication_blur_kernel_size", 3)
+    if float(model["fabrication_blur_sigma_px"]) < 0.0:
+        raise ValueError("model.fabrication_blur_sigma_px must be >= 0")
+    kernel_size = int(model["fabrication_blur_kernel_size"])
+    if kernel_size <= 0 or kernel_size % 2 == 0:
+        raise ValueError("model.fabrication_blur_kernel_size must be a positive odd integer")
 
     modulation = _require(model, "modulation")
     _require(modulation, "kind")
@@ -97,6 +112,13 @@ def validate_config(cfg: dict[str, Any]) -> dict[str, Any]:
     _positive(_require(modulation, "phase_max_rad"), "model.modulation.phase_max_rad")
     modulation.setdefault("init", "uniform")
     modulation.setdefault("init_scale", 0.1)
+    model.setdefault("fabrication_blur_sigma_px", 0.0)
+    model.setdefault("fabrication_blur_kernel_size", 3)
+    if float(model["fabrication_blur_sigma_px"]) < 0.0:
+        raise ValueError("model.fabrication_blur_sigma_px must be >= 0")
+    kernel_size = int(model["fabrication_blur_kernel_size"])
+    if kernel_size <= 0 or kernel_size % 2 == 0:
+        raise ValueError("model.fabrication_blur_kernel_size must be a positive odd integer")
 
     nonlin = model.get("nonlinearity", {})
     if nonlin.get("enabled", False):
@@ -154,6 +176,10 @@ def validate_config(cfg: dict[str, Any]) -> dict[str, Any]:
     if int(_require(training, "epochs")) <= 0:
         raise ValueError("training.epochs must be > 0")
     _require(training, "loss")
+    if task_name == "saliency":
+        loss_name = str(training["loss"]).lower()
+        if loss_name != "mse":
+            raise ValueError("saliency task currently requires training.loss='mse'")
     training.setdefault("log_interval_steps", 20)
     training.setdefault("color_logs", True)
     training.setdefault("show_cuda_memory", True)
@@ -162,12 +188,21 @@ def validate_config(cfg: dict[str, Any]) -> dict[str, Any]:
     if task_name == "saliency":
         training.setdefault("compute_train_fmax", False)
         training.setdefault("eval_interval_epochs", 5)
+        training.setdefault("loss_normalization", "pred_only")
+        training.setdefault("loss_scope", "crop")
         if int(training["eval_interval_epochs"]) <= 0:
             raise ValueError("training.eval_interval_epochs must be > 0")
+        if str(training["loss_normalization"]) not in _SALIENCY_LOSS_NORMALIZATION:
+            raise ValueError(f"training.loss_normalization must be one of {_SALIENCY_LOSS_NORMALIZATION}")
+        if str(training["loss_scope"]) not in _SALIENCY_LOSS_SCOPE:
+            raise ValueError(f"training.loss_scope must be one of {_SALIENCY_LOSS_SCOPE}")
 
     eval_cfg = out["eval"]
     if not isinstance(eval_cfg, dict) or not eval_cfg:
         raise ValueError("eval must be a non-empty mapping")
+    eval_cfg.setdefault("perturbation_mode", "always")
+    if str(eval_cfg["perturbation_mode"]) not in _PERTURBATION_MODES:
+        raise ValueError(f"eval.perturbation_mode must be one of {_PERTURBATION_MODES}")
     if task_name == "classification":
         _require(eval_cfg, "metric")
     else:

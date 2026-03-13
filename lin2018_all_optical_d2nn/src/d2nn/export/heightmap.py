@@ -6,13 +6,7 @@ from pathlib import Path
 
 import numpy as np
 
-from d2nn.physics.materials import phase_to_height as _phase_to_height
-
-
-def phase_to_height(phase: np.ndarray, wavelength: float, delta_n: float) -> np.ndarray:
-    """Convert phase [rad] to height [m]."""
-
-    return _phase_to_height(phase=phase, wavelength=wavelength, delta_n=delta_n)
+from d2nn.physics.materials import phase_to_height
 
 
 def export_height_map(path: str | Path, phase: np.ndarray, wavelength: float, delta_n: float, *, quantization_levels: int | None = None) -> np.ndarray:

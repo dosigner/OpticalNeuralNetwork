@@ -3,6 +3,13 @@
 from __future__ import annotations
 
 
+def extent_mm(N: int, dx: float) -> list[float]:
+    """Return imshow extent [x_min, x_max, y_min, y_max] in mm."""
+    L_mm = N * dx * 1e3
+    half = L_mm / 2.0
+    return [-half, half, -half, half]
+
+
 def apply_style() -> None:
     """Apply deterministic plotting style."""
 

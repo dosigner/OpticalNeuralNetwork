@@ -1,0 +1,26 @@
+[02:09:25] live logging started task=saliency
+[02:09:25] [[35mTRAIN[0m] exp=pilot_sbn_off_mse task=saliency device=cuda epochs=20 log_every=20steps
+[02:09:26] [[32mTRAIN[0m] e1/20 s20/500 loss=0.0897 avg=0.0839 163.5sample/s eta=00:29 mem=0.01GB/0.03GB
+[02:09:27] [[32mTRAIN[0m] e1/20 s40/500 loss=0.0887 avg=0.0788 160.4sample/s eta=00:28 mem=0.01GB/0.03GB
+[02:09:29] [[32mTRAIN[0m] e1/20 s60/500 loss=0.0664 avg=0.0753 155.9sample/s eta=00:28 mem=0.01GB/0.03GB
+[02:09:30] [[32mTRAIN[0m] e1/20 s80/500 loss=0.0637 avg=0.0723 158.7sample/s eta=00:26 mem=0.01GB/0.03GB
+[02:09:31] [[32mTRAIN[0m] e1/20 s100/500 loss=0.0669 avg=0.0697 162.0sample/s eta=00:24 mem=0.01GB/0.03GB
+[02:09:32] [[32mTRAIN[0m] e1/20 s120/500 loss=0.0547 avg=0.0675 161.3sample/s eta=00:23 mem=0.01GB/0.03GB
+[02:09:34] [[32mTRAIN[0m] e1/20 s140/500 loss=0.0547 avg=0.0661 162.5sample/s eta=00:22 mem=0.01GB/0.03GB
+[02:09:35] [[32mTRAIN[0m] e1/20 s160/500 loss=0.0528 avg=0.0652 161.9sample/s eta=00:21 mem=0.01GB/0.03GB
+[02:09:36] [[32mTRAIN[0m] e1/20 s180/500 loss=0.0717 avg=0.0641 159.9sample/s eta=00:20 mem=0.01GB/0.03GB
+[02:09:38] [[32mTRAIN[0m] e1/20 s200/500 loss=0.0442 avg=0.0632 156.2sample/s eta=00:19 mem=0.01GB/0.03GB
+[02:09:40] [[32mTRAIN[0m] e1/20 s220/500 loss=0.0546 avg=0.0626 150.6sample/s eta=00:18 mem=0.01GB/0.03GB
+[02:09:41] [[32mTRAIN[0m] e1/20 s240/500 loss=0.0533 avg=0.0620 146.5sample/s eta=00:17 mem=0.01GB/0.03GB
+[02:09:43] [[32mTRAIN[0m] e1/20 s260/500 loss=0.0571 avg=0.0615 145.0sample/s eta=00:16 mem=0.01GB/0.03GB
+[02:09:44] [[32mTRAIN[0m] e1/20 s280/500 loss=0.0601 avg=0.0610 144.6sample/s eta=00:15 mem=0.01GB/0.03GB
+[02:09:46] [[32mTRAIN[0m] e1/20 s300/500 loss=0.0625 avg=0.0606 142.3sample/s eta=00:14 mem=0.01GB/0.03GB
+[02:09:48] [[32mTRAIN[0m] e1/20 s320/500 loss=0.0411 avg=0.0602 140.3sample/s eta=00:12 mem=0.01GB/0.03GB
+[02:09:50] [[32mTRAIN[0m] e1/20 s340/500 loss=0.0630 avg=0.0599 137.6sample/s eta=00:11 mem=0.01GB/0.03GB
+[02:09:51] [[32mTRAIN[0m] e1/20 s360/500 loss=0.0575 avg=0.0596 136.2sample/s eta=00:10 mem=0.01GB/0.03GB
+[02:09:53] [[32mTRAIN[0m] e1/20 s380/500 loss=0.0468 avg=0.0594 133.9sample/s eta=00:08 mem=0.01GB/0.03GB
+[02:09:55] [[32mTRAIN[0m] e1/20 s400/500 loss=0.0587 avg=0.0591 132.3sample/s eta=00:07 mem=0.01GB/0.03GB
+[02:09:57] [[32mTRAIN[0m] e1/20 s420/500 loss=0.0510 avg=0.0588 132.3sample/s eta=00:06 mem=0.01GB/0.03GB
+[02:09:59] [[32mTRAIN[0m] e1/20 s440/500 loss=0.0552 avg=0.0585 130.8sample/s eta=00:04 mem=0.01GB/0.03GB
+[02:10:00] [[32mTRAIN[0m] e1/20 s460/500 loss=0.0535 avg=0.0582 130.2sample/s eta=00:03 mem=0.01GB/0.03GB
+[02:10:02] [[32mTRAIN[0m] e1/20 s480/500 loss=0.0531 avg=0.0580 129.3sample/s eta=00:01 mem=0.01GB/0.03GB

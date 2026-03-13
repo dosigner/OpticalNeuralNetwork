@@ -12,6 +12,7 @@ except Exception:  # pragma: no cover - optional runtime dependency
 
     class _Dummy:
         RESET_ALL = ""
+        BRIGHT = ""
         BLACK = ""
         RED = ""
         GREEN = ""

@@ -1,0 +1,1021 @@
+{
+  "generated_at": "2026-03-11T09:39:44.813673+00:00",
+  "checkpoint": "final.pt",
+  "fabrication_sigmas_px": [
+    0.0,
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "alignment_shifts_um": [
+    0.0,
+    2.0,
+    4.0,
+    6.0
+  ],
+  "figure": "reports/supp_s8_cls.png",
+  "experiments": [
+    {
+      "label": "Nonlinear Fourier 1L",
+      "family": "nonlinear_fourier",
+      "num_layers": 1,
+      "config": "src/tao2019_fd2nn/config/cls_mnist_nonlinear_fourier_1l_f4mm.yaml",
+      "run_dir": "runs/supp_s8_cls_mnist_nonlinear_fourier_1l_f4mm/260311_085750",
+      "checkpoint": "final.pt",
+      "baseline_test_acc": 0.5814999938011169,
+      "fabrication": {
+        "sigma_px": [
+          0.0,
+          0.25,
+          0.5,
+          0.75,
+          1.0
+        ],
+        "accuracy": [
+          0.5814999938011169,
+          0.5809999704360962,
+          0.3352999985218048,
+          0.1987999975681305,
+          0.1826000064611435
+        ]
+      },
+      "alignment": {
+        "shift_um": [
+          0.0,
+          2.0,
+          4.0,
+          6.0
+        ],
+        "accuracy": [
+          0.5814999938011169,
+          0.5814999938011169,
+          0.5814999938011169,
+          0.5468999743461609
+        ]
+      }
+    },
+    {
+      "label": "Nonlinear Fourier 2L",
+      "family": "nonlinear_fourier",
+      "num_layers": 2,
+      "config": "src/tao2019_fd2nn/config/cls_mnist_nonlinear_fourier_2l_f4mm.yaml",
+      "run_dir": "runs/supp_s8_cls_mnist_nonlinear_fourier_2l_f4mm/260311_085749",
+      "checkpoint": "final.pt",
+      "baseline_test_acc": 0.7590000033378601,
+      "fabrication": {
+        "sigma_px": [
+          0.0,
+          0.25,
+          0.5,
+          0.75,
+          1.0
+        ],
+        "accuracy": [
+          0.7590000033378601,
+          0.758899986743927,
+          0.3790000081062317,
+          0.2037999927997589,
+          0.19059999287128448
+        ]
+      },
+      "alignment": {
+        "shift_um": [
+          0.0,
+          2.0,
+          4.0,
+          6.0
+        ],
+        "accuracy": [
+          0.7590000033378601,
+          0.7590000033378601,
+          0.7590000033378601,
+          0.7243000268936157
+        ]
+      }
+    },
+    {
+      "label": "Nonlinear Fourier 5L",
+      "family": "nonlinear_fourier",
+      "num_layers": 5,
+      "config": "src/tao2019_fd2nn/config/cls_mnist_nonlinear_fourier_5l_f4mm.yaml",
+      "run_dir": "runs/fig4a_cls_mnist_nonlinear_fourier_5l_f4mm/260311_090612",
+      "checkpoint": "final.pt",
+      "baseline_test_acc": 0.8925999999046326,
+      "fabrication": {
+        "sigma_px": [
+          0.0,
+          0.25,
+          0.5,
+          0.75,
+          1.0
+        ],
+        "accuracy": [
+          0.8925999999046326,
+          0.8924999833106995,
+          0.5777999758720398,
+          0.461899995803833,
+          0.40709999203681946
+        ]
+      },
+      "alignment": {
+        "shift_um": [
+          0.0,
+          2.0,
+          4.0,
+          6.0
+        ],
+        "accuracy": [
+          0.8925999999046326,
+          0.8925999999046326,
+          0.8925999999046326,
+          0.8762000203132629
+        ]
+      }
+    },
+    {
+      "label": "Nonlinear Real 1L",
+      "family": "nonlinear_real",
+      "num_layers": 1,
+      "config": "src/tao2019_fd2nn/config/cls_mnist_nonlinear_real_1l.yaml",
+      "run_dir": "runs/supp_s7c_cls_mnist_nonlinear_real_1l/260311_090612",
+      "checkpoint": "final.pt",
+      "baseline_test_acc": 0.8100000023841858,
+      "fabrication": {
+        "sigma_px": [
+          0.0,
+          0.25,
+          0.5,
+          0.75,
+          1.0
+        ],
+        "accuracy": [
+          0.8100000023841858,
+          0.8100000023841858,
+          0.7404999732971191,
+          0.66839998960495,
+          0.6504999995231628
+        ]
+      },
+      "alignment": {
+        "shift_um": [
+          0.0,
+          2.0,
+          4.0,
+          6.0
+        ],
+        "accuracy": [
+          0.8100000023841858,
+          0.6416000127792358,
+          0.3817000091075897,
+          0.2500999867916107
+        ]
+      }
+    },
+    {
+      "label": "Nonlinear Real 2L",
+      "family": "nonlinear_real",
+      "num_layers": 2,
+      "config": "src/tao2019_fd2nn/config/cls_mnist_nonlinear_real_2l.yaml",
+      "run_dir": "runs/supp_s7_cls_mnist_nonlinear_real_2l/260311_091424",
+      "checkpoint": "final.pt",
+      "baseline_test_acc": 0.8998000025749207,
+      "fabrication": {
+        "sigma_px": [
+          0.0,
+          0.25,
+          0.5,
+          0.75,
+          1.0
+        ],
+        "accuracy": [
+          0.8998000025749207,
+          0.8998000025749207,
+          0.8898000121116638,
+          0.8726999759674072,
+          0.8673999905586243
+        ]
+      },
+      "alignment": {
+        "shift_um": [
+          0.0,
+          2.0,
+          4.0,
+          6.0
+        ],
+        "accuracy": [
+          0.8998000025749207,
+          0.8727999925613403,
+          0.7527999877929688,
+          0.5253999829292297
+        ]
+      }
+    },
+    {
+      "label": "Nonlinear Real 5L",
+      "family": "nonlinear_real",
+      "num_layers": 5,
+      "config": "src/tao2019_fd2nn/config/cls_mnist_nonlinear_real_5l.yaml",
+      "run_dir": "runs/fig4a_cls_mnist_nonlinear_real_5l/260311_091445",
+      "checkpoint": "final.pt",
+      "baseline_test_acc": 0.9262999892234802,
+      "fabrication": {
+        "sigma_px": [
+          0.0,
+          0.25,
+          0.5,
+          0.75,
+          1.0
+        ],
+        "accuracy": [
+          0.9262999892234802,
+          0.9262999892234802,
+          0.916100025177002,
+          0.8992999792098999,
+          0.8939999938011169
+        ]
+      },
+      "alignment": {
+        "shift_um": [
+          0.0,
+          2.0,
+          4.0,
+          6.0
+        ],
+        "accuracy": [
+          0.9262999892234802,
+          0.9064000248908997,
+          0.8145999908447266,
+          0.6579999923706055
+        ]
+      }
+    },
+    {
+      "label": "Linear Real 1L",
+      "family": "linear_real",
+      "num_layers": 1,
+      "config": "src/tao2019_fd2nn/config/cls_mnist_linear_real_1l_100um.yaml",
+      "run_dir": "runs/supp_s8_cls_mnist_linear_real_1l_100um/260311_092241",
+      "checkpoint": "final.pt",
+      "baseline_test_acc": 0.5789999961853027,
+      "fabrication": {
+        "sigma_px": [
+          0.0,
+          0.25,
+          0.5,
+          0.75,
+          1.0
+        ],
+        "accuracy": [
+          0.5789999961853027,
+          0.5789999961853027,
+          0.3061999976634979,
+          0.20890000462532043,
+          0.19760000705718994
+        ]
+      },
+      "alignment": {
+        "shift_um": [
+          0.0,
+          2.0,
+          4.0,
+          6.0
+        ],
+        "accuracy": [
+          0.5789999961853027,
+          0.4788999855518341,
+          0.25200000405311584,
+          0.1632000058889389
+        ]
+      }
+    },
+    {
+      "label": "Linear Real 2L",
+      "family": "linear_real",
+      "num_layers": 2,
+      "config": "src/tao2019_fd2nn/config/cls_mnist_linear_real_2l_100um.yaml",
+      "run_dir": "runs/supp_s8_cls_mnist_linear_real_2l_100um/260311_092319",
+      "checkpoint": "final.pt",
+      "baseline_test_acc": 0.7764000296592712,
+      "fabrication": {
+        "sigma_px": [
+          0.0,
+          0.25,
+          0.5,
+          0.75,
+          1.0
+        ],
+        "accuracy": [
+          0.7764000296592712,
+          0.776199996471405,
+          0.5821999907493591,
+          0.2818000018596649,
+          0.2655999958515167
+        ]
+      },
+      "alignment": {
+        "shift_um": [
+          0.0,
+          2.0,
+          4.0,
+          6.0
+        ],
+        "accuracy": [
+          0.7764000296592712,
+          0.6851999759674072,
+          0.3628999888896942,
+          0.20990000665187836
+        ]
+      }
+    },
+    {
+      "label": "Linear Real 5L",
+      "family": "linear_real",
+      "num_layers": 5,
+      "config": "src/tao2019_fd2nn/config/cls_mnist_linear_real_5l_100um.yaml",
+      "run_dir": "runs/supp_s8_cls_mnist_linear_real_5l_100um/260311_093041",
+      "checkpoint": "final.pt",
+      "baseline_test_acc": 0.9010999798774719,
+      "fabrication": {
+        "sigma_px": [
+          0.0,
+          0.25,
+          0.5,
+          0.75,
+          1.0
+        ],
+        "accuracy": [
+          0.9010999798774719,
+          0.9014000296592712,
+          0.8133000135421753,
+          0.5960000157356262,
+          0.5281999707221985
+        ]
+      },
+      "alignment": {
+        "shift_um": [
+          0.0,
+          2.0,
+          4.0,
+          6.0
+        ],
+        "accuracy": [
+          0.9010999798774719,
+          0.8654000163078308,
+          0.6873999834060669,
+          0.4544000029563904
+        ]
+      }
+    }
+  ],
+  "rows": [
+    {
+      "label": "Nonlinear Fourier 1L",
+      "family": "nonlinear_fourier",
+      "num_layers": 1,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.0,
+      "eval_acc": 0.5814999938011169
+    },
+    {
+      "label": "Nonlinear Fourier 1L",
+      "family": "nonlinear_fourier",
+      "num_layers": 1,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.25,
+      "eval_acc": 0.5809999704360962
+    },
+    {
+      "label": "Nonlinear Fourier 1L",
+      "family": "nonlinear_fourier",
+      "num_layers": 1,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.5,
+      "eval_acc": 0.3352999985218048
+    },
+    {
+      "label": "Nonlinear Fourier 1L",
+      "family": "nonlinear_fourier",
+      "num_layers": 1,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.75,
+      "eval_acc": 0.1987999975681305
+    },
+    {
+      "label": "Nonlinear Fourier 1L",
+      "family": "nonlinear_fourier",
+      "num_layers": 1,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 1.0,
+      "eval_acc": 0.1826000064611435
+    },
+    {
+      "label": "Nonlinear Fourier 1L",
+      "family": "nonlinear_fourier",
+      "num_layers": 1,
+      "perturbation_type": "alignment",
+      "perturbation_value": 0.0,
+      "eval_acc": 0.5814999938011169
+    },
+    {
+      "label": "Nonlinear Fourier 1L",
+      "family": "nonlinear_fourier",
+      "num_layers": 1,
+      "perturbation_type": "alignment",
+      "perturbation_value": 2.0,
+      "eval_acc": 0.5814999938011169
+    },
+    {
+      "label": "Nonlinear Fourier 1L",
+      "family": "nonlinear_fourier",
+      "num_layers": 1,
+      "perturbation_type": "alignment",
+      "perturbation_value": 4.0,
+      "eval_acc": 0.5814999938011169
+    },
+    {
+      "label": "Nonlinear Fourier 1L",
+      "family": "nonlinear_fourier",
+      "num_layers": 1,
+      "perturbation_type": "alignment",
+      "perturbation_value": 6.0,
+      "eval_acc": 0.5468999743461609
+    },
+    {
+      "label": "Nonlinear Fourier 2L",
+      "family": "nonlinear_fourier",
+      "num_layers": 2,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.0,
+      "eval_acc": 0.7590000033378601
+    },
+    {
+      "label": "Nonlinear Fourier 2L",
+      "family": "nonlinear_fourier",
+      "num_layers": 2,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.25,
+      "eval_acc": 0.758899986743927
+    },
+    {
+      "label": "Nonlinear Fourier 2L",
+      "family": "nonlinear_fourier",
+      "num_layers": 2,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.5,
+      "eval_acc": 0.3790000081062317
+    },
+    {
+      "label": "Nonlinear Fourier 2L",
+      "family": "nonlinear_fourier",
+      "num_layers": 2,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.75,
+      "eval_acc": 0.2037999927997589
+    },
+    {
+      "label": "Nonlinear Fourier 2L",
+      "family": "nonlinear_fourier",
+      "num_layers": 2,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 1.0,
+      "eval_acc": 0.19059999287128448
+    },
+    {
+      "label": "Nonlinear Fourier 2L",
+      "family": "nonlinear_fourier",
+      "num_layers": 2,
+      "perturbation_type": "alignment",
+      "perturbation_value": 0.0,
+      "eval_acc": 0.7590000033378601
+    },
+    {
+      "label": "Nonlinear Fourier 2L",
+      "family": "nonlinear_fourier",
+      "num_layers": 2,
+      "perturbation_type": "alignment",
+      "perturbation_value": 2.0,
+      "eval_acc": 0.7590000033378601
+    },
+    {
+      "label": "Nonlinear Fourier 2L",
+      "family": "nonlinear_fourier",
+      "num_layers": 2,
+      "perturbation_type": "alignment",
+      "perturbation_value": 4.0,
+      "eval_acc": 0.7590000033378601
+    },
+    {
+      "label": "Nonlinear Fourier 2L",
+      "family": "nonlinear_fourier",
+      "num_layers": 2,
+      "perturbation_type": "alignment",
+      "perturbation_value": 6.0,
+      "eval_acc": 0.7243000268936157
+    },
+    {
+      "label": "Nonlinear Fourier 5L",
+      "family": "nonlinear_fourier",
+      "num_layers": 5,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.0,
+      "eval_acc": 0.8925999999046326
+    },
+    {
+      "label": "Nonlinear Fourier 5L",
+      "family": "nonlinear_fourier",
+      "num_layers": 5,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.25,
+      "eval_acc": 0.8924999833106995
+    },
+    {
+      "label": "Nonlinear Fourier 5L",
+      "family": "nonlinear_fourier",
+      "num_layers": 5,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.5,
+      "eval_acc": 0.5777999758720398
+    },
+    {
+      "label": "Nonlinear Fourier 5L",
+      "family": "nonlinear_fourier",
+      "num_layers": 5,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.75,
+      "eval_acc": 0.461899995803833
+    },
+    {
+      "label": "Nonlinear Fourier 5L",
+      "family": "nonlinear_fourier",
+      "num_layers": 5,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 1.0,
+      "eval_acc": 0.40709999203681946
+    },
+    {
+      "label": "Nonlinear Fourier 5L",
+      "family": "nonlinear_fourier",
+      "num_layers": 5,
+      "perturbation_type": "alignment",
+      "perturbation_value": 0.0,
+      "eval_acc": 0.8925999999046326
+    },
+    {
+      "label": "Nonlinear Fourier 5L",
+      "family": "nonlinear_fourier",
+      "num_layers": 5,
+      "perturbation_type": "alignment",
+      "perturbation_value": 2.0,
+      "eval_acc": 0.8925999999046326
+    },
+    {
+      "label": "Nonlinear Fourier 5L",
+      "family": "nonlinear_fourier",
+      "num_layers": 5,
+      "perturbation_type": "alignment",
+      "perturbation_value": 4.0,
+      "eval_acc": 0.8925999999046326
+    },
+    {
+      "label": "Nonlinear Fourier 5L",
+      "family": "nonlinear_fourier",
+      "num_layers": 5,
+      "perturbation_type": "alignment",
+      "perturbation_value": 6.0,
+      "eval_acc": 0.8762000203132629
+    },
+    {
+      "label": "Nonlinear Real 1L",
+      "family": "nonlinear_real",
+      "num_layers": 1,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.0,
+      "eval_acc": 0.8100000023841858
+    },
+    {
+      "label": "Nonlinear Real 1L",
+      "family": "nonlinear_real",
+      "num_layers": 1,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.25,
+      "eval_acc": 0.8100000023841858
+    },
+    {
+      "label": "Nonlinear Real 1L",
+      "family": "nonlinear_real",
+      "num_layers": 1,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.5,
+      "eval_acc": 0.7404999732971191
+    },
+    {
+      "label": "Nonlinear Real 1L",
+      "family": "nonlinear_real",
+      "num_layers": 1,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.75,
+      "eval_acc": 0.66839998960495
+    },
+    {
+      "label": "Nonlinear Real 1L",
+      "family": "nonlinear_real",
+      "num_layers": 1,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 1.0,
+      "eval_acc": 0.6504999995231628
+    },
+    {
+      "label": "Nonlinear Real 1L",
+      "family": "nonlinear_real",
+      "num_layers": 1,
+      "perturbation_type": "alignment",
+      "perturbation_value": 0.0,
+      "eval_acc": 0.8100000023841858
+    },
+    {
+      "label": "Nonlinear Real 1L",
+      "family": "nonlinear_real",
+      "num_layers": 1,
+      "perturbation_type": "alignment",
+      "perturbation_value": 2.0,
+      "eval_acc": 0.6416000127792358
+    },
+    {
+      "label": "Nonlinear Real 1L",
+      "family": "nonlinear_real",
+      "num_layers": 1,
+      "perturbation_type": "alignment",
+      "perturbation_value": 4.0,
+      "eval_acc": 0.3817000091075897
+    },
+    {
+      "label": "Nonlinear Real 1L",
+      "family": "nonlinear_real",
+      "num_layers": 1,
+      "perturbation_type": "alignment",
+      "perturbation_value": 6.0,
+      "eval_acc": 0.2500999867916107
+    },
+    {
+      "label": "Nonlinear Real 2L",
+      "family": "nonlinear_real",
+      "num_layers": 2,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.0,
+      "eval_acc": 0.8998000025749207
+    },
+    {
+      "label": "Nonlinear Real 2L",
+      "family": "nonlinear_real",
+      "num_layers": 2,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.25,
+      "eval_acc": 0.8998000025749207
+    },
+    {
+      "label": "Nonlinear Real 2L",
+      "family": "nonlinear_real",
+      "num_layers": 2,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.5,
+      "eval_acc": 0.8898000121116638
+    },
+    {
+      "label": "Nonlinear Real 2L",
+      "family": "nonlinear_real",
+      "num_layers": 2,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.75,
+      "eval_acc": 0.8726999759674072
+    },
+    {
+      "label": "Nonlinear Real 2L",
+      "family": "nonlinear_real",
+      "num_layers": 2,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 1.0,
+      "eval_acc": 0.8673999905586243
+    },
+    {
+      "label": "Nonlinear Real 2L",
+      "family": "nonlinear_real",
+      "num_layers": 2,
+      "perturbation_type": "alignment",
+      "perturbation_value": 0.0,
+      "eval_acc": 0.8998000025749207
+    },
+    {
+      "label": "Nonlinear Real 2L",
+      "family": "nonlinear_real",
+      "num_layers": 2,
+      "perturbation_type": "alignment",
+      "perturbation_value": 2.0,
+      "eval_acc": 0.8727999925613403
+    },
+    {
+      "label": "Nonlinear Real 2L",
+      "family": "nonlinear_real",
+      "num_layers": 2,
+      "perturbation_type": "alignment",
+      "perturbation_value": 4.0,
+      "eval_acc": 0.7527999877929688
+    },
+    {
+      "label": "Nonlinear Real 2L",
+      "family": "nonlinear_real",
+      "num_layers": 2,
+      "perturbation_type": "alignment",
+      "perturbation_value": 6.0,
+      "eval_acc": 0.5253999829292297
+    },
+    {
+      "label": "Nonlinear Real 5L",
+      "family": "nonlinear_real",
+      "num_layers": 5,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.0,
+      "eval_acc": 0.9262999892234802
+    },
+    {
+      "label": "Nonlinear Real 5L",
+      "family": "nonlinear_real",
+      "num_layers": 5,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.25,
+      "eval_acc": 0.9262999892234802
+    },
+    {
+      "label": "Nonlinear Real 5L",
+      "family": "nonlinear_real",
+      "num_layers": 5,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.5,
+      "eval_acc": 0.916100025177002
+    },
+    {
+      "label": "Nonlinear Real 5L",
+      "family": "nonlinear_real",
+      "num_layers": 5,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.75,
+      "eval_acc": 0.8992999792098999
+    },
+    {
+      "label": "Nonlinear Real 5L",
+      "family": "nonlinear_real",
+      "num_layers": 5,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 1.0,
+      "eval_acc": 0.8939999938011169
+    },
+    {
+      "label": "Nonlinear Real 5L",
+      "family": "nonlinear_real",
+      "num_layers": 5,
+      "perturbation_type": "alignment",
+      "perturbation_value": 0.0,
+      "eval_acc": 0.9262999892234802
+    },
+    {
+      "label": "Nonlinear Real 5L",
+      "family": "nonlinear_real",
+      "num_layers": 5,
+      "perturbation_type": "alignment",
+      "perturbation_value": 2.0,
+      "eval_acc": 0.9064000248908997
+    },
+    {
+      "label": "Nonlinear Real 5L",
+      "family": "nonlinear_real",
+      "num_layers": 5,
+      "perturbation_type": "alignment",
+      "perturbation_value": 4.0,
+      "eval_acc": 0.8145999908447266
+    },
+    {
+      "label": "Nonlinear Real 5L",
+      "family": "nonlinear_real",
+      "num_layers": 5,
+      "perturbation_type": "alignment",
+      "perturbation_value": 6.0,
+      "eval_acc": 0.6579999923706055
+    },
+    {
+      "label": "Linear Real 1L",
+      "family": "linear_real",
+      "num_layers": 1,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.0,
+      "eval_acc": 0.5789999961853027
+    },
+    {
+      "label": "Linear Real 1L",
+      "family": "linear_real",
+      "num_layers": 1,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.25,
+      "eval_acc": 0.5789999961853027
+    },
+    {
+      "label": "Linear Real 1L",
+      "family": "linear_real",
+      "num_layers": 1,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.5,
+      "eval_acc": 0.3061999976634979
+    },
+    {
+      "label": "Linear Real 1L",
+      "family": "linear_real",
+      "num_layers": 1,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.75,
+      "eval_acc": 0.20890000462532043
+    },
+    {
+      "label": "Linear Real 1L",
+      "family": "linear_real",
+      "num_layers": 1,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 1.0,
+      "eval_acc": 0.19760000705718994
+    },
+    {
+      "label": "Linear Real 1L",
+      "family": "linear_real",
+      "num_layers": 1,
+      "perturbation_type": "alignment",
+      "perturbation_value": 0.0,
+      "eval_acc": 0.5789999961853027
+    },
+    {
+      "label": "Linear Real 1L",
+      "family": "linear_real",
+      "num_layers": 1,
+      "perturbation_type": "alignment",
+      "perturbation_value": 2.0,
+      "eval_acc": 0.4788999855518341
+    },
+    {
+      "label": "Linear Real 1L",
+      "family": "linear_real",
+      "num_layers": 1,
+      "perturbation_type": "alignment",
+      "perturbation_value": 4.0,
+      "eval_acc": 0.25200000405311584
+    },
+    {
+      "label": "Linear Real 1L",
+      "family": "linear_real",
+      "num_layers": 1,
+      "perturbation_type": "alignment",
+      "perturbation_value": 6.0,
+      "eval_acc": 0.1632000058889389
+    },
+    {
+      "label": "Linear Real 2L",
+      "family": "linear_real",
+      "num_layers": 2,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.0,
+      "eval_acc": 0.7764000296592712
+    },
+    {
+      "label": "Linear Real 2L",
+      "family": "linear_real",
+      "num_layers": 2,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.25,
+      "eval_acc": 0.776199996471405
+    },
+    {
+      "label": "Linear Real 2L",
+      "family": "linear_real",
+      "num_layers": 2,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.5,
+      "eval_acc": 0.5821999907493591
+    },
+    {
+      "label": "Linear Real 2L",
+      "family": "linear_real",
+      "num_layers": 2,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.75,
+      "eval_acc": 0.2818000018596649
+    },
+    {
+      "label": "Linear Real 2L",
+      "family": "linear_real",
+      "num_layers": 2,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 1.0,
+      "eval_acc": 0.2655999958515167
+    },
+    {
+      "label": "Linear Real 2L",
+      "family": "linear_real",
+      "num_layers": 2,
+      "perturbation_type": "alignment",
+      "perturbation_value": 0.0,
+      "eval_acc": 0.7764000296592712
+    },
+    {
+      "label": "Linear Real 2L",
+      "family": "linear_real",
+      "num_layers": 2,
+      "perturbation_type": "alignment",
+      "perturbation_value": 2.0,
+      "eval_acc": 0.6851999759674072
+    },
+    {
+      "label": "Linear Real 2L",
+      "family": "linear_real",
+      "num_layers": 2,
+      "perturbation_type": "alignment",
+      "perturbation_value": 4.0,
+      "eval_acc": 0.3628999888896942
+    },
+    {
+      "label": "Linear Real 2L",
+      "family": "linear_real",
+      "num_layers": 2,
+      "perturbation_type": "alignment",
+      "perturbation_value": 6.0,
+      "eval_acc": 0.20990000665187836
+    },
+    {
+      "label": "Linear Real 5L",
+      "family": "linear_real",
+      "num_layers": 5,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.0,
+      "eval_acc": 0.9010999798774719
+    },
+    {
+      "label": "Linear Real 5L",
+      "family": "linear_real",
+      "num_layers": 5,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.25,
+      "eval_acc": 0.9014000296592712
+    },
+    {
+      "label": "Linear Real 5L",
+      "family": "linear_real",
+      "num_layers": 5,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.5,
+      "eval_acc": 0.8133000135421753
+    },
+    {
+      "label": "Linear Real 5L",
+      "family": "linear_real",
+      "num_layers": 5,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 0.75,
+      "eval_acc": 0.5960000157356262
+    },
+    {
+      "label": "Linear Real 5L",
+      "family": "linear_real",
+      "num_layers": 5,
+      "perturbation_type": "fabrication",
+      "perturbation_value": 1.0,
+      "eval_acc": 0.5281999707221985
+    },
+    {
+      "label": "Linear Real 5L",
+      "family": "linear_real",
+      "num_layers": 5,
+      "perturbation_type": "alignment",
+      "perturbation_value": 0.0,
+      "eval_acc": 0.9010999798774719
+    },
+    {
+      "label": "Linear Real 5L",
+      "family": "linear_real",
+      "num_layers": 5,
+      "perturbation_type": "alignment",
+      "perturbation_value": 2.0,
+      "eval_acc": 0.8654000163078308
+    },
+    {
+      "label": "Linear Real 5L",
+      "family": "linear_real",
+      "num_layers": 5,
+      "perturbation_type": "alignment",
+      "perturbation_value": 4.0,
+      "eval_acc": 0.6873999834060669
+    },
+    {
+      "label": "Linear Real 5L",
+      "family": "linear_real",
+      "num_layers": 5,
+      "perturbation_type": "alignment",
+      "perturbation_value": 6.0,
+      "eval_acc": 0.4544000029563904
+    }
+  ]
+}

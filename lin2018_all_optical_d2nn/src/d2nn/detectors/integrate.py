@@ -46,7 +46,7 @@ def integrate_regions(intensity: torch.Tensor | np.ndarray, masks: torch.Tensor 
         i = i.unsqueeze(0)
         squeezed_t = True
 
-    e_t = (i.unsqueeze(1) * m.unsqueeze(0)).sum(dim=(-1, -2))
+    e_t = torch.einsum('byx,kyx->bk', i, m)
     if reduction == "mean":
         denom_t = m.sum(dim=(-1, -2)).clamp_min(1.0)
         e_t = e_t / denom_t.unsqueeze(0)

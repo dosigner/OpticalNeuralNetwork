@@ -1,0 +1,64 @@
+{
+  "created_at_utc": "2026-03-07T08:40:38Z",
+  "dataset": "mnist",
+  "metric": "val_acc",
+  "epochs": 30,
+  "data_source": "current existing runs",
+  "panel_c": [
+    {
+      "label": "Linear Fourier",
+      "experiment": "s7a_linear_fourier_1l",
+      "run_dir": "runs/s7a_linear_fourier_1l/260305_071113",
+      "epochs_recorded": 30,
+      "max_val_acc": 0.5479999780654907,
+      "final_val_acc": 0.5455999970436096,
+      "best_epoch": 7,
+      "note": null
+    },
+    {
+      "label": "Nonlinear Fourier",
+      "experiment": "s7a_nonlinear_fourier_single_sbn_1l",
+      "run_dir": "runs/s7a_nonlinear_fourier_single_sbn_1l/260305_085753",
+      "epochs_recorded": 30,
+      "max_val_acc": 0.6588000059127808,
+      "final_val_acc": 0.6534000039100647,
+      "best_epoch": 12,
+      "note": "For 1-layer Fourier D2NN, single-SBN and multi-SBN runs are visually identical in the current run set."
+    }
+  ],
+  "panel_d": [
+    {
+      "label": "Linear Fourier",
+      "experiment": "s7a_linear_fourier_5l",
+      "run_dir": "runs/s7a_linear_fourier_5l/260305_083304",
+      "epochs_recorded": 30,
+      "max_val_acc": 0.9007999897003174,
+      "final_val_acc": 0.8980000019073486,
+      "best_epoch": 8,
+      "note": null
+    },
+    {
+      "label": "Nonlinear Fourier, Single SBN",
+      "experiment": "s7a_nonlinear_fourier_single_sbn_5l",
+      "run_dir": "runs/s7a_nonlinear_fourier_single_sbn_5l/260305_104010",
+      "epochs_recorded": 30,
+      "max_val_acc": 0.9437999725341797,
+      "final_val_acc": 0.9386000037193298,
+      "best_epoch": 22,
+      "note": null
+    },
+    {
+      "label": "Nonlinear Fourier, Multi-SBN",
+      "experiment": "s7a_nonlinear_fourier_muti-sbn_5l",
+      "run_dir": "runs/s7a_nonlinear_fourier_muti-sbn_5l/260306_054658",
+      "epochs_recorded": 30,
+      "max_val_acc": 0.949999988079071,
+      "final_val_acc": 0.9447999596595764,
+      "best_epoch": 21,
+      "note": null
+    }
+  ],
+  "figure_c": "/root/dj/D2NN/tao2019_fourier_space_d2nn/reports/supp_s7c_mnist_1l_convergence.png",
+  "figure_d": "/root/dj/D2NN/tao2019_fourier_space_d2nn/reports/supp_s7d_mnist_5l_convergence.png",
+  "figure_cd": "/root/dj/D2NN/tao2019_fourier_space_d2nn/reports/supp_s7cd_mnist_convergence.png"
+}

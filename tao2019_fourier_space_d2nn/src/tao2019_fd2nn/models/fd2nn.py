@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import torch
+import torch.nn.functional as F
 from torch import nn
 
 from tao2019_fd2nn.models.nonlinearity_sbn import SBNNonlinearity
@@ -27,6 +28,7 @@ class Fd2nnConfig:
     phase_max: float
     phase_constraint: str = "sigmoid"
     phase_init: str = "uniform"
+    phase_init_scale: float = 1.0
     model_type: str = "fd2nn"
     na: float | None = None
     evanescent: str = "mask"
@@ -38,6 +40,9 @@ class Fd2nnConfig:
     dual_2f_na2: float | None = None
     dual_2f_apply_scaling: bool = False
     hybrid_sequence: tuple[str, ...] = ()
+    fabrication_blur_sigma_px: float = 0.0
+    fabrication_blur_kernel_size: int = 3
+    alignment_shift_um: float = 0.0
     sbn_enabled: bool = False
     sbn_phi_max: float = float(torch.pi)
     sbn_position: str = "rear"
@@ -45,6 +50,7 @@ class Fd2nnConfig:
     sbn_saturation_intensity: float = 1.0
     sbn_clamp_negative_perturbation: bool = True
     sbn_learnable_saturation: bool = False
+    sbn_intensity_norm: str = "background_perturbation"
     sbn_voltage_v: float | None = None
     sbn_electrode_gap_m: float | None = None
     sbn_e_app_v_per_m: float | None = None
@@ -66,6 +72,7 @@ class Fd2nnModel(nn.Module):
                     phase_max=cfg.phase_max,
                     constraint_mode=cfg.phase_constraint,
                     init_mode=cfg.phase_init,
+                    init_scale=cfg.phase_init_scale,
                 )
                 for _ in range(cfg.num_layers)
             ]
@@ -77,6 +84,7 @@ class Fd2nnModel(nn.Module):
                 saturation_intensity=cfg.sbn_saturation_intensity,
                 clamp_negative_perturbation=cfg.sbn_clamp_negative_perturbation,
                 learnable_saturation=cfg.sbn_learnable_saturation,
+                intensity_norm=cfg.sbn_intensity_norm,
                 voltage_v=cfg.sbn_voltage_v,
                 electrode_gap_m=cfg.sbn_electrode_gap_m,
                 e_app_v_per_m=cfg.sbn_e_app_v_per_m,
@@ -87,6 +95,57 @@ class Fd2nnModel(nn.Module):
             if cfg.sbn_enabled
             else None
         )
+
+    def _alignment_shift_px(self, dx_m: float) -> int:
+        if dx_m <= 0.0 or self.cfg.alignment_shift_um == 0.0:
+            return 0
+        shift_m = float(self.cfg.alignment_shift_um) * 1.0e-6
+        return int(round(shift_m / float(dx_m)))
+
+    def _fabrication_kernel(self, *, device: torch.device, dtype: torch.dtype) -> torch.Tensor | None:
+        sigma = float(self.cfg.fabrication_blur_sigma_px)
+        if sigma <= 0.0:
+            return None
+        kernel_size = int(self.cfg.fabrication_blur_kernel_size)
+        if kernel_size <= 1:
+            return None
+        radius = kernel_size // 2
+        coords = torch.arange(-radius, radius + 1, device=device, dtype=dtype)
+        kernel_1d = torch.exp(-(coords**2) / (2.0 * sigma**2))
+        kernel_1d = kernel_1d / kernel_1d.sum()
+        kernel_2d = torch.outer(kernel_1d, kernel_1d)
+        kernel_2d = kernel_2d / kernel_2d.sum()
+        return kernel_2d.view(1, 1, kernel_size, kernel_size)
+
+    def _apply_phase_perturbations(self, phi: torch.Tensor, *, dx_m: float) -> torch.Tensor:
+        out = phi
+        kernel = self._fabrication_kernel(device=phi.device, dtype=phi.dtype)
+        if kernel is not None:
+            pad = int(self.cfg.fabrication_blur_kernel_size) // 2
+            out_4d = out.unsqueeze(0).unsqueeze(0)
+            out_4d = F.pad(out_4d, (pad, pad, pad, pad), mode="replicate")
+            out = F.conv2d(out_4d, kernel).squeeze(0).squeeze(0)
+        shift_px = self._alignment_shift_px(dx_m)
+        if shift_px != 0:
+            width = int(out.shape[-1])
+            if abs(shift_px) >= width:
+                out = torch.zeros_like(out)
+            else:
+                shifted = torch.zeros_like(out)
+                if shift_px > 0:
+                    shifted[..., shift_px:] = out[..., : width - shift_px]
+                else:
+                    offset = -shift_px
+                    shifted[..., : width - offset] = out[..., offset:]
+                out = shifted
+        return out
+
+    def _apply_phase_mask(self, field: torch.Tensor, layer: PhaseMask, *, dx_m: float) -> torch.Tensor:
+        phi = layer.phase().to(device=field.device, dtype=field.real.dtype)
+        if not self.training:
+            phi = self._apply_phase_perturbations(phi, dx_m=dx_m)
+        modulation = torch.exp(1j * phi).to(dtype=field.dtype)
+        return field * modulation
 
     def _propagate(self, field: torch.Tensor, z_m: float, *, dx_m: float, na: float | None) -> torch.Tensor:
         H = asm_transfer_function(
@@ -157,18 +216,31 @@ class Fd2nnModel(nn.Module):
         if self.cfg.model_type == "fd2nn" and self.cfg.use_dual_2f:
             out, domain, dx_m = self._switch_domain(out, current=domain, target="fourier", dx_m=dx_m)
 
+        if self.sbn is not None and self.cfg.sbn_position == "front":
+            out = self.sbn(out)
+
         for idx, layer in enumerate(self.layers):
             target_domain = self._target_domain(idx)
             out, domain, dx_m = self._switch_domain(out, current=domain, target=target_domain, dx_m=dx_m)
-            out = self._propagate(out, self.cfg.z_layer_m, dx_m=dx_m, na=self.cfg.na)
-            out = layer(out)
+
+            # For Fourier-space D2NN, the first layer is exactly at the Fourier plane.
+            # Avoid propagating before the first layer.
+            if not (self.cfg.model_type == "fd2nn" and idx == 0):
+                out = self._propagate(out, self.cfg.z_layer_m, dx_m=dx_m, na=self.cfg.na)
+
+            if self.sbn is not None and self.cfg.sbn_position == "per_layer_front":
+                out = self.sbn(out)
+            out = self._apply_phase_mask(out, layer, dx_m=dx_m)
             if self.sbn is not None and self.cfg.sbn_position == "per_layer":
                 out = self.sbn(out)
 
         if self.sbn is not None and self.cfg.sbn_position == "rear":
             out = self.sbn(out)
 
-        out = self._propagate(out, self.cfg.z_out_m, dx_m=dx_m, na=self.cfg.na)
+        # For Fourier-space D2NN, the last layer is exactly at the Fourier plane of the second lens.
+        # Avoid propagating after the last layer before inverse FFT.
+        if self.cfg.model_type != "fd2nn":
+            out = self._propagate(out, self.cfg.z_out_m, dx_m=dx_m, na=self.cfg.na)
 
         # Sensor plane is modeled in real domain.
         if domain == "fourier":

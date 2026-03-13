@@ -1,0 +1,53 @@
+{
+  "created_at_utc": "2026-03-07T07:52:46Z",
+  "dataset": "mnist",
+  "batch_size": 500,
+  "epochs": 30,
+  "s7a_accuracy_vs_layers": {
+    "Linear Fourier": {
+      "1": 0.5473999977111816,
+      "2": 0.8766999840736389,
+      "3": 0.8982999920845032,
+      "4": 0.9039000272750854,
+      "5": 0.9035999774932861
+    },
+    "Nonlinear Fourier, Single SBN": {
+      "1": 0.6611999869346619,
+      "2": 0.8917999863624573,
+      "3": 0.9236000180244446,
+      "4": 0.9391999840736389,
+      "5": 0.9445000290870667
+    },
+    "Nonlinear Fourier, Muti-SBN": {
+      "1": 0.6611999869346619,
+      "2": 0.8891000151634216,
+      "3": 0.9294999837875366,
+      "4": 0.9463000297546387,
+      "5": 0.9484999775886536
+    }
+  },
+  "s7b_convergence": {
+    "Nonlinear Fourier, SBN Front": {
+      "max_val_acc": 0.9625999927520752,
+      "final_val_acc": 0.9611999988555908,
+      "test_acc": 0.9661999940872192
+    },
+    "Nonlinear Fourier, SBN Rear": {
+      "max_val_acc": 0.9625999927520752,
+      "final_val_acc": 0.9607999920845032,
+      "test_acc": 0.9663000106811523
+    },
+    "Nonlinear Fourier & Real, SBN Front": {
+      "max_val_acc": 0.9777999520301819,
+      "final_val_acc": 0.9777999520301819,
+      "test_acc": 0.9775999784469604
+    },
+    "Nonlinear Fourier & Real, SBN Rear": {
+      "max_val_acc": 0.9777999520301819,
+      "final_val_acc": 0.9777999520301819,
+      "test_acc": 0.9779999852180481
+    }
+  },
+  "figure_a": "/root/dj/D2NN/tao2019_fourier_space_d2nn/supp_s7a_accuracy_vs_layers.png",
+  "figure_b": "/root/dj/D2NN/tao2019_fourier_space_d2nn/supp_s7b_sbn_position.png"
+}

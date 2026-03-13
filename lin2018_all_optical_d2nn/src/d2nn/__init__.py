@@ -1,5 +1,5 @@
 """D2NN reproducible simulation package."""
 
-from .types import DetectorRegionConfig, RunConfig
+from .types import RunConfig
 
-__all__ = ["DetectorRegionConfig", "RunConfig"]
+__all__ = ["RunConfig"]

@@ -1,0 +1,273 @@
+[09:22:41] [TRAIN] exp=supp_s8_cls_mnist_linear_real_1l_100um task=classification device=cuda epochs=30 log_every=20steps
+[09:22:46] [TRAIN] e1/30 s20/108 loss=0.0964 avg=0.1009 acc=0.1237 2632.3sample/s eta=00:17 mem=0.40GB/1.16GB
+[09:22:48] [TRAIN] e1/30 s40/108 loss=0.0978 avg=0.0998 acc=0.1429 3256.3sample/s eta=00:10 mem=0.40GB/1.16GB
+[09:22:50] [TRAIN] e1/30 s60/108 loss=0.0958 avg=0.0983 acc=0.1602 3745.0sample/s eta=00:06 mem=0.40GB/1.16GB
+[09:22:52] [TRAIN] e1/30 s80/108 loss=0.0912 avg=0.0968 acc=0.1765 3898.5sample/s eta=00:03 mem=0.40GB/1.16GB
+[09:22:54] [TRAIN] e1/30 s100/108 loss=0.0861 avg=0.0951 acc=0.1914 4076.6sample/s eta=00:01 mem=0.40GB/1.16GB
+[09:22:55] [TRAIN] e1/30 s108/108 loss=0.0863 avg=0.0944 acc=0.1965 4170.3sample/s eta=- mem=0.18GB/1.16GB
+[09:22:57] [VAL] e1/30 s10/10 loss=0.0847 avg=0.0857 acc=0.2650 3027.0sample/s eta=- mem=0.49GB/1.39GB
+[09:22:59] [TEST] e1/30 s20/20 loss=0.0871 avg=0.0852 acc=0.2720 4112.0sample/s eta=- mem=0.34GB/1.39GB
+[09:22:59] [EPOCH] 1/30 train_loss=0.0944 train_acc=0.1965 val_loss=0.0857 val_acc=0.2650 lr=0.010000 test_loss=0.0852 test_acc=0.2720 best_val_acc=0.2650 *
+[09:23:02] [TRAIN] e2/30 s20/108 loss=0.0838 avg=0.0844 acc=0.2727 3595.6sample/s eta=00:12 mem=0.40GB/1.16GB
+[09:23:04] [TRAIN] e2/30 s40/108 loss=0.0809 avg=0.0835 acc=0.2847 3889.1sample/s eta=00:08 mem=0.40GB/1.16GB
+[09:23:06] [TRAIN] e2/30 s60/108 loss=0.0805 avg=0.0825 acc=0.3003 4183.9sample/s eta=00:05 mem=0.40GB/1.16GB
+[09:23:08] [TRAIN] e2/30 s80/108 loss=0.0797 avg=0.0818 acc=0.3148 4326.4sample/s eta=00:03 mem=0.40GB/1.16GB
+[09:23:11] [TRAIN] e2/30 s100/108 loss=0.0789 avg=0.0811 acc=0.3293 4446.9sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:23:11] [TRAIN] e2/30 s108/108 loss=0.0772 avg=0.0808 acc=0.3345 4624.1sample/s eta=- mem=0.18GB/1.16GB
+[09:23:12] [VAL] e2/30 s10/10 loss=0.0766 avg=0.0775 acc=0.4214 4663.4sample/s eta=- mem=0.49GB/1.39GB
+[09:23:14] [TEST] e2/30 s20/20 loss=0.0784 avg=0.0771 acc=0.4180 4960.6sample/s eta=- mem=0.34GB/1.39GB
+[09:23:14] [EPOCH] 2/30 train_loss=0.0808 train_acc=0.3345 val_loss=0.0775 val_acc=0.4214 lr=0.010000 test_loss=0.0771 test_acc=0.4180 best_val_acc=0.4214 *
+[09:23:16] [TRAIN] e3/30 s20/108 loss=0.0771 avg=0.0772 acc=0.4161 4912.5sample/s eta=00:09 mem=0.40GB/1.16GB
+[09:23:18] [TRAIN] e3/30 s40/108 loss=0.0766 avg=0.0770 acc=0.4220 5320.2sample/s eta=00:06 mem=0.40GB/1.16GB
+[09:23:19] [TRAIN] e3/30 s60/108 loss=0.0750 avg=0.0767 acc=0.4323 5678.1sample/s eta=00:04 mem=0.40GB/1.16GB
+[09:23:22] [TRAIN] e3/30 s80/108 loss=0.0763 avg=0.0764 acc=0.4394 5421.7sample/s eta=00:02 mem=0.40GB/1.16GB
+[09:23:24] [TRAIN] e3/30 s100/108 loss=0.0750 avg=0.0761 acc=0.4437 5304.4sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:23:24] [TRAIN] e3/30 s108/108 loss=0.0752 avg=0.0760 acc=0.4453 5297.8sample/s eta=- mem=0.18GB/1.16GB
+[09:23:26] [VAL] e3/30 s10/10 loss=0.0737 avg=0.0746 acc=0.4806 3963.2sample/s eta=- mem=0.49GB/1.39GB
+[09:23:28] [TEST] e3/30 s20/20 loss=0.0753 avg=0.0741 acc=0.4860 4255.2sample/s eta=- mem=0.34GB/1.39GB
+[09:23:28] [EPOCH] 3/30 train_loss=0.0760 train_acc=0.4453 val_loss=0.0746 val_acc=0.4806 lr=0.010000 test_loss=0.0741 test_acc=0.4860 best_val_acc=0.4806 *
+[09:23:32] [TRAIN] e4/30 s20/108 loss=0.0737 avg=0.0744 acc=0.4745 2784.5sample/s eta=00:16 mem=0.40GB/1.16GB
+[09:23:33] [TRAIN] e4/30 s40/108 loss=0.0753 avg=0.0741 acc=0.4834 3747.5sample/s eta=00:09 mem=0.40GB/1.16GB
+[09:23:36] [TRAIN] e4/30 s60/108 loss=0.0732 avg=0.0740 acc=0.4872 3803.7sample/s eta=00:06 mem=0.40GB/1.16GB
+[09:23:38] [TRAIN] e4/30 s80/108 loss=0.0740 avg=0.0739 acc=0.4905 4113.9sample/s eta=00:03 mem=0.40GB/1.16GB
+[09:23:40] [TRAIN] e4/30 s100/108 loss=0.0721 avg=0.0737 acc=0.4926 4242.0sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:23:40] [TRAIN] e4/30 s108/108 loss=0.0734 avg=0.0736 acc=0.4933 4396.9sample/s eta=- mem=0.18GB/1.16GB
+[09:23:42] [VAL] e4/30 s10/10 loss=0.0719 avg=0.0726 acc=0.5134 3736.1sample/s eta=- mem=0.49GB/1.39GB
+[09:23:45] [TEST] e4/30 s20/20 loss=0.0733 avg=0.0722 acc=0.5123 3738.3sample/s eta=- mem=0.34GB/1.39GB
+[09:23:45] [EPOCH] 4/30 train_loss=0.0736 train_acc=0.4933 val_loss=0.0726 val_acc=0.5134 lr=0.010000 test_loss=0.0722 test_acc=0.5123 best_val_acc=0.5134 *
+[09:23:47] [TRAIN] e5/30 s20/108 loss=0.0717 avg=0.0726 acc=0.5102 3663.0sample/s eta=00:12 mem=0.40GB/1.16GB
+[09:23:49] [TRAIN] e5/30 s40/108 loss=0.0711 avg=0.0723 acc=0.5175 4220.3sample/s eta=00:08 mem=0.40GB/1.16GB
+[09:23:52] [TRAIN] e5/30 s60/108 loss=0.0729 avg=0.0721 acc=0.5168 4372.9sample/s eta=00:05 mem=0.40GB/1.16GB
+[09:23:54] [TRAIN] e5/30 s80/108 loss=0.0712 avg=0.0721 acc=0.5172 4385.7sample/s eta=00:03 mem=0.40GB/1.16GB
+[09:23:56] [TRAIN] e5/30 s100/108 loss=0.0716 avg=0.0720 acc=0.5189 4539.0sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:23:56] [TRAIN] e5/30 s108/108 loss=0.0710 avg=0.0719 acc=0.5195 4688.9sample/s eta=- mem=0.18GB/1.16GB
+[09:23:57] [VAL] e5/30 s10/10 loss=0.0704 avg=0.0711 acc=0.5340 4254.0sample/s eta=- mem=0.49GB/1.39GB
+[09:24:00] [TEST] e5/30 s20/20 loss=0.0718 avg=0.0708 acc=0.5339 4382.8sample/s eta=- mem=0.34GB/1.39GB
+[09:24:00] [EPOCH] 5/30 train_loss=0.0719 train_acc=0.5195 val_loss=0.0711 val_acc=0.5340 lr=0.010000 test_loss=0.0708 test_acc=0.5339 best_val_acc=0.5340 *
+[09:24:02] [TRAIN] e6/30 s20/108 loss=0.0713 avg=0.0711 acc=0.5321 3820.2sample/s eta=00:11 mem=0.40GB/1.16GB
+[09:24:05] [TRAIN] e6/30 s40/108 loss=0.0715 avg=0.0711 acc=0.5331 4264.0sample/s eta=00:08 mem=0.40GB/1.16GB
+[09:24:06] [TRAIN] e6/30 s60/108 loss=0.0700 avg=0.0710 acc=0.5366 4723.0sample/s eta=00:05 mem=0.40GB/1.16GB
+[09:24:08] [TRAIN] e6/30 s80/108 loss=0.0688 avg=0.0708 acc=0.5394 4971.3sample/s eta=00:02 mem=0.40GB/1.16GB
+[09:24:10] [TRAIN] e6/30 s100/108 loss=0.0708 avg=0.0707 acc=0.5382 4883.3sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:24:11] [TRAIN] e6/30 s108/108 loss=0.0713 avg=0.0707 acc=0.5377 5079.7sample/s eta=- mem=0.18GB/1.16GB
+[09:24:12] [VAL] e6/30 s10/10 loss=0.0694 avg=0.0701 acc=0.5486 3730.4sample/s eta=- mem=0.49GB/1.39GB
+[09:24:14] [TEST] e6/30 s20/20 loss=0.0708 avg=0.0698 acc=0.5470 4545.2sample/s eta=- mem=0.34GB/1.39GB
+[09:24:14] [EPOCH] 6/30 train_loss=0.0707 train_acc=0.5377 val_loss=0.0701 val_acc=0.5486 lr=0.010000 test_loss=0.0698 test_acc=0.5470 best_val_acc=0.5486 *
+[09:24:17] [TRAIN] e7/30 s20/108 loss=0.0694 avg=0.0697 acc=0.5491 3913.3sample/s eta=00:11 mem=0.40GB/1.16GB
+[09:24:19] [TRAIN] e7/30 s40/108 loss=0.0714 avg=0.0700 acc=0.5415 4399.7sample/s eta=00:07 mem=0.40GB/1.16GB
+[09:24:21] [TRAIN] e7/30 s60/108 loss=0.0697 avg=0.0700 acc=0.5441 4763.6sample/s eta=00:05 mem=0.40GB/1.16GB
+[09:24:22] [TRAIN] e7/30 s80/108 loss=0.0689 avg=0.0698 acc=0.5461 4913.7sample/s eta=00:02 mem=0.40GB/1.16GB
+[09:24:24] [TRAIN] e7/30 s100/108 loss=0.0679 avg=0.0697 acc=0.5476 5105.3sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:24:25] [TRAIN] e7/30 s108/108 loss=0.0723 avg=0.0698 acc=0.5468 5263.3sample/s eta=- mem=0.18GB/1.16GB
+[09:24:26] [VAL] e7/30 s10/10 loss=0.0687 avg=0.0693 acc=0.5584 3962.4sample/s eta=- mem=0.49GB/1.39GB
+[09:24:28] [TEST] e7/30 s20/20 loss=0.0701 avg=0.0691 acc=0.5572 3784.5sample/s eta=- mem=0.34GB/1.39GB
+[09:24:28] [EPOCH] 7/30 train_loss=0.0698 train_acc=0.5468 val_loss=0.0693 val_acc=0.5584 lr=0.010000 test_loss=0.0691 test_acc=0.5572 best_val_acc=0.5584 *
+[09:24:31] [TRAIN] e8/30 s20/108 loss=0.0692 avg=0.0690 acc=0.5623 3606.0sample/s eta=00:12 mem=0.40GB/1.16GB
+[09:24:33] [TRAIN] e8/30 s40/108 loss=0.0693 avg=0.0692 acc=0.5571 4403.6sample/s eta=00:07 mem=0.40GB/1.16GB
+[09:24:35] [TRAIN] e8/30 s60/108 loss=0.0697 avg=0.0692 acc=0.5563 4504.8sample/s eta=00:05 mem=0.40GB/1.16GB
+[09:24:37] [TRAIN] e8/30 s80/108 loss=0.0695 avg=0.0692 acc=0.5550 4726.1sample/s eta=00:03 mem=0.40GB/1.16GB
+[09:24:39] [TRAIN] e8/30 s100/108 loss=0.0697 avg=0.0691 acc=0.5556 4818.7sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:24:39] [TRAIN] e8/30 s108/108 loss=0.0671 avg=0.0691 acc=0.5553 4991.0sample/s eta=- mem=0.18GB/1.16GB
+[09:24:41] [VAL] e8/30 s10/10 loss=0.0681 avg=0.0687 acc=0.5650 4162.9sample/s eta=- mem=0.49GB/1.39GB
+[09:24:43] [TEST] e8/30 s20/20 loss=0.0696 avg=0.0685 acc=0.5624 4538.0sample/s eta=- mem=0.34GB/1.39GB
+[09:24:43] [EPOCH] 8/30 train_loss=0.0691 train_acc=0.5553 val_loss=0.0687 val_acc=0.5650 lr=0.010000 test_loss=0.0685 test_acc=0.5624 best_val_acc=0.5650 *
+[09:24:46] [TRAIN] e9/30 s20/108 loss=0.0690 avg=0.0687 acc=0.5604 3247.6sample/s eta=00:13 mem=0.40GB/1.16GB
+[09:24:48] [TRAIN] e9/30 s40/108 loss=0.0681 avg=0.0687 acc=0.5604 3800.9sample/s eta=00:09 mem=0.40GB/1.16GB
+[09:24:51] [TRAIN] e9/30 s60/108 loss=0.0680 avg=0.0687 acc=0.5595 3946.2sample/s eta=00:06 mem=0.40GB/1.16GB
+[09:24:53] [TRAIN] e9/30 s80/108 loss=0.0686 avg=0.0687 acc=0.5582 3961.7sample/s eta=00:03 mem=0.40GB/1.16GB
+[09:24:55] [TRAIN] e9/30 s100/108 loss=0.0691 avg=0.0687 acc=0.5593 4108.6sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:24:56] [TRAIN] e9/30 s108/108 loss=0.0682 avg=0.0687 acc=0.5592 4232.3sample/s eta=- mem=0.18GB/1.16GB
+[09:24:57] [VAL] e9/30 s10/10 loss=0.0677 avg=0.0683 acc=0.5690 3920.6sample/s eta=- mem=0.49GB/1.39GB
+[09:24:59] [TEST] e9/30 s20/20 loss=0.0692 avg=0.0681 acc=0.5679 4288.6sample/s eta=- mem=0.34GB/1.39GB
+[09:24:59] [EPOCH] 9/30 train_loss=0.0687 train_acc=0.5592 val_loss=0.0683 val_acc=0.5690 lr=0.010000 test_loss=0.0681 test_acc=0.5679 best_val_acc=0.5690 *
+[09:25:03] [TRAIN] e10/30 s20/108 loss=0.0675 avg=0.0681 acc=0.5687 3334.9sample/s eta=00:13 mem=0.40GB/1.16GB
+[09:25:05] [TRAIN] e10/30 s40/108 loss=0.0691 avg=0.0684 acc=0.5583 3896.2sample/s eta=00:08 mem=0.40GB/1.16GB
+[09:25:07] [TRAIN] e10/30 s60/108 loss=0.0688 avg=0.0683 acc=0.5590 4114.4sample/s eta=00:05 mem=0.40GB/1.16GB
+[09:25:10] [TRAIN] e10/30 s80/108 loss=0.0678 avg=0.0683 acc=0.5614 4074.4sample/s eta=00:03 mem=0.40GB/1.16GB
+[09:25:12] [TRAIN] e10/30 s100/108 loss=0.0692 avg=0.0683 acc=0.5619 4232.6sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:25:12] [TRAIN] e10/30 s108/108 loss=0.0657 avg=0.0683 acc=0.5617 4342.4sample/s eta=- mem=0.18GB/1.16GB
+[09:25:13] [VAL] e10/30 s10/10 loss=0.0674 avg=0.0680 acc=0.5708 4019.1sample/s eta=- mem=0.49GB/1.39GB
+[09:25:16] [TEST] e10/30 s20/20 loss=0.0689 avg=0.0678 acc=0.5686 4505.6sample/s eta=- mem=0.34GB/1.39GB
+[09:25:16] [EPOCH] 10/30 train_loss=0.0683 train_acc=0.5617 val_loss=0.0680 val_acc=0.5708 lr=0.010000 test_loss=0.0678 test_acc=0.5686 best_val_acc=0.5708 *
+[09:25:19] [TRAIN] e11/30 s20/108 loss=0.0681 avg=0.0682 acc=0.5684 3438.7sample/s eta=00:13 mem=0.40GB/1.16GB
+[09:25:21] [TRAIN] e11/30 s40/108 loss=0.0681 avg=0.0682 acc=0.5656 3907.8sample/s eta=00:08 mem=0.40GB/1.16GB
+[09:25:23] [TRAIN] e11/30 s60/108 loss=0.0675 avg=0.0681 acc=0.5642 4148.1sample/s eta=00:05 mem=0.40GB/1.16GB
+[09:25:25] [TRAIN] e11/30 s80/108 loss=0.0670 avg=0.0681 acc=0.5633 4259.3sample/s eta=00:03 mem=0.40GB/1.16GB
+[09:25:27] [TRAIN] e11/30 s100/108 loss=0.0691 avg=0.0681 acc=0.5630 4424.4sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:25:28] [TRAIN] e11/30 s108/108 loss=0.0675 avg=0.0680 acc=0.5637 4586.9sample/s eta=- mem=0.18GB/1.16GB
+[09:25:29] [VAL] e11/30 s10/10 loss=0.0671 avg=0.0678 acc=0.5732 3899.3sample/s eta=- mem=0.49GB/1.39GB
+[09:25:31] [TEST] e11/30 s20/20 loss=0.0688 avg=0.0676 acc=0.5714 4330.6sample/s eta=- mem=0.34GB/1.39GB
+[09:25:31] [EPOCH] 11/30 train_loss=0.0680 train_acc=0.5637 val_loss=0.0678 val_acc=0.5732 lr=0.010000 test_loss=0.0676 test_acc=0.5714 best_val_acc=0.5732 *
+[09:25:34] [TRAIN] e12/30 s20/108 loss=0.0668 avg=0.0678 acc=0.5737 3211.2sample/s eta=00:14 mem=0.40GB/1.16GB
+[09:25:37] [TRAIN] e12/30 s40/108 loss=0.0694 avg=0.0678 acc=0.5688 3805.9sample/s eta=00:09 mem=0.40GB/1.16GB
+[09:25:39] [TRAIN] e12/30 s60/108 loss=0.0675 avg=0.0678 acc=0.5690 3875.3sample/s eta=00:06 mem=0.40GB/1.16GB
+[09:25:41] [TRAIN] e12/30 s80/108 loss=0.0689 avg=0.0678 acc=0.5667 4008.4sample/s eta=00:03 mem=0.40GB/1.16GB
+[09:25:44] [TRAIN] e12/30 s100/108 loss=0.0662 avg=0.0678 acc=0.5661 4114.8sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:25:44] [TRAIN] e12/30 s108/108 loss=0.0677 avg=0.0678 acc=0.5665 4243.3sample/s eta=- mem=0.18GB/1.16GB
+[09:25:45] [VAL] e12/30 s10/10 loss=0.0669 avg=0.0676 acc=0.5768 3757.1sample/s eta=- mem=0.49GB/1.39GB
+[09:25:48] [TEST] e12/30 s20/20 loss=0.0686 avg=0.0674 acc=0.5726 4259.3sample/s eta=- mem=0.34GB/1.39GB
+[09:25:48] [EPOCH] 12/30 train_loss=0.0678 train_acc=0.5665 val_loss=0.0676 val_acc=0.5768 lr=0.010000 test_loss=0.0674 test_acc=0.5726 best_val_acc=0.5768 *
+[09:25:51] [TRAIN] e13/30 s20/108 loss=0.0678 avg=0.0676 acc=0.5733 3690.6sample/s eta=00:12 mem=0.40GB/1.16GB
+[09:25:53] [TRAIN] e13/30 s40/108 loss=0.0658 avg=0.0677 acc=0.5681 4003.2sample/s eta=00:08 mem=0.40GB/1.16GB
+[09:25:55] [TRAIN] e13/30 s60/108 loss=0.0662 avg=0.0676 acc=0.5686 4269.6sample/s eta=00:05 mem=0.40GB/1.16GB
+[09:25:57] [TRAIN] e13/30 s80/108 loss=0.0672 avg=0.0676 acc=0.5685 4280.6sample/s eta=00:03 mem=0.40GB/1.16GB
+[09:25:59] [TRAIN] e13/30 s100/108 loss=0.0672 avg=0.0676 acc=0.5676 4441.9sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:26:00] [TRAIN] e13/30 s108/108 loss=0.0678 avg=0.0676 acc=0.5676 4623.1sample/s eta=- mem=0.18GB/1.16GB
+[09:26:01] [VAL] e13/30 s10/10 loss=0.0668 avg=0.0675 acc=0.5764 4192.7sample/s eta=- mem=0.49GB/1.39GB
+[09:26:03] [TEST] e13/30 s20/20 loss=0.0686 avg=0.0673 acc=0.5735 4447.1sample/s eta=- mem=0.34GB/1.39GB
+[09:26:03] [EPOCH] 13/30 train_loss=0.0676 train_acc=0.5676 val_loss=0.0675 val_acc=0.5764 lr=0.010000 test_loss=0.0673 test_acc=0.5735 best_val_acc=0.5768
+[09:26:06] [TRAIN] e14/30 s20/108 loss=0.0690 avg=0.0674 acc=0.5775 3951.1sample/s eta=00:11 mem=0.40GB/1.16GB
+[09:26:08] [TRAIN] e14/30 s40/108 loss=0.0672 avg=0.0674 acc=0.5729 4031.4sample/s eta=00:08 mem=0.40GB/1.16GB
+[09:26:10] [TRAIN] e14/30 s60/108 loss=0.0664 avg=0.0675 acc=0.5715 4224.3sample/s eta=00:05 mem=0.40GB/1.16GB
+[09:26:12] [TRAIN] e14/30 s80/108 loss=0.0669 avg=0.0675 acc=0.5697 4392.7sample/s eta=00:03 mem=0.40GB/1.16GB
+[09:26:14] [TRAIN] e14/30 s100/108 loss=0.0680 avg=0.0675 acc=0.5683 4576.2sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:26:15] [TRAIN] e14/30 s108/108 loss=0.0662 avg=0.0675 acc=0.5685 4731.3sample/s eta=- mem=0.18GB/1.16GB
+[09:26:16] [VAL] e14/30 s10/10 loss=0.0667 avg=0.0673 acc=0.5770 4736.3sample/s eta=- mem=0.49GB/1.39GB
+[09:26:18] [TEST] e14/30 s20/20 loss=0.0684 avg=0.0671 acc=0.5736 4438.8sample/s eta=- mem=0.34GB/1.39GB
+[09:26:18] [EPOCH] 14/30 train_loss=0.0675 train_acc=0.5685 val_loss=0.0673 val_acc=0.5770 lr=0.010000 test_loss=0.0671 test_acc=0.5736 best_val_acc=0.5770 *
+[09:26:21] [TRAIN] e15/30 s20/108 loss=0.0679 avg=0.0671 acc=0.5727 3981.3sample/s eta=00:11 mem=0.40GB/1.16GB
+[09:26:23] [TRAIN] e15/30 s40/108 loss=0.0674 avg=0.0673 acc=0.5712 4066.6sample/s eta=00:08 mem=0.40GB/1.16GB
+[09:26:25] [TRAIN] e15/30 s60/108 loss=0.0678 avg=0.0674 acc=0.5726 4253.2sample/s eta=00:05 mem=0.40GB/1.16GB
+[09:26:28] [TRAIN] e15/30 s80/108 loss=0.0669 avg=0.0673 acc=0.5738 4253.0sample/s eta=00:03 mem=0.40GB/1.16GB
+[09:26:30] [TRAIN] e15/30 s100/108 loss=0.0672 avg=0.0673 acc=0.5708 4322.9sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:26:31] [TRAIN] e15/30 s108/108 loss=0.0676 avg=0.0673 acc=0.5708 4433.6sample/s eta=- mem=0.18GB/1.16GB
+[09:26:32] [VAL] e15/30 s10/10 loss=0.0665 avg=0.0671 acc=0.5806 4413.1sample/s eta=- mem=0.49GB/1.39GB
+[09:26:34] [TEST] e15/30 s20/20 loss=0.0683 avg=0.0669 acc=0.5767 4347.2sample/s eta=- mem=0.34GB/1.39GB
+[09:26:34] [EPOCH] 15/30 train_loss=0.0673 train_acc=0.5708 val_loss=0.0671 val_acc=0.5806 lr=0.010000 test_loss=0.0669 test_acc=0.5767 best_val_acc=0.5806 *
+[09:26:37] [TRAIN] e16/30 s20/108 loss=0.0658 avg=0.0678 acc=0.5659 3592.4sample/s eta=00:12 mem=0.40GB/1.16GB
+[09:26:39] [TRAIN] e16/30 s40/108 loss=0.0665 avg=0.0673 acc=0.5730 4040.1sample/s eta=00:08 mem=0.40GB/1.16GB
+[09:26:41] [TRAIN] e16/30 s60/108 loss=0.0681 avg=0.0673 acc=0.5732 4296.5sample/s eta=00:05 mem=0.40GB/1.16GB
+[09:26:43] [TRAIN] e16/30 s80/108 loss=0.0676 avg=0.0672 acc=0.5728 4429.5sample/s eta=00:03 mem=0.40GB/1.16GB
+[09:26:45] [TRAIN] e16/30 s100/108 loss=0.0671 avg=0.0672 acc=0.5719 4607.2sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:26:46] [TRAIN] e16/30 s108/108 loss=0.0672 avg=0.0672 acc=0.5724 4715.2sample/s eta=- mem=0.18GB/1.16GB
+[09:26:47] [VAL] e16/30 s10/10 loss=0.0663 avg=0.0669 acc=0.5818 4393.9sample/s eta=- mem=0.49GB/1.39GB
+[09:26:49] [TEST] e16/30 s20/20 loss=0.0682 avg=0.0668 acc=0.5757 4469.5sample/s eta=- mem=0.34GB/1.39GB
+[09:26:49] [EPOCH] 16/30 train_loss=0.0672 train_acc=0.5724 val_loss=0.0669 val_acc=0.5818 lr=0.010000 test_loss=0.0668 test_acc=0.5757 best_val_acc=0.5818 *
+[09:26:52] [TRAIN] e17/30 s20/108 loss=0.0644 avg=0.0669 acc=0.5694 3316.1sample/s eta=00:13 mem=0.40GB/1.16GB
+[09:26:54] [TRAIN] e17/30 s40/108 loss=0.0680 avg=0.0670 acc=0.5724 4101.9sample/s eta=00:08 mem=0.40GB/1.16GB
+[09:26:56] [TRAIN] e17/30 s60/108 loss=0.0687 avg=0.0672 acc=0.5704 4281.0sample/s eta=00:05 mem=0.40GB/1.16GB
+[09:26:58] [TRAIN] e17/30 s80/108 loss=0.0682 avg=0.0671 acc=0.5719 4458.8sample/s eta=00:03 mem=0.40GB/1.16GB
+[09:27:00] [TRAIN] e17/30 s100/108 loss=0.0644 avg=0.0670 acc=0.5730 4633.6sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:27:00] [TRAIN] e17/30 s108/108 loss=0.0690 avg=0.0670 acc=0.5732 4806.2sample/s eta=- mem=0.18GB/1.16GB
+[09:27:02] [VAL] e17/30 s10/10 loss=0.0662 avg=0.0668 acc=0.5842 3552.1sample/s eta=- mem=0.49GB/1.39GB
+[09:27:04] [TEST] e17/30 s20/20 loss=0.0682 avg=0.0667 acc=0.5789 4484.3sample/s eta=- mem=0.34GB/1.39GB
+[09:27:04] [EPOCH] 17/30 train_loss=0.0670 train_acc=0.5732 val_loss=0.0668 val_acc=0.5842 lr=0.010000 test_loss=0.0667 test_acc=0.5789 best_val_acc=0.5842 *
+[09:27:07] [TRAIN] e18/30 s20/108 loss=0.0677 avg=0.0668 acc=0.5790 4052.3sample/s eta=00:11 mem=0.40GB/1.16GB
+[09:27:09] [TRAIN] e18/30 s40/108 loss=0.0678 avg=0.0669 acc=0.5752 4130.0sample/s eta=00:08 mem=0.40GB/1.16GB
+[09:27:11] [TRAIN] e18/30 s60/108 loss=0.0665 avg=0.0669 acc=0.5758 4287.5sample/s eta=00:05 mem=0.40GB/1.16GB
+[09:27:14] [TRAIN] e18/30 s80/108 loss=0.0685 avg=0.0669 acc=0.5756 4242.6sample/s eta=00:03 mem=0.40GB/1.16GB
+[09:27:16] [TRAIN] e18/30 s100/108 loss=0.0671 avg=0.0669 acc=0.5740 4405.8sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:27:16] [TRAIN] e18/30 s108/108 loss=0.0654 avg=0.0669 acc=0.5739 4554.1sample/s eta=- mem=0.18GB/1.16GB
+[09:27:18] [VAL] e18/30 s10/10 loss=0.0662 avg=0.0668 acc=0.5802 3678.5sample/s eta=- mem=0.49GB/1.39GB
+[09:27:20] [TEST] e18/30 s20/20 loss=0.0680 avg=0.0666 acc=0.5766 3576.8sample/s eta=- mem=0.34GB/1.39GB
+[09:27:20] [EPOCH] 18/30 train_loss=0.0669 train_acc=0.5739 val_loss=0.0668 val_acc=0.5802 lr=0.010000 test_loss=0.0666 test_acc=0.5766 best_val_acc=0.5842
+[09:27:23] [TRAIN] e19/30 s20/108 loss=0.0666 avg=0.0671 acc=0.5706 3653.7sample/s eta=00:12 mem=0.40GB/1.16GB
+[09:27:26] [TRAIN] e19/30 s40/108 loss=0.0671 avg=0.0671 acc=0.5706 3749.1sample/s eta=00:09 mem=0.40GB/1.16GB
+[09:27:28] [TRAIN] e19/30 s60/108 loss=0.0669 avg=0.0670 acc=0.5725 4001.5sample/s eta=00:06 mem=0.40GB/1.16GB
+[09:27:30] [TRAIN] e19/30 s80/108 loss=0.0669 avg=0.0669 acc=0.5740 4062.2sample/s eta=00:03 mem=0.40GB/1.16GB
+[09:27:32] [TRAIN] e19/30 s100/108 loss=0.0664 avg=0.0668 acc=0.5749 4286.1sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:27:33] [TRAIN] e19/30 s108/108 loss=0.0685 avg=0.0669 acc=0.5746 4391.7sample/s eta=- mem=0.18GB/1.16GB
+[09:27:34] [VAL] e19/30 s10/10 loss=0.0661 avg=0.0667 acc=0.5810 3706.9sample/s eta=- mem=0.49GB/1.39GB
+[09:27:36] [TEST] e19/30 s20/20 loss=0.0680 avg=0.0666 acc=0.5778 4522.0sample/s eta=- mem=0.34GB/1.39GB
+[09:27:36] [EPOCH] 19/30 train_loss=0.0669 train_acc=0.5746 val_loss=0.0667 val_acc=0.5810 lr=0.010000 test_loss=0.0666 test_acc=0.5778 best_val_acc=0.5842
+[09:27:39] [TRAIN] e20/30 s20/108 loss=0.0661 avg=0.0669 acc=0.5725 3824.2sample/s eta=00:11 mem=0.40GB/1.16GB
+[09:27:41] [TRAIN] e20/30 s40/108 loss=0.0649 avg=0.0669 acc=0.5731 4240.8sample/s eta=00:08 mem=0.40GB/1.16GB
+[09:27:43] [TRAIN] e20/30 s60/108 loss=0.0685 avg=0.0669 acc=0.5736 4623.2sample/s eta=00:05 mem=0.40GB/1.16GB
+[09:27:46] [TRAIN] e20/30 s80/108 loss=0.0651 avg=0.0669 acc=0.5739 4474.6sample/s eta=00:03 mem=0.40GB/1.16GB
+[09:27:48] [TRAIN] e20/30 s100/108 loss=0.0649 avg=0.0668 acc=0.5754 4545.8sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:27:48] [TRAIN] e20/30 s108/108 loss=0.0653 avg=0.0668 acc=0.5757 4704.7sample/s eta=- mem=0.18GB/1.16GB
+[09:27:49] [VAL] e20/30 s10/10 loss=0.0661 avg=0.0667 acc=0.5782 3688.8sample/s eta=- mem=0.49GB/1.39GB
+[09:27:52] [TEST] e20/30 s20/20 loss=0.0680 avg=0.0665 acc=0.5769 4343.2sample/s eta=- mem=0.34GB/1.39GB
+[09:27:52] [EPOCH] 20/30 train_loss=0.0668 train_acc=0.5757 val_loss=0.0667 val_acc=0.5782 lr=0.010000 test_loss=0.0665 test_acc=0.5769 best_val_acc=0.5842
+[09:27:55] [TRAIN] e21/30 s20/108 loss=0.0681 avg=0.0666 acc=0.5723 2824.6sample/s eta=00:15 mem=0.40GB/1.16GB
+[09:27:57] [TRAIN] e21/30 s40/108 loss=0.0682 avg=0.0668 acc=0.5686 3914.7sample/s eta=00:08 mem=0.40GB/1.16GB
+[09:27:59] [TRAIN] e21/30 s60/108 loss=0.0675 avg=0.0667 acc=0.5731 4099.6sample/s eta=00:05 mem=0.40GB/1.16GB
+[09:28:01] [TRAIN] e21/30 s80/108 loss=0.0663 avg=0.0668 acc=0.5739 4207.5sample/s eta=00:03 mem=0.40GB/1.16GB
+[09:28:04] [TRAIN] e21/30 s100/108 loss=0.0683 avg=0.0668 acc=0.5748 4323.2sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:28:04] [TRAIN] e21/30 s108/108 loss=0.0669 avg=0.0668 acc=0.5748 4466.5sample/s eta=- mem=0.18GB/1.16GB
+[09:28:06] [VAL] e21/30 s10/10 loss=0.0660 avg=0.0666 acc=0.5814 3386.2sample/s eta=- mem=0.49GB/1.39GB
+[09:28:08] [TEST] e21/30 s20/20 loss=0.0680 avg=0.0664 acc=0.5785 3507.8sample/s eta=- mem=0.34GB/1.39GB
+[09:28:08] [EPOCH] 21/30 train_loss=0.0668 train_acc=0.5748 val_loss=0.0666 val_acc=0.5814 lr=0.010000 test_loss=0.0664 test_acc=0.5785 best_val_acc=0.5842
+[09:28:11] [TRAIN] e22/30 s20/108 loss=0.0659 avg=0.0667 acc=0.5742 3458.4sample/s eta=00:13 mem=0.40GB/1.16GB
+[09:28:14] [TRAIN] e22/30 s40/108 loss=0.0654 avg=0.0666 acc=0.5746 3865.9sample/s eta=00:09 mem=0.40GB/1.16GB
+[09:28:15] [TRAIN] e22/30 s60/108 loss=0.0657 avg=0.0666 acc=0.5757 4360.0sample/s eta=00:05 mem=0.40GB/1.16GB
+[09:28:18] [TRAIN] e22/30 s80/108 loss=0.0665 avg=0.0667 acc=0.5739 4234.7sample/s eta=00:03 mem=0.40GB/1.16GB
+[09:28:20] [TRAIN] e22/30 s100/108 loss=0.0671 avg=0.0667 acc=0.5759 4313.4sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:28:21] [TRAIN] e22/30 s108/108 loss=0.0654 avg=0.0667 acc=0.5761 4402.5sample/s eta=- mem=0.18GB/1.16GB
+[09:28:22] [VAL] e22/30 s10/10 loss=0.0659 avg=0.0665 acc=0.5812 3350.0sample/s eta=- mem=0.49GB/1.39GB
+[09:28:25] [TEST] e22/30 s20/20 loss=0.0679 avg=0.0664 acc=0.5785 3600.6sample/s eta=- mem=0.34GB/1.39GB
+[09:28:25] [EPOCH] 22/30 train_loss=0.0667 train_acc=0.5761 val_loss=0.0665 val_acc=0.5812 lr=0.010000 test_loss=0.0664 test_acc=0.5785 best_val_acc=0.5842
+[09:28:28] [TRAIN] e23/30 s20/108 loss=0.0680 avg=0.0666 acc=0.5735 3548.2sample/s eta=00:12 mem=0.40GB/1.16GB
+[09:28:30] [TRAIN] e23/30 s40/108 loss=0.0653 avg=0.0665 acc=0.5752 3846.4sample/s eta=00:09 mem=0.40GB/1.16GB
+[09:28:33] [TRAIN] e23/30 s60/108 loss=0.0667 avg=0.0664 acc=0.5782 4165.1sample/s eta=00:05 mem=0.40GB/1.16GB
+[09:28:35] [TRAIN] e23/30 s80/108 loss=0.0659 avg=0.0666 acc=0.5756 4334.9sample/s eta=00:03 mem=0.40GB/1.16GB
+[09:28:37] [TRAIN] e23/30 s100/108 loss=0.0684 avg=0.0666 acc=0.5758 4489.7sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:28:37] [TRAIN] e23/30 s108/108 loss=0.0681 avg=0.0666 acc=0.5761 4629.7sample/s eta=- mem=0.18GB/1.16GB
+[09:28:38] [VAL] e23/30 s10/10 loss=0.0659 avg=0.0665 acc=0.5844 3716.1sample/s eta=- mem=0.49GB/1.39GB
+[09:28:41] [TEST] e23/30 s20/20 loss=0.0679 avg=0.0663 acc=0.5807 4453.5sample/s eta=- mem=0.34GB/1.39GB
+[09:28:41] [EPOCH] 23/30 train_loss=0.0666 train_acc=0.5761 val_loss=0.0665 val_acc=0.5844 lr=0.010000 test_loss=0.0663 test_acc=0.5807 best_val_acc=0.5844 *
+[09:28:43] [TRAIN] e24/30 s20/108 loss=0.0683 avg=0.0665 acc=0.5798 3995.1sample/s eta=00:11 mem=0.40GB/1.16GB
+[09:28:45] [TRAIN] e24/30 s40/108 loss=0.0661 avg=0.0666 acc=0.5801 4662.6sample/s eta=00:07 mem=0.40GB/1.16GB
+[09:28:47] [TRAIN] e24/30 s60/108 loss=0.0647 avg=0.0666 acc=0.5780 4753.8sample/s eta=00:05 mem=0.40GB/1.16GB
+[09:28:49] [TRAIN] e24/30 s80/108 loss=0.0670 avg=0.0666 acc=0.5776 4880.1sample/s eta=00:02 mem=0.40GB/1.16GB
+[09:28:51] [TRAIN] e24/30 s100/108 loss=0.0658 avg=0.0666 acc=0.5774 4908.4sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:28:51] [TRAIN] e24/30 s108/108 loss=0.0667 avg=0.0666 acc=0.5775 5084.1sample/s eta=- mem=0.18GB/1.16GB
+[09:28:53] [VAL] e24/30 s10/10 loss=0.0659 avg=0.0665 acc=0.5846 3664.1sample/s eta=- mem=0.49GB/1.39GB
+[09:28:55] [TEST] e24/30 s20/20 loss=0.0679 avg=0.0663 acc=0.5810 4164.6sample/s eta=- mem=0.34GB/1.39GB
+[09:28:55] [EPOCH] 24/30 train_loss=0.0666 train_acc=0.5775 val_loss=0.0665 val_acc=0.5846 lr=0.010000 test_loss=0.0663 test_acc=0.5810 best_val_acc=0.5846 *
+[09:28:58] [TRAIN] e25/30 s20/108 loss=0.0687 avg=0.0667 acc=0.5738 3265.8sample/s eta=00:13 mem=0.40GB/1.16GB
+[09:29:00] [TRAIN] e25/30 s40/108 loss=0.0670 avg=0.0665 acc=0.5763 3955.0sample/s eta=00:08 mem=0.40GB/1.16GB
+[09:29:03] [TRAIN] e25/30 s60/108 loss=0.0678 avg=0.0666 acc=0.5769 3964.8sample/s eta=00:06 mem=0.40GB/1.16GB
+[09:29:05] [TRAIN] e25/30 s80/108 loss=0.0656 avg=0.0665 acc=0.5777 4208.6sample/s eta=00:03 mem=0.40GB/1.16GB
+[09:29:07] [TRAIN] e25/30 s100/108 loss=0.0677 avg=0.0666 acc=0.5768 4308.4sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:29:07] [TRAIN] e25/30 s108/108 loss=0.0669 avg=0.0665 acc=0.5771 4492.8sample/s eta=- mem=0.18GB/1.16GB
+[09:29:09] [VAL] e25/30 s10/10 loss=0.0658 avg=0.0664 acc=0.5836 3476.7sample/s eta=- mem=0.49GB/1.39GB
+[09:29:11] [TEST] e25/30 s20/20 loss=0.0678 avg=0.0663 acc=0.5795 4349.2sample/s eta=- mem=0.34GB/1.39GB
+[09:29:11] [EPOCH] 25/30 train_loss=0.0665 train_acc=0.5771 val_loss=0.0664 val_acc=0.5836 lr=0.010000 test_loss=0.0663 test_acc=0.5795 best_val_acc=0.5846
+[09:29:14] [TRAIN] e26/30 s20/108 loss=0.0648 avg=0.0662 acc=0.5845 3642.5sample/s eta=00:12 mem=0.40GB/1.16GB
+[09:29:16] [TRAIN] e26/30 s40/108 loss=0.0671 avg=0.0664 acc=0.5831 4072.3sample/s eta=00:08 mem=0.40GB/1.16GB
+[09:29:18] [TRAIN] e26/30 s60/108 loss=0.0655 avg=0.0664 acc=0.5811 4419.1sample/s eta=00:05 mem=0.40GB/1.16GB
+[09:29:20] [TRAIN] e26/30 s80/108 loss=0.0661 avg=0.0665 acc=0.5790 4507.3sample/s eta=00:03 mem=0.40GB/1.16GB
+[09:29:22] [TRAIN] e26/30 s100/108 loss=0.0661 avg=0.0665 acc=0.5777 4700.9sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:29:22] [TRAIN] e26/30 s108/108 loss=0.0646 avg=0.0665 acc=0.5775 4927.0sample/s eta=- mem=0.18GB/1.16GB
+[09:29:24] [VAL] e26/30 s10/10 loss=0.0658 avg=0.0664 acc=0.5796 3424.9sample/s eta=- mem=0.49GB/1.39GB
+[09:29:26] [TEST] e26/30 s20/20 loss=0.0678 avg=0.0662 acc=0.5782 4080.6sample/s eta=- mem=0.34GB/1.39GB
+[09:29:26] [EPOCH] 26/30 train_loss=0.0665 train_acc=0.5775 val_loss=0.0664 val_acc=0.5796 lr=0.010000 test_loss=0.0662 test_acc=0.5782 best_val_acc=0.5846
+[09:29:29] [TRAIN] e27/30 s20/108 loss=0.0663 avg=0.0664 acc=0.5747 3952.8sample/s eta=00:11 mem=0.40GB/1.16GB
+[09:29:31] [TRAIN] e27/30 s40/108 loss=0.0664 avg=0.0663 acc=0.5810 4144.5sample/s eta=00:08 mem=0.40GB/1.16GB
+[09:29:33] [TRAIN] e27/30 s60/108 loss=0.0653 avg=0.0664 acc=0.5783 4284.2sample/s eta=00:05 mem=0.40GB/1.16GB
+[09:29:35] [TRAIN] e27/30 s80/108 loss=0.0658 avg=0.0665 acc=0.5761 4462.1sample/s eta=00:03 mem=0.40GB/1.16GB
+[09:29:38] [TRAIN] e27/30 s100/108 loss=0.0672 avg=0.0665 acc=0.5766 4566.5sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:29:38] [TRAIN] e27/30 s108/108 loss=0.0675 avg=0.0665 acc=0.5769 4732.5sample/s eta=- mem=0.18GB/1.16GB
+[09:29:39] [VAL] e27/30 s10/10 loss=0.0657 avg=0.0663 acc=0.5818 3217.8sample/s eta=- mem=0.49GB/1.39GB
+[09:29:42] [TEST] e27/30 s20/20 loss=0.0677 avg=0.0662 acc=0.5785 4210.1sample/s eta=- mem=0.34GB/1.39GB
+[09:29:42] [EPOCH] 27/30 train_loss=0.0665 train_acc=0.5769 val_loss=0.0663 val_acc=0.5818 lr=0.010000 test_loss=0.0662 test_acc=0.5785 best_val_acc=0.5846
+[09:29:45] [TRAIN] e28/30 s20/108 loss=0.0666 avg=0.0664 acc=0.5822 3290.9sample/s eta=00:13 mem=0.40GB/1.16GB
+[09:29:47] [TRAIN] e28/30 s40/108 loss=0.0662 avg=0.0663 acc=0.5840 3700.7sample/s eta=00:09 mem=0.40GB/1.16GB
+[09:29:49] [TRAIN] e28/30 s60/108 loss=0.0660 avg=0.0664 acc=0.5790 4123.6sample/s eta=00:05 mem=0.40GB/1.16GB
+[09:29:51] [TRAIN] e28/30 s80/108 loss=0.0678 avg=0.0665 acc=0.5769 4323.2sample/s eta=00:03 mem=0.40GB/1.16GB
+[09:29:53] [TRAIN] e28/30 s100/108 loss=0.0666 avg=0.0664 acc=0.5775 4512.8sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:29:54] [TRAIN] e28/30 s108/108 loss=0.0667 avg=0.0664 acc=0.5780 4674.4sample/s eta=- mem=0.18GB/1.16GB
+[09:29:55] [VAL] e28/30 s10/10 loss=0.0656 avg=0.0663 acc=0.5860 3416.9sample/s eta=- mem=0.49GB/1.39GB
+[09:29:58] [TEST] e28/30 s20/20 loss=0.0677 avg=0.0661 acc=0.5806 3737.0sample/s eta=- mem=0.34GB/1.39GB
+[09:29:58] [EPOCH] 28/30 train_loss=0.0664 train_acc=0.5780 val_loss=0.0663 val_acc=0.5860 lr=0.010000 test_loss=0.0661 test_acc=0.5806 best_val_acc=0.5860 *
+[09:30:01] [TRAIN] e29/30 s20/108 loss=0.0673 avg=0.0665 acc=0.5747 2946.6sample/s eta=00:15 mem=0.40GB/1.16GB
+[09:30:03] [TRAIN] e29/30 s40/108 loss=0.0668 avg=0.0665 acc=0.5762 3804.2sample/s eta=00:09 mem=0.40GB/1.16GB
+[09:30:05] [TRAIN] e29/30 s60/108 loss=0.0675 avg=0.0664 acc=0.5768 4119.0sample/s eta=00:05 mem=0.40GB/1.16GB
+[09:30:07] [TRAIN] e29/30 s80/108 loss=0.0681 avg=0.0664 acc=0.5781 4219.7sample/s eta=00:03 mem=0.40GB/1.16GB
+[09:30:09] [TRAIN] e29/30 s100/108 loss=0.0677 avg=0.0663 acc=0.5780 4412.7sample/s eta=00:00 mem=0.40GB/1.16GB
+[09:30:10] [TRAIN] e29/30 s108/108 loss=0.0666 avg=0.0663 acc=0.5779 4556.3sample/s eta=- mem=0.18GB/1.16GB
+[09:30:11] [VAL] e29/30 s10/10 loss=0.0656 avg=0.0662 acc=0.5836 3787.6sample/s eta=- mem=0.49GB/1.39GB
+[09:30:14] [TEST] e29/30 s20/20 loss=0.0676 avg=0.0660 acc=0.5802 3614.6sample/s eta=- mem=0.34GB/1.39GB
+[09:30:14] [EPOCH] 29/30 train_loss=0.0663 train_acc=0.5779 val_loss=0.0662 val_acc=0.5836 lr=0.010000 test_loss=0.0660 test_acc=0.5802 best_val_acc=0.5860
+[09:30:18] [TRAIN] e30/30 s20/108 loss=0.0664 avg=0.0661 acc=0.5839 2818.6sample/s eta=00:15 mem=0.40GB/1.16GB
+[09:30:20] [TRAIN] e30/30 s40/108 loss=0.0665 avg=0.0663 acc=0.5789 3503.6sample/s eta=00:09 mem=0.40GB/1.16GB
+[09:30:22] [TRAIN] e30/30 s60/108 loss=0.0654 avg=0.0663 acc=0.5784 3785.8sample/s eta=00:06 mem=0.40GB/1.16GB
+[09:30:25] [TRAIN] e30/30 s80/108 loss=0.0670 avg=0.0663 acc=0.5780 3862.4sample/s eta=00:03 mem=0.40GB/1.16GB
+[09:30:27] [TRAIN] e30/30 s100/108 loss=0.0663 avg=0.0663 acc=0.5780 3914.5sample/s eta=00:01 mem=0.40GB/1.16GB
+[09:30:28] [TRAIN] e30/30 s108/108 loss=0.0656 avg=0.0663 acc=0.5779 4043.1sample/s eta=- mem=0.18GB/1.16GB
+[09:30:29] [VAL] e30/30 s10/10 loss=0.0655 avg=0.0662 acc=0.5808 3907.8sample/s eta=- mem=0.49GB/1.39GB
+[09:30:32] [TEST] e30/30 s20/20 loss=0.0676 avg=0.0660 acc=0.5790 3434.0sample/s eta=- mem=0.34GB/1.39GB
+[09:30:32] [EPOCH] 30/30 train_loss=0.0663 train_acc=0.5779 val_loss=0.0662 val_acc=0.5808 lr=0.010000 test_loss=0.0660 test_acc=0.5790 best_val_acc=0.5860
+[09:30:35] [DONE] run_dir=runs/supp_s8_cls_mnist_linear_real_1l_100um/260311_092241
+runs/supp_s8_cls_mnist_linear_real_1l_100um/260311_092241

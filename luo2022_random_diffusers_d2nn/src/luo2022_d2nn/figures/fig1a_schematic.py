@@ -77,38 +77,52 @@ def make_fig1a(save_path: Optional[str] = None):
     save_path : str or None
         If given, saves the figure (PNG) and raw layout data (.npy).
     """
-    fig, ax = plt.subplots(figsize=(12, 3.5))
+    fig, ax = plt.subplots(figsize=(14, 4.5))
 
-    # --- Layout positions (arbitrary horizontal units, proportional to mm) ---
-    # Scale: 1 unit ~ 5 mm for readability
+    # --- Layout positions (spread out for readability) ---
     x_obj = 0.0
     x_diff = 8.0       # 40 mm
-    x_layer1 = 8.4      # +2 mm
-    x_layer2 = 8.8      # +2 mm
-    x_layer3 = 9.2      # +2 mm
-    x_layer4 = 9.6      # +2 mm
-    x_output = 11.0      # +7 mm
+    x_layer1 = 9.5     # +2 mm (expanded spacing for labels)
+    x_layer2 = 10.8    # +2 mm
+    x_layer3 = 12.1    # +2 mm
+    x_layer4 = 13.4    # +2 mm
+    x_output = 15.5    # +7 mm
 
     y_center = 0.0
-    plane_h = 1.6
-    layer_h = 1.3
+    plane_h = 1.8
+    layer_h = 1.5
 
     # Object plane
-    _draw_plane(ax, x_obj, "Object\nplane", color="#5dade2", height=plane_h)
+    _draw_plane(ax, x_obj, "Object\nplane", color="#5dade2", height=plane_h,
+                label_offset=-1.3)
 
     # Diffuser
-    _draw_plane(ax, x_diff, "Random\ndiffuser", color="#f39c12", height=plane_h)
+    _draw_plane(ax, x_diff, "Random\ndiffuser", color="#f39c12", height=plane_h,
+                label_offset=-1.3)
     _draw_diffuser_texture(ax, x_diff, y_center, plane_h)
 
     # Phase layers (D2NN)
     layer_colors = ["#2ecc71", "#27ae60", "#1abc9c", "#16a085"]
-    for i, (x_l, c) in enumerate(zip(
-            [x_layer1, x_layer2, x_layer3, x_layer4], layer_colors)):
+    layer_xs = [x_layer1, x_layer2, x_layer3, x_layer4]
+    for i, (x_l, c) in enumerate(zip(layer_xs, layer_colors)):
         _draw_plane(ax, x_l, f"Layer {i + 1}", color=c, height=layer_h,
-                    label_offset=-0.95)
+                    label_offset=-1.1)
+
+    # D2NN brace label above layers
+    brace_y = plane_h / 2 + 0.3
+    ax.annotate(
+        "", xy=(x_layer4 + 0.1, brace_y), xytext=(x_layer1 - 0.1, brace_y),
+        arrowprops=dict(arrowstyle="-", color="black", lw=1.0),
+    )
+    ax.text(
+        (x_layer1 + x_layer4) / 2, brace_y + 0.15, "4-layer D2NN",
+        ha="center", va="bottom", fontsize=9, fontweight="bold",
+        color="#1a5276",
+    )
 
     # Output / detector plane
-    _draw_plane(ax, x_output, "Output\nplane", color="#e74c3c", height=plane_h)
+    _draw_plane(ax, x_output, "Output\nplane", color="#e74c3c", height=plane_h,
+                label_offset=-1.3)
 
     # --- Propagation arrows (beam path) ---
     arrow_y = y_center
@@ -118,30 +132,29 @@ def make_fig1a(save_path: Optional[str] = None):
     )
 
     # --- Distance annotations ---
-    ann_y = -plane_h / 2 - 0.35
+    ann_y = -plane_h / 2 - 0.4
     _draw_distance_arrow(ax, x_obj, x_diff, ann_y, "40 mm")
-    _draw_distance_arrow(ax, x_diff, x_layer1, ann_y - 0.35, "2 mm")
+    _draw_distance_arrow(ax, x_diff, x_layer1, ann_y - 0.5, "2 mm")
 
-    # Inter-layer: brace-style single label
-    _draw_distance_arrow(ax, x_layer1, x_layer2, ann_y - 0.35, "2 mm")
-    ax.text(
-        (x_layer2 + x_layer3) / 2, ann_y - 0.28, "2 mm",
-        ha="center", va="top", fontsize=6, color="gray",
+    # Inter-layer distances (single summary)
+    ax.annotate(
+        "", xy=(x_layer4, ann_y - 0.5), xytext=(x_layer1, ann_y - 0.5),
+        arrowprops=dict(arrowstyle="<->", color="gray", lw=1.0),
     )
     ax.text(
-        (x_layer3 + x_layer4) / 2, ann_y - 0.28, "2 mm",
-        ha="center", va="top", fontsize=6, color="gray",
+        (x_layer1 + x_layer4) / 2, ann_y - 0.5 + 0.08, "2 mm each",
+        ha="center", va="bottom", fontsize=7, color="gray",
     )
 
     _draw_distance_arrow(ax, x_layer4, x_output, ann_y, "7 mm")
 
     # --- Title ---
     ax.set_title("Fig 1a: D2NN Training Schematic (Luo et al. 2022)",
-                 fontsize=11, fontweight="bold", pad=12)
+                 fontsize=12, fontweight="bold", pad=14)
 
     # --- Formatting ---
-    ax.set_xlim(-1.0, x_output + 1.5)
-    ax.set_ylim(-2.2, 1.5)
+    ax.set_xlim(-1.5, x_output + 2.0)
+    ax.set_ylim(-2.8, 2.0)
     ax.set_aspect("equal")
     ax.axis("off")
 
@@ -153,7 +166,7 @@ def make_fig1a(save_path: Optional[str] = None):
         npy_path = Path(save_path).with_suffix(".npy")
         layout = {
             "x_obj": x_obj, "x_diff": x_diff,
-            "x_layers": [x_layer1, x_layer2, x_layer3, x_layer4],
+            "x_layers": layer_xs,
             "x_output": x_output,
             "distances_mm": [40.0, 2.0, 2.0, 2.0, 2.0, 7.0],
         }

@@ -1,10 +1,7 @@
-"""Supplementary S7(c)(d): convergence plots for 1-layer and 5-layer D2NN.
+"""Supplementary S7(c)(d): paper-style convergence plots from current runs.
 
-Correct 4 configurations from the paper S7:
-  1. Nonlinear Fourier, Multi SBN  (fd2nn, SBN per_layer)
-  2. Nonlinear Fourier, Single SBN (fd2nn, SBN rear)
-  3. Linear Fourier                (fd2nn, no SBN)
-  4. Nonlinear Real, Multi SBN     (real_d2nn, SBN per_layer)
+This script reuses the current `s7a_*` MNIST classification runs and redraws
+Supplementary Fig. S7(c)(d) in the paper's visual style.
 """
 
 from __future__ import annotations
@@ -16,62 +13,71 @@ from pathlib import Path
 from typing import Any
 
 import torch
-import yaml
-from torch.utils.data import DataLoader
 
-from _common import run_with_overrides
-from tao2019_fd2nn.cli.common import build_detector_masks, build_model, choose_device
-from tao2019_fd2nn.data.mnist import MnistAmplitudeDataset
-from tao2019_fd2nn.models.detectors import integrate_detector_energies
-from tao2019_fd2nn.training.metrics_classification import accuracy
-from tao2019_fd2nn.utils.math import intensity
 from tao2019_fd2nn.viz.figure_factory import FigureFactory
 
+PANEL_C_SOURCES: list[dict[str, str]] = [
+    {"label": "Linear Fourier", "experiment": "s7a_linear_fourier_1l"},
+    {
+        "label": "Nonlinear Fourier",
+        "experiment": "s7a_nonlinear_fourier_single_sbn_1l",
+        "note": "For 1-layer Fourier D2NN, single-SBN and multi-SBN runs are visually identical in the current run set.",
+    },
+]
 
-# ── S7 configurations ──────────────────────────────────────────────
-S7_LABELS = [
-    "Nonlinear Fourier, Multi SBN",
-    "Nonlinear Fourier, Single SBN",
-    "Linear Fourier",
-    "Nonlinear Real, Multi SBN",
+PANEL_D_SOURCES: list[dict[str, str]] = [
+    {"label": "Linear Fourier", "experiment": "s7a_linear_fourier_5l"},
+    {"label": "Nonlinear Fourier, Single SBN", "experiment": "s7a_nonlinear_fourier_single_sbn_5l"},
+    {"label": "Nonlinear Fourier, Multi-SBN", "experiment": "s7a_nonlinear_fourier_muti-sbn_5l"},
 ]
 
 S7_COLORS = {
-    "Nonlinear Fourier, Multi SBN": "#1f77b4",
+    "Linear Fourier": "#1f77b4",
+    "Nonlinear Fourier": "#d95319",
     "Nonlinear Fourier, Single SBN": "#d95319",
-    "Linear Fourier": "#edb120",
-    "Nonlinear Real, Multi SBN": "#7e2f8e",
+    "Nonlinear Fourier, Multi-SBN": "#edb120",
 }
 
-ONE_LAYER_CONFIGS: list[tuple[str, str]] = [
-    ("Nonlinear Fourier, Multi SBN", "cls_mnist_nonlinear_fourier_multi_sbn_1l.yaml"),
-    ("Nonlinear Fourier, Single SBN", "cls_mnist_nonlinear_fourier_1l_f1mm.yaml"),
-    ("Linear Fourier", "cls_mnist_linear_fourier_1l_f1mm.yaml"),
-    ("Nonlinear Real, Multi SBN", "cls_mnist_nonlinear_real_1l.yaml"),
+PANEL_C_INSETS: list[dict[str, object]] = [
+    {
+        "bbox": [0.44, 0.32, 0.48, 0.22],
+        "config_key": "linear_fourier",
+        "num_layers": 1,
+        "border_color": S7_COLORS["Linear Fourier"],
+        "label": "Linear Fourier",
+    },
+    {
+        "bbox": [0.44, 0.14, 0.48, 0.22],
+        "config_key": "nonlinear_fourier",
+        "num_layers": 1,
+        "border_color": S7_COLORS["Nonlinear Fourier"],
+        "label": "Nonlinear Fourier",
+    },
 ]
 
-FIVE_LAYER_CONFIGS: list[tuple[str, str]] = [
-    ("Nonlinear Fourier, Multi SBN", "cls_mnist_nonlinear_fourier_multi_sbn_5l.yaml"),
-    ("Nonlinear Fourier, Single SBN", "cls_mnist_nonlinear_fourier_5l_f4mm.yaml"),
-    ("Linear Fourier", "cls_mnist_linear_fourier_5l_f1mm.yaml"),
-    ("Nonlinear Real, Multi SBN", "cls_mnist_nonlinear_real_5l.yaml"),
+PANEL_D_INSETS: list[dict[str, object]] = [
+    {
+        "bbox": [0.37, 0.57, 0.51, 0.20],
+        "config_key": "linear_fourier",
+        "num_layers": 5,
+        "border_color": S7_COLORS["Linear Fourier"],
+        "label": "Linear Fourier",
+    },
+    {
+        "bbox": [0.37, 0.40, 0.51, 0.20],
+        "config_key": "nonlinear_fourier_single_sbn",
+        "num_layers": 5,
+        "border_color": S7_COLORS["Nonlinear Fourier, Single SBN"],
+        "label": "Nonlinear Fourier, Single SBN",
+    },
+    {
+        "bbox": [0.37, 0.23, 0.51, 0.20],
+        "config_key": "nonlinear_fourier_multi_sbn",
+        "num_layers": 5,
+        "border_color": S7_COLORS["Nonlinear Fourier, Multi-SBN"],
+        "label": "Nonlinear Fourier, Multi-SBN",
+    },
 ]
-
-
-def _load_yaml(path: Path) -> dict[str, Any]:
-    with path.open("r", encoding="utf-8") as f:
-        loaded = yaml.safe_load(f) or {}
-    if not isinstance(loaded, dict):
-        raise TypeError(f"YAML root must be mapping: {path}")
-    return loaded
-
-
-def _experiment_name(config_path: Path) -> str:
-    cfg = _load_yaml(config_path)
-    exp = cfg.get("experiment", {})
-    if not isinstance(exp, dict) or "name" not in exp:
-        raise ValueError(f"missing experiment.name in config: {config_path}")
-    return str(exp["name"])
 
 
 def _latest_run_dir(runs_root: Path, experiment_name: str) -> Path:
@@ -95,242 +101,140 @@ def _load_val_acc_curve(run_dir: Path, *, label: str) -> list[float]:
     curve = history.get("val_acc")
     if not isinstance(curve, list) or not curve:
         raise ValueError(f"[{label}] history['val_acc'] missing or empty in {ckpt_path}")
-    values = [float(v) for v in curve]
-    if not all(0.0 <= v <= 1.0 for v in values):
-        raise ValueError(f"[{label}] history['val_acc'] contains out-of-range values in {ckpt_path}")
-    return values
+    return [float(v) for v in curve]
 
 
-def _pad_to_size(cfg: dict[str, Any]) -> int:
-    prep = cfg["data"]["preprocess"]
-    if "pad_to" in prep:
-        return int(prep["pad_to"][0])
-    return int(cfg["optics"]["grid"]["nx"])
-
-
-def _mnist_object_size(cfg: dict[str, Any]) -> int:
-    prep = cfg["data"]["preprocess"]
-    if "resize_to" in prep:
-        return int(prep["resize_to"][0])
-    return int(prep.get("upsample_factor", 3)) * 28
-
-
-def _mnist_test_loader(cfg: dict[str, Any], *, batch_size: int = 512) -> DataLoader:
-    data_cfg = cfg["data"]
-    ds = MnistAmplitudeDataset(
-        root=str(data_cfg.get("root", "data/mnist")),
-        train=False,
-        download=True,
-        N=_pad_to_size(cfg),
-        object_size=_mnist_object_size(cfg),
-        binarize=False,
-    )
-    return DataLoader(
-        ds,
-        batch_size=int(batch_size),
-        shuffle=False,
-        num_workers=max(0, int(cfg["training"].get("num_workers", 0))),
-        pin_memory=bool(cfg["training"].get("pin_memory", True)),
-    )
-
-
-def _compute_test_acc(run_dir: Path) -> float:
-    cfg_path = run_dir / "config_resolved.yaml"
-    if not cfg_path.exists():
-        raise FileNotFoundError(f"missing resolved config: {cfg_path}")
-    cfg = _load_yaml(cfg_path)
-    device = choose_device(cfg["experiment"])
-    model = build_model(cfg).to(device)
-    ckpt_path = run_dir / "checkpoints" / "final.pt"
-    if not ckpt_path.exists():
-        raise FileNotFoundError(f"missing checkpoint file: {ckpt_path}")
-    ckpt = torch.load(ckpt_path, map_location=device)
-    model.load_state_dict(ckpt["model"])
-    model.eval()
-    detector_masks = build_detector_masks(cfg, device=device)
-    loader = _mnist_test_loader(cfg)
-
-    all_e: list[torch.Tensor] = []
-    all_y: list[torch.Tensor] = []
-    with torch.no_grad():
-        for fields, labels in loader:
-            fields = fields.to(device)
-            labels = labels.to(device)
-            energies = integrate_detector_energies(intensity(model(fields)), detector_masks)
-            all_e.append(energies.cpu())
-            all_y.append(labels.cpu())
-    if not all_e:
-        return 0.0
-    return float(accuracy(torch.cat(all_e, dim=0), torch.cat(all_y, dim=0)))
-
-
-def _summary_entry(
-    label: str,
-    config_path: Path,
-    run_dir: Path,
-    curve: list[float],
-    *,
-    test_acc: float,
-    trained_this_run: bool,
-    project_root: Path,
-) -> dict[str, Any]:
-    max_acc = max(curve)
-    best_epoch = curve.index(max_acc) + 1
-    try:
-        run_ref = str(run_dir.relative_to(project_root))
-    except ValueError:
-        run_ref = str(run_dir)
-    try:
-        cfg_ref = str(config_path.relative_to(project_root))
-    except ValueError:
-        cfg_ref = str(config_path)
-    return {
-        "label": label,
-        "config": cfg_ref,
-        "run_dir": run_ref,
-        "epochs_recorded": len(curve),
-        "max_val_acc": max_acc,
-        "final_val_acc": curve[-1],
-        "best_epoch": best_epoch,
-        "test_acc": float(test_acc),
-        "trained_this_run": bool(trained_this_run),
-    }
-
-
-def _process_panel(
-    configs: list[tuple[str, str]],
-    cfg_dir: Path,
+def _panel_payload(
     runs_root: Path,
+    sources: list[dict[str, str]],
     *,
-    overrides: dict[str, Any],
-    train: bool,
-    max_epochs: int,
     project_root: Path,
+    max_epochs: int,
 ) -> tuple[dict[str, list[float]], dict[str, float], list[dict[str, Any]]]:
     curves: dict[str, list[float]] = {}
     max_acc: dict[str, float] = {}
-    results: list[dict[str, Any]] = []
+    summary: list[dict[str, Any]] = []
 
-    for label, cfg_name in configs:
-        config_path = cfg_dir / cfg_name
-        exp_name = _experiment_name(config_path)
-        trained = False
-        if train:
-            run_with_overrides(config_path, overrides=overrides, task="classification")
-            trained = True
-        run_dir = _latest_run_dir(runs_root, exp_name)
+    for source in sources:
+        label = source["label"]
+        experiment = source["experiment"]
+        run_dir = _latest_run_dir(runs_root, experiment)
         curve = _load_val_acc_curve(run_dir, label=label)[:max_epochs]
-        test_acc = _compute_test_acc(run_dir)
         curves[label] = curve
         max_acc[label] = max(curve)
-        results.append(
-            _summary_entry(
-                label,
-                config_path,
-                run_dir,
-                curve,
-                test_acc=test_acc,
-                trained_this_run=trained,
-                project_root=project_root,
-            )
+        summary.append(
+            {
+                "label": label,
+                "experiment": experiment,
+                "run_dir": str(run_dir.relative_to(project_root)),
+                "epochs_recorded": len(curve),
+                "max_val_acc": max(curve),
+                "final_val_acc": curve[-1],
+                "best_epoch": curve.index(max(curve)) + 1,
+                "note": source.get("note"),
+            }
         )
 
-    return curves, max_acc, results
+    return curves, max_acc, summary
 
 
 def _parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Supplementary S7(c)(d): convergence plots")
-    parser.add_argument("--batch-size", type=int, default=1024)
+    parser = argparse.ArgumentParser(description="Supplementary S7(c)(d): current-run paper-style convergence plots")
     parser.add_argument("--epochs", type=int, default=30)
-    parser.add_argument("--skip-train-1l", action="store_true", help="Reuse existing 1-layer runs")
-    parser.add_argument("--skip-train-5l", action="store_true", default=True, help="Reuse existing 5-layer runs (default)")
-    parser.add_argument("--train-5l", action="store_true", help="Force retrain 5-layer models")
-    parser.add_argument("--output-dir", default=None, help="Output directory for figures")
+    parser.add_argument("--output-dir", default=None, help="Output directory for figures and summary")
     return parser.parse_args()
 
 
 def main() -> None:
     args = _parse_args()
     project_root = Path(__file__).resolve().parents[1]
-    cfg_dir = project_root / "src" / "tao2019_fd2nn" / "config"
     runs_root = project_root / "runs"
-    output_dir = Path(args.output_dir) if args.output_dir else project_root
-    max_epochs = int(args.epochs)
+    output_dir = Path(args.output_dir) if args.output_dir else project_root / "reports"
+    output_dir.mkdir(parents=True, exist_ok=True)
 
-    overrides = {"training": {"batch_size": int(args.batch_size), "epochs": max_epochs}}
-
-    skip_5l = args.skip_train_5l and not args.train_5l
-
-    # ── Panel (c): 1-layer ──
-    print("=== Panel (c): 1-Layer Convergence ===")
-    curves_1l, max_acc_1l, results_1l = _process_panel(
-        ONE_LAYER_CONFIGS,
-        cfg_dir,
+    curves_c, max_acc_c, summary_c = _panel_payload(
         runs_root,
-        overrides=overrides,
-        train=(not args.skip_train_1l),
-        max_epochs=max_epochs,
+        PANEL_C_SOURCES,
         project_root=project_root,
+        max_epochs=int(args.epochs),
+    )
+    curves_d, max_acc_d, summary_d = _panel_payload(
+        runs_root,
+        PANEL_D_SOURCES,
+        project_root=project_root,
+        max_epochs=int(args.epochs),
     )
 
-    # ── Panel (d): 5-layer ──
-    print("=== Panel (d): 5-Layer Convergence ===")
-    curves_5l, max_acc_5l, results_5l = _process_panel(
-        FIVE_LAYER_CONFIGS,
-        cfg_dir,
-        runs_root,
-        overrides=overrides,
-        train=(not skip_5l),
-        max_epochs=max_epochs,
-        project_root=project_root,
-    )
-
-    # ── Plot both panels ──
     factory = FigureFactory(output_dir)
-
-    # Panel (c): dynamic ylim for 1-layer (lower accuracy)
-    min_val_1l = min(min(c) for c in curves_1l.values())
-    ylim_low = max(0.0, round(min_val_1l - 0.1, 1))
-    ylim_1l = (ylim_low, 1.0)
-
-    path_c = factory.plot_comparison(
-        curves_1l,
-        max_acc_1l,
-        ordered_labels=S7_LABELS,
+    path_c = factory.plot_s7cd_panel(
+        curves_c,
+        max_acc_c,
+        ordered_labels=["Linear Fourier", "Nonlinear Fourier"],
         colors=S7_COLORS,
+        title="Single Layer",
+        panel_label="(c)",
+        ylim=(0.4, 0.8),
+        insets=PANEL_C_INSETS,
         name="supp_s7c_mnist_1l_convergence.png",
-        legend_title="Single Layer,\nMaximum Validation Accuracy",
-        ylim=ylim_1l,
     )
-    print(f"Panel (c) saved: {path_c}")
-
-    path_d = factory.plot_comparison(
-        curves_5l,
-        max_acc_5l,
-        ordered_labels=S7_LABELS,
+    path_d = factory.plot_s7cd_panel(
+        curves_d,
+        max_acc_d,
+        ordered_labels=[
+            "Linear Fourier",
+            "Nonlinear Fourier, Single SBN",
+            "Nonlinear Fourier, Multi-SBN",
+        ],
         colors=S7_COLORS,
+        title="Five Layer",
+        panel_label="(d)",
+        ylim=(0.6, 1.0),
+        insets=PANEL_D_INSETS,
         name="supp_s7d_mnist_5l_convergence.png",
-        legend_title="Five Layers,\nMaximum Validation Accuracy",
     )
-    print(f"Panel (d) saved: {path_d}")
+    path_cd = factory.plot_s7cd_composite(
+        curves_c,
+        max_acc_c,
+        left_ordered_labels=["Linear Fourier", "Nonlinear Fourier"],
+        left_colors=S7_COLORS,
+        left_title="Single Layer",
+        left_panel_label="(c)",
+        left_ylim=(0.4, 0.8),
+        left_insets=PANEL_C_INSETS,
+        right_curves=curves_d,
+        right_max_acc=max_acc_d,
+        right_ordered_labels=[
+            "Linear Fourier",
+            "Nonlinear Fourier, Single SBN",
+            "Nonlinear Fourier, Multi-SBN",
+        ],
+        right_colors=S7_COLORS,
+        right_title="Five Layer",
+        right_panel_label="(d)",
+        right_ylim=(0.6, 1.0),
+        right_insets=PANEL_D_INSETS,
+        name="supp_s7cd_mnist_convergence.png",
+    )
 
-    # ── Save summary JSON ──
-    summary_path = output_dir / "supp_s7cd_summary.json"
     summary = {
         "created_at_utc": dt.datetime.utcnow().replace(microsecond=0).isoformat() + "Z",
         "dataset": "mnist",
-        "splits": {"validation": "5k", "test": "10k"},
-        "metric": {"val": "val_acc", "test": "test_acc"},
-        "batch_size": int(args.batch_size),
-        "epochs": max_epochs,
-        "configurations": S7_LABELS,
-        "panel_c_1layer": results_1l,
-        "panel_d_5layer": results_5l,
+        "metric": "val_acc",
+        "epochs": int(args.epochs),
+        "data_source": "current existing runs",
+        "panel_c": summary_c,
+        "panel_d": summary_d,
         "figure_c": str(path_c),
         "figure_d": str(path_d),
+        "figure_cd": str(path_cd),
     }
+    summary_path = output_dir / "supp_s7cd_summary.json"
     summary_path.write_text(json.dumps(summary, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"Summary: {summary_path}")
+
+    print(f"Panel (c): {path_c}")
+    print(f"Panel (d): {path_d}")
+    print(f"Composite : {path_cd}")
+    print(f"Summary   : {summary_path}")
 
 
 if __name__ == "__main__":

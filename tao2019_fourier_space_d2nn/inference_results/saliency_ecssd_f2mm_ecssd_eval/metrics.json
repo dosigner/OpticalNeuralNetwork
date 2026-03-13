@@ -1,0 +1,17 @@
+{
+  "config": "/root/dj/D2NN/tao2019_fourier_space_d2nn/src/tao2019_fd2nn/config/saliency_ecssd_f2mm.yaml",
+  "run_dir": "/root/dj/D2NN/tao2019_fourier_space_d2nn/runs/saliency_ecssd_f2mm/260304_084135",
+  "checkpoint": "/root/dj/D2NN/tao2019_fourier_space_d2nn/runs/saliency_ecssd_f2mm/260304_084135/checkpoints/best.pt",
+  "num_images": 200,
+  "threshold": 0.5,
+  "pr_thresholds": 256,
+  "f_beta2": 0.3,
+  "gamma_flip": true,
+  "eval_crop_box": [
+    30,
+    130,
+    30,
+    130
+  ],
+  "fmax": 0.5444613099098206
+}

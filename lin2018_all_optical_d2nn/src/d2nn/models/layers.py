@@ -42,9 +42,8 @@ class DiffractionLayer(nn.Module):
         self.wavelength = float(wavelength)
         self.z = float(z)
         self.phase_max = float(phase_max)
-        self.phase_constraint_mode = str(phase_constraint_mode).lower()
         self.phase_init = str(phase_init).lower()
-        self.phase_constraint = PhaseConstraint(self.phase_max, mode=self.phase_constraint_mode)
+        self.phase_constraint = PhaseConstraint(self.phase_max, mode=str(phase_constraint_mode).lower())
         self.amp_constraint = AmplitudeConstraint(amplitude_range)
         self.train_amplitude = bool(train_amplitude)
         self.use_absorption = bool(use_absorption)
@@ -93,10 +92,9 @@ class DiffractionLayer(nn.Module):
 
         if self.train_amplitude and self.raw_amplitude is not None:
             amp = self.amp_constraint(self.raw_amplitude).to(device=propagated.device, dtype=propagated.real.dtype)
+            mod = amp * phase_term
         else:
-            amp = torch.ones_like(phi, dtype=propagated.real.dtype, device=propagated.device)
-
-        mod = amp * phase_term
+            mod = phase_term
         out = propagated * mod
 
         if self.use_absorption:

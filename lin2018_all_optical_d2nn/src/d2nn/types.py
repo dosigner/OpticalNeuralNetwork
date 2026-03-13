@@ -6,20 +6,6 @@ from dataclasses import dataclass, field
 from typing import Any
 
 
-@dataclass(frozen=True)
-class DetectorRegionConfig:
-    """Detector region definition in physical coordinates.
-
-    Units:
-        center_xy: meters
-        size_xy: meters
-    """
-
-    name: str
-    center_xy: tuple[float, float]
-    size_xy: tuple[float, float]
-
-
 @dataclass
 class RunConfig:
     """Top-level runtime config container.

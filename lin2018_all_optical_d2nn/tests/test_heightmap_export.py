@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from d2nn.export.heightmap import phase_to_height
+from d2nn.physics.materials import phase_to_height
 
 
 def test_phase_to_height_formula() -> None:

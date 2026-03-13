@@ -22,6 +22,10 @@ class SBNNonlinearity(nn.Module):
 
     If physical parameters are provided, phi_scale is computed as:
       phi_scale = (2*pi/lambda) * d * kappa * E_app
+
+    intensity_norm modes:
+      - "background_perturbation" (default): eta = (I - I0) / I_sat
+      - "per_sample_minmax" / "per_minmax": normalize I to [0,1] per sample before computing eta
     """
 
     def __init__(
@@ -32,6 +36,7 @@ class SBNNonlinearity(nn.Module):
         saturation_intensity: float = 1.0,
         clamp_negative_perturbation: bool = True,
         learnable_saturation: bool = False,
+        intensity_norm: str = "background_perturbation",
         voltage_v: float | None = None,
         electrode_gap_m: float | None = None,
         e_app_v_per_m: float | None = None,
@@ -44,6 +49,12 @@ class SBNNonlinearity(nn.Module):
         self.background_intensity = float(background_intensity)
         self.clamp_negative_perturbation = bool(clamp_negative_perturbation)
         self.learnable_saturation = bool(learnable_saturation)
+        norm = str(intensity_norm).lower()
+        if norm == "per_minmax":
+            norm = "per_sample_minmax"
+        elif norm == "none":
+            norm = "background_perturbation"
+        self.intensity_norm = norm
 
         init_isat = max(float(saturation_intensity), 1e-12)
         if self.learnable_saturation:
@@ -91,8 +102,21 @@ class SBNNonlinearity(nn.Module):
         return self._isat_fixed
 
     def forward(self, field: torch.Tensor) -> torch.Tensor:
+        I = intensity(field)
         I_sat = self.saturation_intensity
-        eta = (intensity(field) - float(self.background_intensity)) / I_sat
+        if self.intensity_norm == "per_sample_minmax":
+            # Normalize intensity to [0, 1] per sample
+            flat = I.reshape(I.shape[0], -1) if I.dim() >= 3 else I.reshape(1, -1)
+            I_min = flat.min(dim=-1, keepdim=True).values
+            I_max = flat.max(dim=-1, keepdim=True).values
+            denom = (I_max - I_min).clamp(min=1e-12)
+            if I.dim() >= 3:
+                I_min = I_min.view(I.shape[0], *([1] * (I.dim() - 1)))
+                denom = denom.view(I.shape[0], *([1] * (I.dim() - 1)))
+            I = (I - I_min) / denom
+            eta = (I - float(self.background_intensity)) / I_sat
+        else:
+            eta = (I - float(self.background_intensity)) / I_sat
         if self.clamp_negative_perturbation:
             eta = torch.relu(eta)
         delta_phi = self.phi_scale_rad * (eta / (1.0 + eta))

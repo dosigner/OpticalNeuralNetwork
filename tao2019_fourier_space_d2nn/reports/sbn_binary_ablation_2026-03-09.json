@@ -1,0 +1,53 @@
+{
+  "binary_gt_baseline": {
+    "run_dir": "reports/tuning_runs/pilot_gt_binary_s100_e15/260309_033944",
+    "eval_fmax": 0.44380974769592285,
+    "sbn_enabled": true,
+    "intensity_norm": "background_perturbation",
+    "learnable_saturation": true,
+    "saturation_intensity": 0.01
+  },
+  "ablations": [
+    {
+      "variant": "sbn_off",
+      "run_dir": "reports/tuning_runs/pilot_binary_sbn_off_s100_e15/260309_165919",
+      "eval_fmax": 0.45034608244895935,
+      "delta_vs_binary_baseline": 0.006536334753036499,
+      "qualitative_note": "Slightly less center-heavy than baseline, but still diffuse plaid-like blob."
+    },
+    {
+      "variant": "sbn_per_sample_minmax",
+      "run_dir": "reports/tuning_runs/pilot_binary_sbn_perminmax_s100_e15/260309_170051",
+      "eval_fmax": 0.4415927827358246,
+      "delta_vs_binary_baseline": -0.0022169649600982666,
+      "qualitative_note": "No qualitative gain; remains blob-like and slightly worse numerically."
+    },
+    {
+      "variant": "sbn_fixed_saturation",
+      "run_dir": "reports/tuning_runs/pilot_binary_sbn_fixedsat_s100_e15/260309_170216",
+      "eval_fmax": 0.4485129415988922,
+      "delta_vs_binary_baseline": 0.00470319390296936,
+      "qualitative_note": "Comparable to SBN off, still blob-like but modestly better than learnable saturation."
+    },
+    {
+      "variant": "sbn_fixed_saturation_0.005",
+      "run_dir": "reports/tuning_runs/pilot_binary_sbn_fixedsat0005_s100_e15/260309_171933",
+      "eval_fmax": 0.4476633071899414,
+      "delta_vs_binary_baseline": 0.0038535594940185547,
+      "qualitative_note": "Slightly below fixed 0.01; no new qualitative improvement."
+    },
+    {
+      "variant": "sbn_fixed_saturation_0.05",
+      "run_dir": "reports/tuning_runs/pilot_binary_sbn_fixedsat005_s100_e15/260309_172825",
+      "eval_fmax": 0.44302067160606384,
+      "delta_vs_binary_baseline": -0.0007890760898590088,
+      "qualitative_note": "Worse than fixed 0.01 and close to baseline."
+    }
+  ],
+  "conclusion": {
+    "best_variant": "sbn_off",
+    "best_sbn_on_variant": "sbn_fixed_saturation_0.01",
+    "takeaway": "Rear SBN is not helping this binary-GT setup in its current operating regime. Background-perturbation is better than per-sample-minmax, fixed saturation is slightly better than learnable saturation, and 0.01 is the best fixed saturation_intensity among the tested values.",
+    "next_recommendation": "Use SBN-off as the main binary-GT reference. If SBN must be retained, keep background_perturbation with learnable_saturation=false and saturation_intensity=0.01, then move to the optical-setup axis rather than sweeping SBN further."
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "base_root": "data/cifar10_cosaliency_fu2013_g5",
+  "variants": {
+    "binary": {
+      "train": {
+        "count": 5000
+      },
+      "val": {
+        "count": 1000
+      }
+    },
+    "raw": {
+      "train": {
+        "count": 5000
+      },
+      "val": {
+        "count": 1000
+      }
+    },
+    "sharpened": {
+      "train": {
+        "count": 5000
+      },
+      "val": {
+        "count": 1000
+      }
+    }
+  }
+}

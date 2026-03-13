@@ -20,17 +20,14 @@ class PhaseConstraint:
         """Apply phase constraint according to selected mode."""
 
         if self.mode == "sigmoid":
-            phi = self.max_phase * torch.sigmoid(raw_phase)
-            return torch.clamp(phi, min=0.0, max=self.max_phase)
+            return self.max_phase * torch.sigmoid(raw_phase)
         if self.mode == "symmetric_tanh":
             half = 0.5 * self.max_phase
-            phi = half * torch.tanh(raw_phase)
-            return torch.clamp(phi, min=-half, max=half)
+            return half * torch.tanh(raw_phase)
         elif self.mode == "wrap":
-            phi = torch.remainder(raw_phase, self.max_phase)
+            return torch.remainder(raw_phase, self.max_phase)
         else:
-            phi = torch.clamp(raw_phase, min=0.0, max=self.max_phase)
-        return torch.clamp(phi, min=0.0, max=self.max_phase)
+            return torch.clamp(raw_phase, min=0.0, max=self.max_phase)
 
 
 class AmplitudeConstraint:

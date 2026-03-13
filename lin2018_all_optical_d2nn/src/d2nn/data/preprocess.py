@@ -64,11 +64,9 @@ def to_input_field(
 
     if encoding == "amplitude":
         amp = amplitude_encode(padded, binarize=binarize)
-        phase = torch.zeros_like(amp)
+        return amp.to(torch.complex64)
     elif encoding == "phase":
-        amp = torch.ones_like(padded)
         phase = phase_encode(padded, max_phase=phase_max)
+        return torch.exp(1j * phase.to(torch.complex64))
     else:
         raise ValueError("encoding must be 'amplitude' or 'phase'")
-
-    return amp.to(torch.complex64) * torch.exp(1j * phase.to(torch.complex64))

@@ -11,7 +11,6 @@ from torch.utils.data import DataLoader, random_split
 from tao2019_fd2nn.config import load_and_validate_config
 from tao2019_fd2nn.data import (
     CellGdcSaliencyDataset,
-    Cifar10SaliencyDataset,
     DavisSaliencyDataset,
     EcssdSaliencyDataset,
     MnistAmplitudeDataset,
@@ -22,18 +21,13 @@ from tao2019_fd2nn.models import Fd2nnConfig, Fd2nnModel, make_detector_masks
 from tao2019_fd2nn.utils.io import resolve_run_dir, save_repro_metadata
 from tao2019_fd2nn.utils.seed import make_generator, worker_init_fn
 
-_CIFAR10_CLASS_TO_IDX = {
-    "airplane": 0,
-    "automobile": 1,
-    "bird": 2,
-    "cat": 3,
-    "deer": 4,
-    "dog": 5,
-    "frog": 6,
-    "horse": 7,
-    "ship": 8,
-    "truck": 9,
-}
+def _normalize_sbn_intensity_norm(v: str) -> str:
+    key = str(v).lower()
+    if key == "per_minmax":
+        return "per_sample_minmax"
+    if key == "none":
+        return "background_perturbation"
+    return key
 
 
 def choose_device(exp_cfg: dict[str, Any]) -> torch.device:
@@ -99,7 +93,6 @@ def build_model(cfg: dict[str, Any]) -> Fd2nnModel:
     ny = int(grid["ny"])
     if nx != ny:
         raise ValueError("current implementation requires square grid (nx == ny)")
-
     exp_dtype = str(cfg["experiment"].get("dtype", "float32")).lower()
     complex_dtype = "complex128" if "64" in exp_dtype else "complex64"
     dual_2f_cfg = dict(optics.get("dual_2f", {}))
@@ -132,6 +125,7 @@ def build_model(cfg: dict[str, Any]) -> Fd2nnModel:
         phase_max=float(mod["phase_max_rad"]),
         phase_constraint=str(mod.get("phase_constraint", "sigmoid")),
         phase_init=_phase_init(mod),
+        phase_init_scale=float(mod.get("init_scale", 1.0)),
         model_type=_model_type_to_space(model_type),
         na=_model_na(optics),
         evanescent=str(optics["propagation"].get("evanescent", "mask")),
@@ -143,6 +137,9 @@ def build_model(cfg: dict[str, Any]) -> Fd2nnModel:
         dual_2f_na2=(float(dual_2f_cfg["na2"]) if dual_enabled and "na2" in dual_2f_cfg else None),
         dual_2f_apply_scaling=(bool(dual_2f_cfg.get("apply_scaling", False)) if dual_enabled else False),
         hybrid_sequence=tuple(model.get("hybrid", {}).get("plane_sequence", [])),
+        fabrication_blur_sigma_px=float(model.get("fabrication_blur_sigma_px", 0.0)),
+        fabrication_blur_kernel_size=int(model.get("fabrication_blur_kernel_size", 3)),
+        alignment_shift_um=float(optics.get("alignment_shift_um", 0.0)),
         sbn_enabled=bool(nonlin.get("enabled", False)),
         sbn_phi_max=float(nonlin.get("phi_max_rad", torch.pi)),
         sbn_position=str(nonlin.get("position", "rear")),
@@ -150,6 +147,7 @@ def build_model(cfg: dict[str, Any]) -> Fd2nnModel:
         sbn_saturation_intensity=float(nonlin.get("saturation_intensity", 1.0)),
         sbn_clamp_negative_perturbation=bool(nonlin.get("clamp_negative_perturbation", True)),
         sbn_learnable_saturation=bool(nonlin.get("learnable_saturation", False)),
+        sbn_intensity_norm=_normalize_sbn_intensity_norm(nonlin.get("intensity_norm", "background_perturbation")),
         sbn_voltage_v=(float(nonlin["voltage_v"]) if "voltage_v" in nonlin else None),
         sbn_electrode_gap_m=(float(nonlin["electrode_gap_m"]) if "electrode_gap_m" in nonlin else None),
         sbn_e_app_v_per_m=(float(nonlin["e_app_v_per_m"]) if "e_app_v_per_m" in nonlin else None),
@@ -236,24 +234,6 @@ def _build_dataset(cfg: dict[str, Any], *, train: bool):
     N = _pad_to_size(cfg)
     if name == "mnist":
         raise RuntimeError("mnist dataset should be built via _build_mnist_datasets")
-    if name == "cifar10":
-        target_name = str(data_cfg.get("train_class", "cat" if train else "horse")).lower()
-        if not train and "test_sets" in data_cfg and data_cfg["test_sets"]:
-            first = data_cfg["test_sets"][0]
-            if isinstance(first, dict) and first.get("type") == "cifar10":
-                target_name = str(first.get("class", target_name)).lower()
-        target_idx = _CIFAR10_CLASS_TO_IDX.get(target_name, 3)
-        obj_size = int(prep.get("resize_to", [100, 100])[0])
-        return Cifar10SaliencyDataset(
-            root=str(data_cfg.get("root", "data/cifar10")),
-            train=train,
-            download=True,
-            N=N,
-            object_size=obj_size,
-            foreground_class=target_idx,
-            gt_source="ft",
-            gt_params={"smooth_sigma": 1.0, "class_gate": True},
-        )
     split_name = "train" if train else "val"
     if name == "saliency_pairs":
         return _build_saliency_pairs_from_root(SaliencyPairsDataset, cfg, split_name=split_name)

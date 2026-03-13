@@ -33,6 +33,7 @@ class PhaseMask(nn.Module):
         *,
         constraint_mode: str = "sigmoid",
         init_mode: str = "zeros",
+        init_scale: float = 1.0,
     ) -> None:
         super().__init__()
         self.N = int(N)
@@ -42,7 +43,7 @@ class PhaseMask(nn.Module):
         if init_mode == "zeros":
             nn.init.zeros_(self.raw)
         elif init_mode == "uniform":
-            nn.init.uniform_(self.raw, -1.0, 1.0)
+            nn.init.uniform_(self.raw, -float(init_scale), float(init_scale))
         else:
             raise ValueError("init_mode must be 'zeros' or 'uniform'")
 

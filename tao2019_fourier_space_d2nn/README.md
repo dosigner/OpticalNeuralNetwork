@@ -18,7 +18,7 @@ tao2019-train-classifier --config src/tao2019_fd2nn/config/cls_mnist_linear_four
 Saliency:
 
 ```bash
-tao2019-train-saliency --config src/tao2019_fd2nn/config/saliency_cifar_video.yaml
+tao2019-train-saliency --config src/tao2019_fd2nn/config/saliency_cell.yaml
 ```
 
 Cell-GDC (for `saliency_cell.yaml`) requires external paired folders:

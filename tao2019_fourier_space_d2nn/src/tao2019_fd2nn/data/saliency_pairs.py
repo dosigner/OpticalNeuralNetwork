@@ -61,7 +61,16 @@ class SaliencyPairsDataset(Dataset):
         img_path = self.image_files[index]
         mask_path = self.mask_dir / img_path.name
         if not mask_path.exists():
-            raise FileNotFoundError(f"missing mask for image: {img_path.name}")
+            # Try other extensions (e.g., image=.jpg, mask=.png)
+            found = None
+            for ext in _EXTS:
+                candidate = self.mask_dir / (img_path.stem + ext)
+                if candidate.exists():
+                    found = candidate
+                    break
+            if found is None:
+                raise FileNotFoundError(f"missing mask for image: {img_path.name}")
+            mask_path = found
 
         image = self._load_gray(img_path)
         mask = self._load_gray(mask_path)

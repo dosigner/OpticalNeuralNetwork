@@ -271,14 +271,14 @@ def extract_xz_cross_section(
     if not (0 <= y_index < volume.shape[1]):
         raise ValueError(f"y_index out of range: {y_index}")
 
+    y_slice = volume[:, y_index, :]  # (x, z)
     if quantity == "phase":
-        arr = np.angle(volume)
+        xz = np.angle(y_slice)
     elif quantity == "amplitude":
-        arr = np.abs(volume)
+        xz = np.abs(y_slice)
     else:
         raise ValueError("quantity must be 'amplitude' or 'phase'")
 
-    xz = arr[:, y_index, :]  # (x, z)
     return xz.T  # (z, x)
 
 

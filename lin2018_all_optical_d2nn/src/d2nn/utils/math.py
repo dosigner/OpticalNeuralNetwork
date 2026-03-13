@@ -14,7 +14,7 @@ def intensity(field: torch.Tensor) -> torch.Tensor:
         float tensor, shape (..., N, N)
     """
 
-    return torch.abs(field) ** 2
+    return field.real ** 2 + field.imag ** 2
 
 
 def normalize_minmax(x: torch.Tensor, eps: float = 1e-8) -> torch.Tensor:

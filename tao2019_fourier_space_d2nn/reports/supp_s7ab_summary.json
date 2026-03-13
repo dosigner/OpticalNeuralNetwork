@@ -1,0 +1,35 @@
+{
+  "created_at_utc": "2026-03-09T03:02:21Z",
+  "dataset": "mnist",
+  "batch_size": 500,
+  "epochs": 30,
+  "s7a_accuracy_vs_layers": {
+    "Linear Fourier": {},
+    "Nonlinear Fourier, Single SBN": {},
+    "Nonlinear Fourier, Muti-SBN": {}
+  },
+  "s7b_convergence": {
+    "Nonlinear Fourier, SBN Front": {
+      "max_val_acc": 0.9625999927520752,
+      "final_val_acc": 0.9611999988555908,
+      "test_acc": 0.9661999940872192
+    },
+    "Nonlinear Fourier, SBN Rear": {
+      "max_val_acc": 0.9625999927520752,
+      "final_val_acc": 0.9607999920845032,
+      "test_acc": 0.9663000106811523
+    },
+    "Nonlinear Fourier & Real, SBN Front": {
+      "max_val_acc": 0.9777999520301819,
+      "final_val_acc": 0.9777999520301819,
+      "test_acc": 0.9775999784469604
+    },
+    "Nonlinear Fourier & Real, SBN Rear": {
+      "max_val_acc": 0.9777999520301819,
+      "final_val_acc": 0.9777999520301819,
+      "test_acc": 0.9779999852180481
+    }
+  },
+  "figure_a": null,
+  "figure_b": "/root/dj/D2NN/tao2019_fourier_space_d2nn/reports/supp_s7b_sbn_position.png"
+}

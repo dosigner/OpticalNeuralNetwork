@@ -43,7 +43,7 @@ model:
     phi_max_rad: 3.141592653589793
     intensity_norm: "background_perturbation"
     background_intensity: 0.0
-    saturation_intensity: 1.0
+    saturation_intensity: 87.0  # Fourier plane DC peak intensity (measured)
     clamp_negative_perturbation: true
     voltage_v: 972.0
     electrode_gap_m: 1.0e-3
