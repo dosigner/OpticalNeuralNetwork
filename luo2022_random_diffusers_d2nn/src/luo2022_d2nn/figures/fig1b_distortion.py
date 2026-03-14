@@ -15,6 +15,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
+from matplotlib.font_manager import FontProperties
 
 from luo2022_d2nn.config.schema import load_and_validate_config
 from luo2022_d2nn.data.mnist import MNISTAmplitude
@@ -24,6 +25,32 @@ from luo2022_d2nn.models.d2nn import D2NN
 from luo2022_d2nn.optics.bl_asm import bl_asm_propagate, bl_asm_transfer_function
 from luo2022_d2nn.optics.lens import fresnel_lens_transmission
 from luo2022_d2nn.utils.viz import contrast_enhance, save_figure
+
+
+def _get_korean_font() -> FontProperties:
+    """Return a Korean-capable font available on this system."""
+    candidates = [
+        "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
+        "/usr/share/fonts/truetype/unfonts-core/UnDotum.ttf",
+    ]
+    for path in candidates:
+        if Path(path).exists():
+            return FontProperties(fname=path)
+    return FontProperties()
+
+
+KOREAN_FONT = _get_korean_font()
+
+
+def _build_row_labels(training_diffusers: int | None) -> list[str]:
+    """Return row labels with Korean explanations for Fig 1b."""
+    diffuser_text = "알 수 없음" if training_diffusers is None else f"n={training_diffusers}"
+    return [
+        "원본 타깃\n(MNIST 숫자)",
+        "비학습 기준선\n(디퓨저만 통과)",
+        "비학습 기준선\n(디퓨저 + 렌즈)",
+        f"학습된 D2NN 복원\n(학습 diffuser 수: {diffuser_text})",
+    ]
 
 
 def _load_model(checkpoint_path: str, cfg: dict, device: torch.device) -> D2NN:
@@ -174,6 +201,7 @@ def make_fig1b(
 
     device = torch.device("cpu")
     cfg = load_and_validate_config(config_path)
+    training_diffusers = cfg.get("training", {}).get("diffusers_per_epoch")
 
     grid = cfg["grid"]
     N = int(grid["nx"])
@@ -248,7 +276,7 @@ def make_fig1b(
     pcc_d2nn = compute_pcc(I_d2nn, targets).detach().cpu().numpy()
 
     # --- Plot ---
-    row_labels = ["Target", "Free-space\n+ diffuser", "Lens\n+ diffuser", "D2NN"]
+    row_labels = _build_row_labels(training_diffusers)
     all_rows = [
         targets.detach().cpu().numpy(),
         I_free.detach().cpu().numpy(),
@@ -257,9 +285,15 @@ def make_fig1b(
     ]
     all_pccs = [None, pcc_free, pcc_lens, pcc_d2nn]
 
-    fig, axes = plt.subplots(4, n_cols, figsize=(2.5 * n_cols, 9))
+    fig, axes = plt.subplots(4, n_cols, figsize=(3.5 * n_cols, 10.5))
     if n_cols == 1:
         axes = axes[:, np.newaxis]
+
+    # Column headers
+    for col_idx in range(n_cols):
+        axes[0, col_idx].set_title(
+            f"Digit {digits[col_idx]}", fontsize=11, fontweight="bold", pad=8,
+        )
 
     for row_idx in range(4):
         for col_idx in range(n_cols):
@@ -267,19 +301,35 @@ def make_fig1b(
             img = all_rows[row_idx][col_idx]
             display_img = contrast_enhance(img, lo_pct, hi_pct)
             ax.imshow(display_img, cmap="gray", vmin=0, vmax=1)
-            ax.axis("off")
+            ax.set_xticks([])
+            ax.set_yticks([])
 
             if col_idx == 0:
-                ax.set_ylabel(row_labels[row_idx], fontsize=9, fontweight="bold",
-                              rotation=0, ha="right", va="center", labelpad=50)
+                ax.text(
+                    -0.18,
+                    0.5,
+                    row_labels[row_idx],
+                    transform=ax.transAxes,
+                    fontsize=9,
+                    fontweight="bold",
+                    ha="right",
+                    va="center",
+                    fontproperties=KOREAN_FONT,
+                    clip_on=False,
+                )
 
             if all_pccs[row_idx] is not None:
                 pcc_val = all_pccs[row_idx][col_idx]
-                ax.set_title(f"PCC={pcc_val:.3f}", fontsize=8, pad=2)
+                ax.text(
+                    0.95, 0.05, f"PCC={pcc_val:.3f}",
+                    transform=ax.transAxes, fontsize=8, fontweight="bold",
+                    ha="right", va="bottom", color="white",
+                    bbox=dict(boxstyle="round,pad=0.2", facecolor="black", alpha=0.7),
+                )
 
-    fig.suptitle("Fig 1b: Distortion & Reconstruction", fontsize=12,
-                 fontweight="bold", y=0.98)
-    fig.tight_layout(rect=[0.08, 0.0, 1.0, 0.95])
+    fig.suptitle("Fig 1b: Distortion & Reconstruction Comparison",
+                 fontsize=13, fontweight="bold", y=0.99)
+    fig.tight_layout(rect=[0.22, 0.0, 1.0, 0.96])
 
     if save_path is not None:
         save_figure(fig, save_path)

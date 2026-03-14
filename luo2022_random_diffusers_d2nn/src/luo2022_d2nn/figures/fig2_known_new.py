@@ -241,20 +241,38 @@ def make_fig2(
     n_rows = 1 + n_objects
     n_cols = n_diffs_total
 
-    fig, axes = plt.subplots(n_rows, n_cols, figsize=(3.0 * n_cols, 2.8 * n_rows))
+    fig, axes = plt.subplots(n_rows, n_cols, figsize=(3.2 * n_cols, 2.8 * n_rows))
     if n_cols == 1:
         axes = axes[:, np.newaxis]
+
+    # Column headers with condition detail
+    col_details = []
+    for i in range(n_show):
+        col_details.append(f"Known {i+1}\n(last epoch seed)")
+    for i in range(n_show):
+        col_details.append(f"New {i+1}\n(blind, unseen)")
 
     # Row 0: diffuser phase maps
     for col_idx, diff_info in enumerate(all_diffs):
         ax = axes[0, col_idx]
         phase = diff_info["phase_map"].detach().cpu().numpy()
         ax.imshow(phase, cmap="twilight", interpolation="nearest")
-        ax.set_title(diff_labels[col_idx], fontsize=9, fontweight="bold")
-        ax.axis("off")
+        ax.set_title(col_details[col_idx], fontsize=9, fontweight="bold")
+        ax.set_xticks([])
+        ax.set_yticks([])
     # Row label
-    axes[0, 0].set_ylabel("Diffuser\nphase", fontsize=9, fontweight="bold",
-                          rotation=0, ha="right", va="center", labelpad=55)
+    axes[0, 0].set_ylabel(
+        f"Diffuser phase\ncorr.len={10}$\\lambda$",
+        fontsize=8, fontweight="bold",
+        rotation=0, ha="right", va="center", labelpad=75,
+    )
+
+    # Detailed row labels
+    row_detail_labels = [
+        f"Digit {d}\n(MNIST test)" for d in test_digits
+    ] + [
+        f"Grating {p}mm\n(3-bar target)" for p in res_periods_mm
+    ]
 
     # Rows 1..n_objects: reconstructions
     for obj_idx in range(n_objects):
@@ -263,18 +281,25 @@ def make_fig2(
             img = results[obj_idx][col_idx]
             display_img = contrast_enhance(img, lo_pct, hi_pct)
             ax.imshow(display_img, cmap="gray", vmin=0, vmax=1)
+            ax.set_xticks([])
+            ax.set_yticks([])
+            # PCC inside image
             pcc_val = pccs[obj_idx][col_idx]
-            ax.set_title(f"PCC={pcc_val:.3f}", fontsize=8, pad=2)
-            ax.axis("off")
-        # Row label
+            ax.text(
+                0.95, 0.05, f"PCC={pcc_val:.3f}",
+                transform=ax.transAxes, fontsize=7, fontweight="bold",
+                ha="right", va="bottom", color="white",
+                bbox=dict(boxstyle="round,pad=0.2", facecolor="black", alpha=0.7),
+            )
+        # Row label with detail
         axes[1 + obj_idx, 0].set_ylabel(
-            obj_labels[obj_idx], fontsize=8, fontweight="bold",
-            rotation=0, ha="right", va="center", labelpad=55,
+            row_detail_labels[obj_idx], fontsize=8, fontweight="bold",
+            rotation=0, ha="right", va="center", labelpad=75,
         )
 
-    fig.suptitle("Fig 2: Known vs New Diffuser Reconstruction",
+    fig.suptitle("Fig 2: Known vs New Diffuser Reconstruction (D2NN via BL-ASM)",
                  fontsize=12, fontweight="bold", y=0.99)
-    fig.tight_layout(rect=[0.07, 0.0, 1.0, 0.96])
+    fig.tight_layout(rect=[0.10, 0.0, 1.0, 0.96])
 
     if save_path is not None:
         save_figure(fig, save_path)
