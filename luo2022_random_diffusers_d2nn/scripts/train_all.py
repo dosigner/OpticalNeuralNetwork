@@ -95,7 +95,7 @@ def apply_diffusers_vectorized(amplitude, diffuser_stack, H_obj_to_diff, pad_fac
     return result.reshape(B * n, N, N)
 
 
-def train_single(cfg: dict, run_name: str, device: torch.device, runs_root: Path):
+def train_single(cfg: dict, run_name: str, device: torch.device, runs_root: Path, batch_size: int = 64):
     """Train a single model with GPU optimizations."""
     run_dir = runs_root / run_name
     run_dir.mkdir(parents=True, exist_ok=True)
@@ -118,9 +118,8 @@ def train_single(cfg: dict, run_name: str, device: torch.device, runs_root: Path
         final_size=int(ds_cfg.get("final_resolution_px", 240)),
     )
 
-    # Fixed batch size B=64, A100 has enough VRAM
     n = int(cfg["training"]["diffusers_per_epoch"])
-    B = 64
+    B = batch_size
     logger.info("[%s] Using batch_size=%d (B*n=%d)", run_name, B, B * n)
 
     train_loader = torch.utils.data.DataLoader(
@@ -257,6 +256,8 @@ def main():
     parser.add_argument("--runs-root", default="runs", type=str)
     parser.add_argument("--smoke-test", action="store_true", help="2 epochs only")
     parser.add_argument("--only", type=str, default=None)
+    parser.add_argument("--batch-size", type=int, default=None,
+                        help="Object batch size (default: config batch_size_objects, then 64)")
     parser.add_argument("--core-only", action="store_true",
                         help="Only train 4-layer models (skip depth sweep)")
     args = parser.parse_args()
@@ -265,6 +266,13 @@ def main():
     runs_root = Path(args.runs_root)
     base_cfg = load_and_validate_config(args.config)
     epochs = 2 if args.smoke_test else args.epochs
+
+    # Resolve batch size: CLI > config > default(64)
+    if args.batch_size is not None:
+        batch_size = args.batch_size
+    else:
+        batch_size = int(base_cfg.get("training", {}).get("batch_size_objects", 64))
+    logger.info("Batch size: %d", batch_size)
 
     # A100 optimizations
     if device.type == "cuda":
@@ -302,7 +310,7 @@ def main():
         cfg["training"]["diffusers_per_epoch"] = n_diffusers
         cfg["training"]["epochs"] = epochs
 
-        ckpt = train_single(cfg, run_name, device, runs_root)
+        ckpt = train_single(cfg, run_name, device, runs_root, batch_size=batch_size)
         checkpoints[run_name] = str(ckpt)
         torch.cuda.empty_cache()
 

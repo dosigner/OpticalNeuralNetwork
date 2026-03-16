@@ -42,32 +42,30 @@ def generate_grating_target(
     # Build the active region
     active = torch.zeros(1, active_size, active_size)
 
-    # Vertical bars centred in the active region
-    center_x = active_size / 2.0
-    pattern_start = center_x - pattern_width_px / 2.0
-
-    # Vertical extent: centre the bars vertically over the active region
-    # Use the same height as the pattern width for a square-ish element,
-    # but clamp to active_size
-    bar_height = min(pattern_width_px, active_size)
+    # Horizontal bars centred in the active region (matching paper Fig. 2)
     center_y = active_size / 2.0
-    y_start = int(round(center_y - bar_height / 2.0))
-    y_end = int(round(center_y + bar_height / 2.0))
-    y_start = max(y_start, 0)
-    y_end = min(y_end, active_size)
+    pattern_start = center_y - pattern_width_px / 2.0
+
+    # Horizontal extent: centre the bars horizontally over the active region
+    bar_length = min(pattern_width_px, active_size)
+    center_x = active_size / 2.0
+    x_start = int(round(center_x - bar_length / 2.0))
+    x_end = int(round(center_x + bar_length / 2.0))
+    x_start = max(x_start, 0)
+    x_end = min(x_end, active_size)
 
     for bar_idx in range(3):
         # Each bar starts at: pattern_start + bar_idx * period_px
-        x_start_f = pattern_start + bar_idx * period_px
-        x_end_f = x_start_f + bar_width_px
+        y_start_f = pattern_start + bar_idx * period_px
+        y_end_f = y_start_f + bar_width_px
 
-        x_start = int(round(x_start_f))
-        x_end = int(round(x_end_f))
-        x_start = max(x_start, 0)
-        x_end = min(x_end, active_size)
+        y_s = int(round(y_start_f))
+        y_e = int(round(y_end_f))
+        y_s = max(y_s, 0)
+        y_e = min(y_e, active_size)
 
-        if x_end > x_start:
-            active[0, y_start:y_end, x_start:x_end] = 1.0
+        if y_e > y_s:
+            active[0, y_s:y_e, x_start:x_end] = 1.0
 
     # Zero-pad to final_size
     pad_each = (final_size - active_size) // 2

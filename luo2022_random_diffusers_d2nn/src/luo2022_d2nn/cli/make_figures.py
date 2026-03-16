@@ -20,7 +20,7 @@ def _build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--figure",
         required=True,
-        choices=["fig3", "fig5", "fig6", "fig7"],
+        choices=["fig3", "fig5", "fig6", "fig7", "figs3", "figs4"],
         help="Which figure to generate.",
     )
     parser.add_argument("--config", default="configs/baseline.yaml",
@@ -73,12 +73,33 @@ def _collect_depth_checkpoints(args: argparse.Namespace) -> dict[tuple[int, int]
     return paths
 
 
+def _require_checkpoint(
+    args: argparse.Namespace,
+    flag_name: str,
+    figure_name: str,
+) -> str:
+    value = getattr(args, flag_name, None)
+    if value is None:
+        print(
+            f"ERROR: --{flag_name} checkpoint is required for {figure_name}.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+    return value
+
+
 def main() -> None:
     """CLI entry point for generating all figures."""
     parser = _build_parser()
     args = parser.parse_args()
 
-    output = args.output or f"figures/{args.figure}.png"
+    output = args.output or (
+        "figures/figS3_overlap_map.png"
+        if args.figure == "figs3"
+        else "figures/figS4_pruning.png"
+        if args.figure == "figs4"
+        else f"figures/{args.figure}.png"
+    )
 
     if args.figure == "fig3":
         from luo2022_d2nn.figures.fig3_period_sweep import make_fig3
@@ -99,6 +120,16 @@ def main() -> None:
         from luo2022_d2nn.figures.fig7_depth import make_fig7
         ckpts = _collect_depth_checkpoints(args)
         make_fig7(ckpts, args.config, save_path=output)
+
+    elif args.figure == "figs3":
+        from luo2022_d2nn.figures.figs3_overlap_map import make_figs3
+        checkpoint = _require_checkpoint(args, "n20", "figs3")
+        make_figs3(checkpoint, args.config, save_path=output)
+
+    elif args.figure == "figs4":
+        from luo2022_d2nn.figures.figs4_pruning import make_figs4
+        checkpoint = _require_checkpoint(args, "n20", "figs4")
+        make_figs4(checkpoint, args.config, save_path=output)
 
     print(f"Saved {args.figure} to {output}")
 

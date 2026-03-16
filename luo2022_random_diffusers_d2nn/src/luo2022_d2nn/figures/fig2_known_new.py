@@ -1,8 +1,13 @@
 """Fig 2 — Known vs New diffuser evaluation.
 
-Generates a comparison figure showing D2NN reconstruction quality when
-using diffusers seen during training (known) versus fresh unseen
-diffusers (new).
+Reproduces the paper's Figure 2 layout:
+- Left column: ground truth objects
+- (a) Known diffusers: K1, K2, K3 with blue border
+- (b) New diffusers: B1, B2, B3 with orange border
+- Row 0: diffuser phase maps
+- Rows 1-3: MNIST digit reconstructions (0, 2, 7)
+- Rows 4-5: resolution targets (10.8 mm, 12.0 mm) with horizontal bars
+- PCC values below each reconstruction image
 """
 
 from __future__ import annotations
@@ -13,6 +18,8 @@ from typing import Optional
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+from matplotlib.gridspec import GridSpec
 import numpy as np
 import torch
 
@@ -87,7 +94,6 @@ def _generate_new_diffusers(cfg: dict, n: int, device: torch.device) -> list[dic
     dx_mm = float(grid["pitch_mm"])
     wavelength_mm = float(cfg["optics"]["wavelength_mm"])
     diff_cfg = cfg["diffuser"]
-    # Use a seed range that never overlaps training
     fresh_base_seed = 77777777
 
     diffusers = []
@@ -145,20 +151,11 @@ def make_fig2(
 ) -> plt.Figure:
     """Generate Fig 2: known vs new diffuser reconstruction.
 
-    Panel layout:
-    - Top row: diffuser phase maps (2 known + 2 new)
-    - Middle rows: reconstructions of test images (digits 0, 2, 7)
-    - Bottom rows: resolution targets (10.8 mm, 12.0 mm period)
-    - Each reconstruction shows PCC value
-
-    Parameters
-    ----------
-    checkpoint_path : str
-        Path to trained D2NN model checkpoint.
-    config_path : str
-        Path to YAML config file.
-    save_path : str or None
-        If given, saves the figure (PNG) and raw data (.npy).
+    Matches the paper layout:
+    - Left column: ground truth
+    - (a) 3 known diffusers with blue border
+    - (b) 3 new diffusers with orange border
+    - PCC values reported below each reconstruction
     """
     device = torch.device("cpu")
     cfg = load_and_validate_config(config_path)
@@ -183,127 +180,202 @@ def make_fig2(
         N, dx_mm, wavelength_mm, obj_to_diff_mm, pad_factor=pad_factor,
     )
 
-    # Generate diffusers (2 known, 2 new for display)
-    n_show = 2
+    # Generate diffusers (3 known, 3 new — matching paper K1-K3, B1-B3)
+    n_show = 3
     known_diffs = _generate_known_diffusers(cfg, n_show, device)
     new_diffs = _generate_new_diffusers(cfg, n_show, device)
-    all_diffs = known_diffs + new_diffs  # 4 diffusers total
-    diff_labels = [f"Known {i+1}" for i in range(n_show)] + [f"New {i+1}" for i in range(n_show)]
+    all_diffs = known_diffs + new_diffs
+    diff_labels = [f"K{i+1}" for i in range(n_show)] + [f"B{i+1}" for i in range(n_show)]
 
     # Test images: MNIST digits
     test_digits = [0, 2, 7]
     ds_cfg = cfg["dataset"]
+    resize_to = int(ds_cfg.get("resize_to_px", 160))
     dataset = MNISTAmplitude(
-        root="data",
-        split="test",
-        resize_to=int(ds_cfg.get("resize_to_px", 160)),
-        final_size=int(ds_cfg.get("final_resolution_px", 240)),
+        root="data", split="test",
+        resize_to=resize_to, final_size=N,
     )
     digit_samples = _get_digit_samples(dataset, test_digits)
 
-    # Resolution targets
+    # Resolution targets (horizontal bars, matching paper)
     res_periods_mm = [10.8, 12.0]
     res_targets = []
     for p in res_periods_mm:
         gt = generate_grating_target(
             period_mm=p, dx_mm=dx_mm,
-            active_size=int(ds_cfg.get("resize_to_px", 160)),
-            final_size=N,
+            active_size=resize_to, final_size=N,
         )
-        res_targets.append(gt.squeeze(0))  # (N, N)
+        res_targets.append(gt.squeeze(0))
 
-    # Collect all test objects: digits + resolution targets
+    # Collect all test objects
     all_objects = [s["amplitude"].squeeze(0) for s in digit_samples] + res_targets
-    obj_labels = [f"Digit {d}" for d in test_digits] + [f"{p} mm grating" for p in res_periods_mm]
+    obj_labels = [f"Digit {d}" for d in test_digits] + [f"{p} mm" for p in res_periods_mm]
     n_objects = len(all_objects)
     n_diffs_total = len(all_diffs)
 
-    # --- Forward passes ---
-    # results[obj_idx][diff_idx] = intensity (N, N) numpy
-    results = []
+    # --- Forward passes (crop to active region for PCC and display) ---
+    pad_each = (N - resize_to) // 2
+    s = slice(pad_each, pad_each + resize_to)  # active region slice
+
+    results = []  # cropped reconstruction images
     pccs = []
     for obj_idx, obj_amp in enumerate(all_objects):
         row_results = []
         row_pccs = []
-        target = obj_amp.clone()
+        target_crop = obj_amp[s, s].unsqueeze(0)  # (1, resize_to, resize_to)
         for diff_idx, diff_info in enumerate(all_diffs):
             I_out = _forward_single(
                 obj_amp, diff_info["transmittance"], model, H_obj_to_diff, pad_factor,
             )
-            pcc_val = compute_pcc(I_out, target.unsqueeze(0)).item()
-            row_results.append(I_out.squeeze(0).detach().cpu().numpy())
+            I_crop = I_out[:, s, s]  # crop to active region
+            pcc_val = compute_pcc(I_crop, target_crop).item()
+            row_results.append(I_crop.squeeze(0).detach().cpu().numpy())
             row_pccs.append(pcc_val)
         results.append(row_results)
         pccs.append(row_pccs)
 
-    # --- Plot ---
-    # Layout: (1 + n_objects) rows x n_diffs_total columns
-    n_rows = 1 + n_objects
-    n_cols = n_diffs_total
+    # --- Prepare ground truth images (cropped to active region) ---
+    gt_images = []
+    for obj_amp in all_objects:
+        gt_np = obj_amp[s, s].detach().cpu().numpy()
+        gt_images.append(gt_np)
 
-    fig, axes = plt.subplots(n_rows, n_cols, figsize=(3.2 * n_cols, 2.8 * n_rows))
-    if n_cols == 1:
-        axes = axes[:, np.newaxis]
+    # --- Plot matching paper layout ---
+    # Columns: GT | K1 K2 K3 | B1 B2 B3
+    # Rows: diffuser phase | digit0 | digit2 | digit7 | 10.8mm | 12.0mm
+    n_rows = 1 + n_objects  # 1 diffuser row + 5 object rows
+    n_cols = 1 + n_diffs_total  # 1 GT column + 6 diffuser columns
 
-    # Column headers with condition detail
-    col_details = []
-    for i in range(n_show):
-        col_details.append(f"Known {i+1}\n(last epoch seed)")
-    for i in range(n_show):
-        col_details.append(f"New {i+1}\n(blind, unseen)")
+    fig = plt.figure(figsize=(2.2 * n_cols, 2.4 * n_rows))
 
-    # Row 0: diffuser phase maps
-    for col_idx, diff_info in enumerate(all_diffs):
-        ax = axes[0, col_idx]
-        phase = diff_info["phase_map"].detach().cpu().numpy()
-        ax.imshow(phase, cmap="twilight", interpolation="nearest")
-        ax.set_title(col_details[col_idx], fontsize=9, fontweight="bold")
+    # Use GridSpec — leave a gap between col n_show and n_show+1 for border separation
+    # width_ratios: GT column slightly narrower, gap column between (a) and (b)
+    n_cols_actual = 1 + n_show + 1 + n_show  # GT | K1 K2 K3 | gap | B1 B2 B3
+    width_ratios = [1.0] + [1.0]*n_show + [0.15] + [1.0]*n_show
+    gs = GridSpec(n_rows, n_cols_actual, figure=fig, wspace=0.06, hspace=0.08,
+                  left=0.03, right=0.97, top=0.91, bottom=0.02,
+                  width_ratios=width_ratios)
+
+    # Column mapping: 0=GT, 1..n_show=known, n_show+1=gap, n_show+2..end=new
+    gap_col = 1 + n_show  # index of the gap column
+    known_cols = list(range(1, 1 + n_show))             # [1, 2, 3]
+    new_cols = list(range(gap_col + 1, n_cols_actual))   # [5, 6, 7]
+    data_cols = known_cols + new_cols                     # [1,2,3,5,6,7]
+
+    axes = np.empty((n_rows, n_cols_actual), dtype=object)
+    for r in range(n_rows):
+        for c in range(n_cols_actual):
+            if c == gap_col:
+                # Gap column: invisible spacer
+                ax = fig.add_subplot(gs[r, c])
+                ax.set_visible(False)
+            else:
+                axes[r, c] = fig.add_subplot(gs[r, c])
+
+    # --- Row 0: diffuser phase maps ---
+    ax_gt0 = axes[0, 0]
+    ax_gt0.set_facecolor("white")
+    ax_gt0.set_xticks([])
+    ax_gt0.set_yticks([])
+    for spine in ax_gt0.spines.values():
+        spine.set_visible(False)
+    ax_gt0.text(0.5, 0.5, "10$\\lambda$", transform=ax_gt0.transAxes,
+                fontsize=18, ha="center", va="center", fontweight="bold")
+    ax_gt0.text(0.5, 0.15, "0–2$\\pi$", transform=ax_gt0.transAxes,
+                fontsize=14, ha="center", va="center", color="gray")
+
+    col_headers = [f"Diffuser K{i+1}" for i in range(n_show)] + [f"Diffuser B{i+1}" for i in range(n_show)]
+    for i, (col, diff_info) in enumerate(zip(data_cols, all_diffs)):
+        ax = axes[0, col]
+        phase_raw = diff_info["phase_map"].detach().cpu().numpy()
+        phase = phase_raw % (2 * np.pi)
+        ax.imshow(phase, cmap="hsv", vmin=0, vmax=2 * np.pi, interpolation="nearest")
+        ax.set_title(col_headers[i], fontsize=9, fontweight="bold", pad=3)
         ax.set_xticks([])
         ax.set_yticks([])
-    # Row label
-    axes[0, 0].set_ylabel(
-        f"Diffuser phase\ncorr.len={10}$\\lambda$",
-        fontsize=8, fontweight="bold",
-        rotation=0, ha="right", va="center", labelpad=75,
-    )
 
-    # Detailed row labels
-    row_detail_labels = [
-        f"Digit {d}\n(MNIST test)" for d in test_digits
-    ] + [
-        f"Grating {p}mm\n(3-bar target)" for p in res_periods_mm
-    ]
-
-    # Rows 1..n_objects: reconstructions
+    # --- Rows 1..n_objects: GT + reconstructions ---
     for obj_idx in range(n_objects):
-        for col_idx in range(n_cols):
-            ax = axes[1 + obj_idx, col_idx]
-            img = results[obj_idx][col_idx]
+        row = 1 + obj_idx
+
+        # Ground truth in column 0
+        ax_gt = axes[row, 0]
+        gt_img = gt_images[obj_idx]
+        ax_gt.imshow(gt_img, cmap="gray", vmin=0, vmax=gt_img.max() if gt_img.max() > 0 else 1)
+        ax_gt.set_xticks([])
+        ax_gt.set_yticks([])
+        if obj_idx >= len(test_digits):
+            period_mm = res_periods_mm[obj_idx - len(test_digits)]
+            ax_gt.text(0.05, 0.08, f"{period_mm} mm", transform=ax_gt.transAxes,
+                       fontsize=10, fontweight="bold", color="red", va="bottom")
+
+        # Reconstructions
+        for diff_idx, col in enumerate(data_cols):
+            ax = axes[row, col]
+            img = results[obj_idx][diff_idx]
             display_img = contrast_enhance(img, lo_pct, hi_pct)
             ax.imshow(display_img, cmap="gray", vmin=0, vmax=1)
             ax.set_xticks([])
             ax.set_yticks([])
-            # PCC inside image
-            pcc_val = pccs[obj_idx][col_idx]
-            ax.text(
-                0.95, 0.05, f"PCC={pcc_val:.3f}",
-                transform=ax.transAxes, fontsize=7, fontweight="bold",
-                ha="right", va="bottom", color="white",
-                bbox=dict(boxstyle="round,pad=0.2", facecolor="black", alpha=0.7),
-            )
-        # Row label with detail
-        axes[1 + obj_idx, 0].set_ylabel(
-            row_detail_labels[obj_idx], fontsize=8, fontweight="bold",
-            rotation=0, ha="right", va="center", labelpad=75,
-        )
 
-    fig.suptitle("Fig 2: Known vs New Diffuser Reconstruction (D2NN via BL-ASM)",
-                 fontsize=12, fontweight="bold", y=0.99)
-    fig.tight_layout(rect=[0.10, 0.0, 1.0, 0.96])
+            pcc_val = pccs[obj_idx][diff_idx]
+            ax.text(0.5, -0.02, f"{pcc_val:.4f}", transform=ax.transAxes,
+                    fontsize=13, ha="center", va="top")
+
+    # --- Panel labels ---
+    pos_k_left = gs[0, known_cols[0]].get_position(fig)
+    pos_k_right = gs[0, known_cols[-1]].get_position(fig)
+    fig.text(0.5 * (pos_k_left.x0 + pos_k_right.x1),
+             0.95, "(a)    All-Optical Reconstruction\n      with Known Diffusers",
+             fontsize=11, fontweight="bold", ha="center", va="bottom",
+             color="#1976D2")
+
+    pos_n_left = gs[0, new_cols[0]].get_position(fig)
+    pos_n_right = gs[0, new_cols[-1]].get_position(fig)
+    fig.text(0.5 * (pos_n_left.x0 + pos_n_right.x1),
+             0.95, "(b)    All-Optical Reconstruction\n      with New Diffusers",
+             fontsize=11, fontweight="bold", ha="center", va="bottom",
+             color="#E65100")
+
+    # --- Colored borders around (a) and (b) panel groups ---
+    margin = 0.008
+    # Blue border for known diffusers
+    pos_tl = gs[0, known_cols[0]].get_position(fig)
+    pos_br = gs[n_rows - 1, known_cols[-1]].get_position(fig)
+    rect_known = mpatches.FancyBboxPatch(
+        (pos_tl.x0 - margin, pos_br.y0 - margin),
+        pos_br.x1 - pos_tl.x0 + 2 * margin,
+        pos_tl.y1 - pos_br.y0 + 2 * margin,
+        boxstyle="round,pad=0.005",
+        linewidth=3.5, edgecolor="#1976D2", facecolor="none",
+        transform=fig.transFigure, clip_on=False,
+    )
+    fig.patches.append(rect_known)
+
+    # Orange border for new diffusers
+    pos_tl2 = gs[0, new_cols[0]].get_position(fig)
+    pos_br2 = gs[n_rows - 1, new_cols[-1]].get_position(fig)
+    rect_new = mpatches.FancyBboxPatch(
+        (pos_tl2.x0 - margin, pos_br2.y0 - margin),
+        pos_br2.x1 - pos_tl2.x0 + 2 * margin,
+        pos_tl2.y1 - pos_br2.y0 + 2 * margin,
+        boxstyle="round,pad=0.005",
+        linewidth=3.5, edgecolor="#E65100", facecolor="none",
+        transform=fig.transFigure, clip_on=False,
+    )
+    fig.patches.append(rect_new)
+
+    # --- Intensity colorbar on the right edge ---
+    cbar_ax = fig.add_axes([0.985, 0.05, 0.008, 0.08])
+    gradient = np.linspace(0, 1, 256).reshape(-1, 1)
+    cbar_ax.imshow(gradient, aspect="auto", cmap="gray", origin="lower")
+    cbar_ax.set_xticks([])
+    cbar_ax.set_yticks([0, 255])
+    cbar_ax.set_yticklabels(["0", "1"], fontsize=8)
+    cbar_ax.yaxis.tick_right()
 
     if save_path is not None:
         save_figure(fig, save_path)
-        # Save raw data
         npy_path = Path(save_path).with_suffix(".npy")
         raw_data = {
             "results": np.array(results),

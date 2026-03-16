@@ -1,0 +1,139 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
+\HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
+\global\let\oldcontentsline\contentsline
+\gdef\contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
+\global\let\oldnewlabel\newlabel
+\gdef\newlabel#1#2{\newlabelxx{#1}#2}
+\gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
+\AtEndDocument{\ifx\hyper@anchor\@undefined
+\let\contentsline\oldcontentsline
+\let\newlabel\oldnewlabel
+\fi}
+\fi}
+\global\let\hyper@last\relax 
+\gdef\HyperFirstAtBeginDocument#1{#1}
+\providecommand*\HyPL@Entry[1]{}
+\HyPL@Entry{0<</S/D>>}
+\@writefile{toc}{\contentsline {section}{\numberline {1}서론}{4}{section.1}\protected@file@percent }
+\newlabel{sec:intro}{{1}{4}{서론}{section.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}회절 심층 신경망의 등장}{4}{subsection.1.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces D2NN 시스템 개략도. 물체 평면에서 출발한 THz 파동이 랜덤 디퓨저를 통과한 뒤, 학습된 회절 레이어들을 거쳐 출력 평면에서 영상을 복원한다.\relax }}{4}{figure.caption.1}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:schematic}{{1}{4}{D2NN 시스템 개략도. 물체 평면에서 출발한 THz 파동이 랜덤 디퓨저를 통과한 뒤, 학습된 회절 레이어들을 거쳐 출력 평면에서 영상을 복원한다.\relax }{figure.caption.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces 디퓨저에 의한 파면 왜곡(wavefront distortion) 효과. 입력 영상이 랜덤 위상 스크린을 통과하면 speckle 패턴으로 변환되며, D2NN은 이를 역전하여 원본을 복원한다.\relax }}{5}{figure.caption.2}\protected@file@percent }
+\newlabel{fig:distortion}{{2}{5}{디퓨저에 의한 파면 왜곡(wavefront distortion) 효과. 입력 영상이 랜덤 위상 스크린을 통과하면 speckle 패턴으로 변환되며, D2NN은 이를 역전하여 원본을 복원한다.\relax }{figure.caption.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}랜덤 디퓨저 접근법: Luo et al.\ 2022}{5}{subsection.1.2}\protected@file@percent }
+\newlabel{eq:diffuser}{{1}{6}{랜덤 디퓨저 접근법: Luo et al.\ 2022}{equation.1.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}재현 프로젝트의 목적과 범위}{6}{subsection.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}랜덤 위상 디퓨저의 물리학}{6}{section.2}\protected@file@percent }
+\newlabel{sec:diffuser}{{2}{6}{랜덤 위상 디퓨저의 물리학}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}생성 원리와 상관길이}{6}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.1}코히런트 스칼라 모델의 필요충분성}{6}{subsubsection.2.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.2}디퓨저 높이맵 생성: 3단계 파이프라인}{7}{subsubsection.2.1.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces 디퓨저 생성 파이프라인의 3단계. 백색 잡음 높이맵에서 가우시안 평활화를 거쳐 위상 투과 함수로 변환된다.\relax }}{7}{figure.caption.3}\protected@file@percent }
+\newlabel{fig:diffuser_pipeline}{{3}{7}{디퓨저 생성 파이프라인의 3단계. 백색 잡음 높이맵에서 가우시안 평활화를 거쳐 위상 투과 함수로 변환된다.\relax }{figure.caption.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.3}핵심 관계: 상관길이와 평활화 표준편차}{8}{subsubsection.2.1.3}\protected@file@percent }
+\newlabel{eq:corr_length}{{3}{8}{핵심 관계: 상관길이와 평활화 표준편차}{equation.2.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces (a) 평활화 표준편차 $\mitsigma $와 측정된 상관길이 $L$의 관계. 이론 곡선 $L = 2\sqrt  {\mitpi }\mitsigma $와 비교. (b) 상관길이에 따른 최대 산란각.\relax }}{8}{figure.caption.4}\protected@file@percent }
+\newlabel{fig:correlation}{{4}{8}{(a) 평활화 표준편차 $\sigma $와 측정된 상관길이 $L$의 관계. 이론 곡선 $L = 2\sqrt {\pi }\sigma $와 비교. (b) 상관길이에 따른 최대 산란각.\relax }{figure.caption.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.4}패딩 팩터 = 2의 물리적 의미}{8}{subsubsection.2.1.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.5}소멸파 차단}{8}{subsubsection.2.1.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.6}uniqueness\_delta\_phi의 의미}{8}{subsubsection.2.1.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}디퓨저 다양성이 광학장에 미치는 영향}{9}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}상관길이와 산란각}{9}{subsubsection.2.2.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Fig.\nobreakspace  {}S5 재현: 상관길이에 따른 PCC 변화. $L \sim 10\mitlambda $에서 학습된 모델이 $L \sim 5\mitlambda $를 만나면 성능이 급락한다.\relax }}{9}{table.caption.5}\protected@file@percent }
+\newlabel{tab:corr_pcc}{{1}{9}{Fig.~S5 재현: 상관길이에 따른 PCC 변화. $L \sim 10\lambda $에서 학습된 모델이 $L \sim 5\lambda $를 만나면 성능이 급락한다.\relax }{table.caption.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces \textbf  {Fig.\nobreakspace  {}S5 재현}: 상관길이가 다른 디퓨저에 대한 D2NN 성능 비교. $L \sim 10\mitlambda $로 학습된 모델이 $L \sim 5\mitlambda $ 디퓨저를 만나면 PCC가 급격히 하락한다.\relax }}{10}{figure.caption.6}\protected@file@percent }
+\newlabel{fig:figS5}{{5}{10}{\textbf {Fig.~S5 재현}: 상관길이가 다른 디퓨저에 대한 D2NN 성능 비교. $L \sim 10\lambda $로 학습된 모델이 $L \sim 5\lambda $ 디퓨저를 만나면 PCC가 급격히 하락한다.\relax }{figure.caption.6}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}인스턴스 다양성 vs 통계적 다양성}{10}{subsubsection.2.2.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces \textbf  {Fig.\nobreakspace  {}S1a 재현}: 학습 전후의 위상 레이어 비교. 학습 전 위상은 $[0, 2\mitpi )$ 균일 분포이며, 학습 후에는 특정 영역에 위상이 집중되는 ``위상 섬(phase island)'' 구조가 형성된다. 이 구조는 D2NN이 산란 보정을 위해 특정 공간주파수 채널을 선택적으로 활용함을 보여준다.\relax }}{11}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:figS1a}{{6}{11}{\textbf {Fig.~S1a 재현}: 학습 전후의 위상 레이어 비교. 학습 전 위상은 $[0, 2\pi )$ 균일 분포이며, 학습 후에는 특정 영역에 위상이 집중되는 ``위상 섬(phase island)'' 구조가 형성된다. 이 구조는 D2NN이 산란 보정을 위해 특정 공간주파수 채널을 선택적으로 활용함을 보여준다.\relax }{figure.caption.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces \textbf  {Fig.\nobreakspace  {}S1b 재현}: 4개 레이어 각각의 학습된 위상 패턴. Layer\nobreakspace  {}1은 디퓨저에 가장 가까워 입력 산란을 초기 보정하며 비교적 부드러운 패턴을 보인다. Layer\nobreakspace  {}4는 출력에 가까워 세밀한 위상 조절로 최종 intensity 패턴을 형성한다. 레이어 깊이에 따른 위상 복잡도의 증가는 D2NN이 점진적 정보 처리(progressive information processing)를 수행함을 시사한다.\relax }}{11}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:figS1b}{{7}{11}{\textbf {Fig.~S1b 재현}: 4개 레이어 각각의 학습된 위상 패턴. Layer~1은 디퓨저에 가장 가까워 입력 산란을 초기 보정하며 비교적 부드러운 패턴을 보인다. Layer~4는 출력에 가까워 세밀한 위상 조절로 최종 intensity 패턴을 형성한다. 레이어 깊이에 따른 위상 복잡도의 증가는 D2NN이 점진적 정보 처리(progressive information processing)를 수행함을 시사한다.\relax }{figure.caption.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}D2NN 시스템 설계의 해부}{12}{section.3}\protected@file@percent }
+\newlabel{sec:system}{{3}{12}{D2NN 시스템 설계의 해부}{section.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces D2NN 광학 시스템의 측면 기하 배치. Object plane에서 random diffuser를 거쳐 4개의 학습 가능한 phase layer를 통과한 뒤 output detector plane에 도달한다.\relax }}{12}{figure.caption.9}\protected@file@percent }
+\newlabel{fig:geometry}{{8}{12}{D2NN 광학 시스템의 측면 기하 배치. Object plane에서 random diffuser를 거쳐 4개의 학습 가능한 phase layer를 통과한 뒤 output detector plane에 도달한다.\relax }{figure.caption.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}BL-ASM 전파와 설계 제약}{12}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Nyquist 제약과 피치 선택}{12}{subsubsection.3.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}기하학적 배치의 물리적 의미}{13}{subsection.3.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces D2NN 전체 광학 경로. 각 구간의 거리와 Fresnel 확산 폭.\relax }}{13}{table.caption.10}\protected@file@percent }
+\newlabel{tab:path}{{2}{13}{D2NN 전체 광학 경로. 각 구간의 거리와 Fresnel 확산 폭.\relax }{table.caption.10}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}파라미터 상호의존성}{13}{subsubsection.3.2.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces 파라미터 변경 시 연쇄 영향. 하나를 바꾸면 나머지도 조정 필요.\relax }}{13}{table.caption.11}\protected@file@percent }
+\newlabel{tab:interdep}{{3}{13}{파라미터 변경 시 연쇄 영향. 하나를 바꾸면 나머지도 조정 필요.\relax }{table.caption.11}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}학습 다이나믹스}{14}{section.4}\protected@file@percent }
+\newlabel{sec:training}{{4}{14}{학습 다이나믹스}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Loss 함수 설계의 철학}{14}{subsection.4.1}\protected@file@percent }
+\newlabel{eq:loss}{{7}{14}{Loss 함수 설계의 철학}{equation.4.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces (a) PCC는 scale invariant하여 구조적 유사성에 집중한다. (b) Energy penalty는 빛 에너지를 target support 안으로 모은다.\relax }}{14}{figure.caption.12}\protected@file@percent }
+\newlabel{fig:loss}{{9}{14}{(a) PCC는 scale invariant하여 구조적 유사성에 집중한다. (b) Energy penalty는 빛 에너지를 target support 안으로 모은다.\relax }{figure.caption.12}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.1}왜 MSE가 아닌 PCC인가}{14}{subsubsection.4.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.2}Energy Penalty의 비대칭 설계}{14}{subsubsection.4.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}디퓨저 수 n에 따른 일반화 곡선과 포화점}{15}{subsection.4.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces $n$-sweep 학습 결과 요약. $n = 15$에서 포화가 시작된다.\relax }}{15}{table.caption.13}\protected@file@percent }
+\newlabel{tab:nsweep}{{4}{15}{$n$-sweep 학습 결과 요약. $n = 15$에서 포화가 시작된다.\relax }{table.caption.13}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}B x n 전략}{15}{subsubsection.4.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}LR Schedule: \texttt  {ExponentialLR(gamma=0.99)}}{15}{subsubsection.4.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}재현 결과와 원논문 비교}{15}{section.5}\protected@file@percent }
+\newlabel{sec:results}{{5}{15}{재현 결과와 원논문 비교}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Fig.\nobreakspace  {}2 재현: Known vs New Diffuser}{16}{subsection.5.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces \textbf  {Fig.\nobreakspace  {}2 재현}: Known diffuser (상단)와 New (blind) diffuser (하단)를 통한 영상 복원 결과. 5개 test object (MNIST digits 0, 2, 7 및 resolution targets 10.8\,mm, 12.0\,mm)에 대해 각 3개 diffuser realization을 시각화하였다. New diffuser에서도 known과 거의 동일한 복원 품질이 관찰되며, 이는 D2NN이 특정 디퓨저가 아닌 \textit  {산란 분포 자체}에 대한 역변환을 학습했음을 보여준다.\relax }}{16}{figure.caption.14}\protected@file@percent }
+\newlabel{fig:fig2_main}{{10}{16}{\textbf {Fig.~2 재현}: Known diffuser (상단)와 New (blind) diffuser (하단)를 통한 영상 복원 결과. 5개 test object (MNIST digits 0, 2, 7 및 resolution targets 10.8\,mm, 12.0\,mm)에 대해 각 3개 diffuser realization을 시각화하였다. New diffuser에서도 known과 거의 동일한 복원 품질이 관찰되며, 이는 D2NN이 특정 디퓨저가 아닌 \textit {산란 분포 자체}에 대한 역변환을 학습했음을 보여준다.\relax }{figure.caption.14}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces \textbf  {정량적 분석}: (a) Object별 Known/New PCC 비교 --- Digit\nobreakspace  {}0에서 New가 오히려 Known보다 높은 역전 현상이 관찰된다. (b) $n$별 Training PCC 변화와 blind period recovery error --- $n = 15$ 이후 training PCC와 blind error 모두 포화한다.\relax }}{17}{figure.caption.15}\protected@file@percent }
+\newlabel{fig:fig2_analysis}{{11}{17}{\textbf {정량적 분석}: (a) Object별 Known/New PCC 비교 --- Digit~0에서 New가 오히려 Known보다 높은 역전 현상이 관찰된다. (b) $n$별 Training PCC 변화와 blind period recovery error --- $n = 15$ 이후 training PCC와 blind error 모두 포화한다.\relax }{figure.caption.15}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces 원논문과의 정량적 비교. 모든 범위가 일치한다.\relax }}{17}{table.caption.16}\protected@file@percent }
+\newlabel{tab:comparison}{{5}{17}{원논문과의 정량적 비교. 모든 범위가 일치한다.\relax }{table.caption.16}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Fig.\nobreakspace  {}3 재현: Grating Period Sweep}{18}{subsection.5.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces \textbf  {Fig.\nobreakspace  {}3 재현}: $n = 1, 10, 15, 20$ 모델에 대한 grating period sweep 결과. (a) Known diffuser, (b) Blind (new) diffuser. 녹색 대각선이 완벽한 복원을 나타내며, 막대의 길이가 추정 분산을 보여준다. 7.2\,mm 주기에서 모든 모델이 큰 분산을 보이는 것은 시스템의 물리적 해상도 한계($\sim 9.6\mitlambda $)에 도달했음을 의미한다. $n \geq 10$에서 blind 분산이 현저히 줄어드는 것이 디퓨저 다양성 학습의 핵심 증거이다.\relax }}{18}{figure.caption.17}\protected@file@percent }
+\newlabel{fig:fig3_main}{{12}{18}{\textbf {Fig.~3 재현}: $n = 1, 10, 15, 20$ 모델에 대한 grating period sweep 결과. (a) Known diffuser, (b) Blind (new) diffuser. 녹색 대각선이 완벽한 복원을 나타내며, 막대의 길이가 추정 분산을 보여준다. 7.2\,mm 주기에서 모든 모델이 큰 분산을 보이는 것은 시스템의 물리적 해상도 한계($\sim 9.6\lambda $)에 도달했음을 의미한다. $n \geq 10$에서 blind 분산이 현저히 줄어드는 것이 디퓨저 다양성 학습의 핵심 증거이다.\relax }{figure.caption.17}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces \textbf  {Period 추정 원리}: D2NN 출력의 1D 프로파일에서 peak detection으로 bar 간격을 추정한다. 큰 주기(10.8--12.0\,mm)에서는 peak가 명확히 분리되어 정밀한 추정이 가능하지만, 작은 주기(7.2\,mm)에서는 회절에 의한 peak merge로 추정이 불안정해진다. 이 불안정성은 D2NN 성능 한계와 추정 알고리즘 한계가 혼재된 결과이다.\relax }}{18}{figure.caption.18}\protected@file@percent }
+\newlabel{fig:fig3_explain}{{13}{18}{\textbf {Period 추정 원리}: D2NN 출력의 1D 프로파일에서 peak detection으로 bar 간격을 추정한다. 큰 주기(10.8--12.0\,mm)에서는 peak가 명확히 분리되어 정밀한 추정이 가능하지만, 작은 주기(7.2\,mm)에서는 회절에 의한 peak merge로 추정이 불안정해진다. 이 불안정성은 D2NN 성능 한계와 추정 알고리즘 한계가 혼재된 결과이다.\relax }{figure.caption.18}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Blind diffuser 조건에서의 grating period 추정 결과 (mean $\pm $ std, mm).\relax }}{19}{table.caption.19}\protected@file@percent }
+\newlabel{tab:period}{{6}{19}{Blind diffuser 조건에서의 grating period 추정 결과 (mean $\pm $ std, mm).\relax }{table.caption.19}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}재현 검증 종합}{19}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}암묵지 총정리: 논문이 말하지 않은 것들}{19}{section.6}\protected@file@percent }
+\newlabel{sec:tacit}{{6}{19}{암묵지 총정리: 논문이 말하지 않은 것들}{section.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces 30개 암묵지 항목의 분류 체계와 각 재현 결과물(Fig.\nobreakspace  {}2, 3, S4, S5, Training)에 대한 영향도.\relax }}{20}{figure.caption.20}\protected@file@percent }
+\newlabel{fig:tkmap}{{14}{20}{30개 암묵지 항목의 분류 체계와 각 재현 결과물(Fig.~2, 3, S4, S5, Training)에 대한 영향도.\relax }{figure.caption.20}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}물리 모델링의 숨겨진 가정들 (TK-1\,\textasciitilde \,TK-4)}{20}{subsection.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}수치 구현의 비자명한 선택들 (TK-5\,\textasciitilde \,TK-9)}{21}{subsection.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}학습 파이프라인의 암묵적 설계 결정 (TK-10\,\textasciitilde \,TK-15)}{21}{subsection.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}디퓨저 생성의 숨겨진 물리학 (TK-16\,\textasciitilde \,TK-18)}{22}{subsection.6.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}재현 과정에서 발견한 민감도 분석 (TK-19\,\textasciitilde \,TK-23)}{22}{subsection.6.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces \textbf  {Fig.\nobreakspace  {}S3 재현 --- 위상 섬 중첩 맵}: 4개 레이어의 학습된 위상 패턴에서 추출한 ``위상 섬(phase island)'' 영역의 공간적 분포. 색상 강도가 높을수록 해당 위치에서 더 많은 레이어의 위상 섬이 겹친다. 위상 섬은 그리드 중앙에 집중되는 경향을 보이며, 이는 MNIST 활성 영역(160$\times $160 중앙)과 정확히 대응한다. 주변부의 낮은 중첩도는 해당 영역의 위상을 단순화해도 성능 저하가 제한적임을 시사하며, 이는 TK-26 프루닝 실험의 물리적 근거가 된다.\relax }}{23}{figure.caption.21}\protected@file@percent }
+\newlabel{fig:figS3}{{15}{23}{\textbf {Fig.~S3 재현 --- 위상 섬 중첩 맵}: 4개 레이어의 학습된 위상 패턴에서 추출한 ``위상 섬(phase island)'' 영역의 공간적 분포. 색상 강도가 높을수록 해당 위치에서 더 많은 레이어의 위상 섬이 겹친다. 위상 섬은 그리드 중앙에 집중되는 경향을 보이며, 이는 MNIST 활성 영역(160$\times $160 중앙)과 정확히 대응한다. 주변부의 낮은 중첩도는 해당 영역의 위상을 단순화해도 성능 저하가 제한적임을 시사하며, 이는 TK-26 프루닝 실험의 물리적 근거가 된다.\relax }{figure.caption.21}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces \textbf  {Fig.\nobreakspace  {}S4 재현 --- 프루닝 조건별 성능 비교}: 6가지 마스킹 조건에서의 PCC. \texttt  {full\_layers}(마스크 없음)가 baseline이며, \texttt  {no\_layers}(위상 레이어 제거)에서 PCC가 급락한다. 주목할 점은 \texttt  {islands\_only}(위상 섬만 유지)에서도 baseline의 $\sim $85--90\%의 PCC를 유지한다는 것이다. 이는 학습된 위상 패턴의 핵심 정보가 전체 면적의 10--20\%에 불과한 위상 섬에 집중되어 있으며, 실제 제작 시 이 영역만 정밀하게 제작하고 나머지는 평탄면으로 대체할 수 있는 \textbf  {실용적 경로}를 제시한다.\relax }}{24}{figure.caption.22}\protected@file@percent }
+\newlabel{fig:figS4}{{16}{24}{\textbf {Fig.~S4 재현 --- 프루닝 조건별 성능 비교}: 6가지 마스킹 조건에서의 PCC. \texttt {full\_layers}(마스크 없음)가 baseline이며, \texttt {no\_layers}(위상 레이어 제거)에서 PCC가 급락한다. 주목할 점은 \texttt {islands\_only}(위상 섬만 유지)에서도 baseline의 $\sim $85--90\%의 PCC를 유지한다는 것이다. 이는 학습된 위상 패턴의 핵심 정보가 전체 면적의 10--20\%에 불과한 위상 섬에 집중되어 있으며, 실제 제작 시 이 영역만 정밀하게 제작하고 나머지는 평탄면으로 대체할 수 있는 \textbf {실용적 경로}를 제시한다.\relax }{figure.caption.22}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces \textbf  {Fig.\nobreakspace  {}S4 CLI 재현}: 명령줄 인터페이스를 통한 프루닝 실험 결과. 6단계 조건의 체계적 비교를 보여준다.\relax }}{25}{figure.caption.23}\protected@file@percent }
+\newlabel{fig:figS4_cli}{{17}{25}{\textbf {Fig.~S4 CLI 재현}: 명령줄 인터페이스를 통한 프루닝 실험 결과. 6단계 조건의 체계적 비교를 보여준다.\relax }{figure.caption.23}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.6}논문의 모호한 서술과 실제 구현 (TK-24\,\textasciitilde \,TK-30)}{25}{subsection.6.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.7}암묵지 의존도 매핑}{26}{subsection.6.7}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces 주요 암묵지 항목이 영향을 미치는 재현 결과물. $\bullet $ = 직접 영향.\relax }}{26}{table.caption.24}\protected@file@percent }
+\newlabel{tab:tkmap}{{7}{26}{주요 암묵지 항목이 영향을 미치는 재현 결과물. $\bullet $ = 직접 영향.\relax }{table.caption.24}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}응용 전략 및 확장 방향}{26}{section.7}\protected@file@percent }
+\newlabel{sec:applications}{{7}{26}{응용 전략 및 확장 방향}{section.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}재료 실현 가능성}{26}{subsection.7.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}위상판 제작 정밀도}{27}{subsection.7.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces D2NN 위상 레이어 제작 요구사항.\relax }}{27}{table.caption.25}\protected@file@percent }
+\newlabel{tab:fab}{{8}{27}{D2NN 위상 레이어 제작 요구사항.\relax }{table.caption.25}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces \textbf  {Fig.\nobreakspace  {}5 --- 메모리 분석}: 학습 과정에서의 GPU 메모리 사용량과 $n$ 값의 관계. $B \times n$ 전략에 따라 유효 배치 크기가 선형 증가하며, $n = 20$, $B = 4$에서 $B_\text  {eff} = 80$으로 A100 단일 GPU의 실용적 상한에 도달한다. 이 그래프는 ``$n$을 늘리는 비용''을 정량적으로 보여주며, $n = 15$가 Pareto 최적점인 이유의 계산적 근거를 제공한다.\relax }}{27}{figure.caption.26}\protected@file@percent }
+\newlabel{fig:fig5}{{18}{27}{\textbf {Fig.~5 --- 메모리 분석}: 학습 과정에서의 GPU 메모리 사용량과 $n$ 값의 관계. $B \times n$ 전략에 따라 유효 배치 크기가 선형 증가하며, $n = 20$, $B = 4$에서 $B_\text {eff} = 80$으로 A100 단일 GPU의 실용적 상한에 도달한다. 이 그래프는 ``$n$을 늘리는 비용''을 정량적으로 보여주며, $n = 15$가 Pareto 최적점인 이유의 계산적 근거를 제공한다.\relax }{figure.caption.26}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces \textbf  {Fig.\nobreakspace  {}6 --- 실험 조건 총괄}: 4가지 $n$ 값($n = 1, 10, 15, 20$)에 대한 학습 조건과 성능 지표를 비교한 종합 다이어그램. 학습 시간은 $n$에 비례하여 증가하지만, blind PCC 개선은 $n = 15$ 이후 포화한다. 이 비대칭이 ``비용 효율이 중요하면 $n = 15$, 결론의 강도가 중요하면 $n = 20$'' 이라는 실용적 가이드라인의 근거이다.\relax }}{28}{figure.caption.27}\protected@file@percent }
+\newlabel{fig:fig6}{{19}{28}{\textbf {Fig.~6 --- 실험 조건 총괄}: 4가지 $n$ 값($n = 1, 10, 15, 20$)에 대한 학습 조건과 성능 지표를 비교한 종합 다이어그램. 학습 시간은 $n$에 비례하여 증가하지만, blind PCC 개선은 $n = 15$ 이후 포화한다. 이 비대칭이 ``비용 효율이 중요하면 $n = 15$, 결론의 강도가 중요하면 $n = 20$'' 이라는 실용적 가이드라인의 근거이다.\relax }{figure.caption.27}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}구체적 응용 시나리오}{28}{subsection.7.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.4}파장대 확장}{28}{subsection.7.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces 파장대별 D2NN 제작 난이도 비교.\relax }}{28}{table.caption.28}\protected@file@percent }
+\newlabel{tab:wavelength}{{9}{28}{파장대별 D2NN 제작 난이도 비교.\relax }{table.caption.28}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.5}산업화 로드맵}{29}{subsection.7.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces 응용 도메인별 기술 준비도(Technology Readiness Level) 로드맵.\relax }}{29}{figure.caption.29}\protected@file@percent }
+\newlabel{fig:roadmap}{{20}{29}{응용 도메인별 기술 준비도(Technology Readiness Level) 로드맵.\relax }{figure.caption.29}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.6}제한사항과 극복 방안}{29}{subsection.7.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8}결론}{29}{section.8}\protected@file@percent }
+\newlabel{sec:conclusion}{{8}{29}{결론}{section.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}재현 프로젝트의 주요 성과}{29}{subsection.8.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}암묵지의 의의}{30}{subsection.8.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.3}향후 연구 방향}{30}{subsection.8.3}\protected@file@percent }
+\gdef \@abspage@last{30}

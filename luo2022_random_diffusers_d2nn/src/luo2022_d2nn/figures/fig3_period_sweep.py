@@ -15,6 +15,7 @@ from typing import Any, Optional
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 import numpy as np
 import torch
 
@@ -27,7 +28,7 @@ from luo2022_d2nn.diffuser.random_phase import generate_diffuser
 from luo2022_d2nn.eval.grating_period import estimate_grating_period
 from luo2022_d2nn.models.d2nn import D2NN
 from luo2022_d2nn.optics.bl_asm import bl_asm_propagate, bl_asm_transfer_function
-from luo2022_d2nn.utils.viz import contrast_enhance, save_figure
+from luo2022_d2nn.utils.viz import save_figure
 
 
 # Standard test periods (mm) from the paper
@@ -38,6 +39,20 @@ N_BLIND_DIFFUSERS = 20
 
 # Seed offset so blind seeds never overlap with training
 _BLIND_SEED_BASE = 77777777
+
+_BAR_COLORS = [
+    "#1f77b4",  # blue
+    "#e6550d",  # orange-red
+    "#f1b514",  # golden yellow
+    "#8e24aa",  # purple
+]
+_TRUE_PERIOD_COLOR = "#00ff33"
+_TITLE_COLORS = {
+    "known": "#2b8cde",
+    "blind": "#dca41b",
+}
+_Y_LIMS = (4.0, 15.0)
+_Y_TICKS = np.arange(4.0, 16.0, 2.0)
 
 
 # ------------------------------------------------------------------
@@ -116,6 +131,83 @@ def _forward_grating(
     with torch.no_grad():
         out = model(field)
     return out.abs() ** 2  # (1, N, N)
+
+
+def _compute_period_stats(
+    est_dict: dict[int, dict[float, list[float]]],
+    n_values: list[int],
+) -> tuple[dict[int, list[float]], dict[int, list[float]]]:
+    """Compute mean/std statistics for each n and target period."""
+    means_by_n: dict[int, list[float]] = {}
+    stds_by_n: dict[int, list[float]] = {}
+    for n in n_values:
+        means = []
+        stds = []
+        for p in TEST_PERIODS_MM:
+            vals = np.asarray(est_dict[n][p], dtype=float)
+            vals = vals[np.isfinite(vals)]
+            means.append(float(np.mean(vals)) if len(vals) else float("nan"))
+            stds.append(float(np.std(vals)) if len(vals) else float("nan"))
+        means_by_n[n] = means
+        stds_by_n[n] = stds
+    return means_by_n, stds_by_n
+
+
+def _plot_period_panel(
+    ax: plt.Axes,
+    est_dict: dict[int, dict[float, list[float]]],
+    n_values: list[int],
+    title: str,
+    title_color: str,
+) -> None:
+    """Render a single paper-style Fig. 3 panel."""
+    means_by_n, stds_by_n = _compute_period_stats(est_dict, n_values)
+
+    x = np.arange(len(TEST_PERIODS_MM), dtype=float)
+    bar_width = 0.16
+    offsets = np.linspace(-1.5 * bar_width, 1.5 * bar_width, len(n_values))
+
+    for idx, period in enumerate(TEST_PERIODS_MM):
+        x0 = x[idx] + offsets[0] - 0.06
+        x1 = x[idx] + offsets[-1] + bar_width + 0.06
+        label = "True Period" if idx == 0 else None
+        ax.hlines(
+            y=period,
+            xmin=x0,
+            xmax=x1,
+            colors=_TRUE_PERIOD_COLOR,
+            linestyles="--",
+            linewidth=2.5,
+            label=label,
+            zorder=4,
+        )
+
+    for idx, n in enumerate(n_values):
+        ax.bar(
+            x + offsets[idx],
+            means_by_n[n],
+            width=bar_width,
+            yerr=stds_by_n[n],
+            color=_BAR_COLORS[idx],
+            edgecolor="#333333",
+            linewidth=1.0,
+            capsize=5,
+            label=f"n = {n}",
+            zorder=3,
+        )
+
+    ax.set_title(title, fontsize=15, fontweight="bold", color=title_color, pad=10)
+    ax.set_xlabel("Resolution Test Target Period, mm", fontsize=11)
+    ax.set_xticks(x)
+    ax.set_xticklabels([f"{p:g}" for p in TEST_PERIODS_MM], fontsize=10)
+    ax.set_ylim(*_Y_LIMS)
+    ax.set_yticks(_Y_TICKS)
+    ax.tick_params(axis="y", labelsize=10)
+    ax.tick_params(axis="x", labelsize=10)
+    for spine in ax.spines.values():
+        spine.set_linewidth(1.0)
+        spine.set_color("#666666")
+    ax.set_axisbelow(True)
 
 
 # ------------------------------------------------------------------
@@ -209,41 +301,46 @@ def make_fig3(
                 blind_estimated[n][p].append(p_hat)
 
     # ---- Plotting -----------------------------------------------------------
-    fig, (ax_a, ax_b) = plt.subplots(1, 2, figsize=(10, 4.5), sharey=True)
+    fig, (ax_a, ax_b) = plt.subplots(1, 2, figsize=(9.0, 4.8), sharey=True)
 
-    colors = plt.cm.tab10(np.linspace(0, 1, len(n_values)))
-    markers = ["o", "s", "^", "D", "v", "p", "*"]
+    _plot_period_panel(
+        ax_a,
+        known_estimated,
+        n_values,
+        title="All-Optical Imaging Through\nLast n Diffusers in Training",
+        title_color=_TITLE_COLORS["known"],
+    )
+    _plot_period_panel(
+        ax_b,
+        blind_estimated,
+        n_values,
+        title="All-Optical Imaging Through\n20 New Diffusers",
+        title_color=_TITLE_COLORS["blind"],
+    )
 
-    for panel_idx, (ax, est_dict, title) in enumerate([
-        (ax_a, known_estimated, "(a) Known diffusers"),
-        (ax_b, blind_estimated, "(b) Blind diffusers"),
-    ]):
-        # y = x reference
-        ax.plot(TEST_PERIODS_MM, TEST_PERIODS_MM, "k--", alpha=0.4, label="ideal")
+    ax_a.set_ylabel("Measured Grating Period, mm", fontsize=11)
+    ax_b.set_ylabel("Measured Grating Period, mm", fontsize=11)
+    ax_b.tick_params(labelleft=True)
 
-        for ci, n in enumerate(n_values):
-            means = []
-            stds = []
-            for p in TEST_PERIODS_MM:
-                vals = np.array(est_dict[n][p])
-                vals = vals[np.isfinite(vals)]
-                means.append(np.mean(vals) if len(vals) else float("nan"))
-                stds.append(np.std(vals) if len(vals) else float("nan"))
-            ax.errorbar(
-                TEST_PERIODS_MM, means, yerr=stds,
-                label=f"n={n}", color=colors[ci],
-                marker=markers[ci % len(markers)],
-                capsize=3, linewidth=1.2, markersize=5,
-            )
+    legend_handles = [
+        Line2D([0], [0], color=_BAR_COLORS[idx], lw=12, label=f"n = {n_values[idx]}")
+        for idx in range(len(n_values))
+    ]
+    legend_handles.append(
+        Line2D(
+            [0],
+            [0],
+            color=_TRUE_PERIOD_COLOR,
+            linestyle="--",
+            linewidth=2.5,
+            label="True Period",
+        )
+    )
+    ax_b.legend(handles=legend_handles, loc="upper left", frameon=False, fontsize=10)
 
-        ax.set_xlabel("True period (mm)", fontsize=10)
-        ax.set_title(title, fontsize=11, fontweight="bold")
-        ax.legend(fontsize=8)
-
-    ax_a.set_ylabel("Estimated period (mm)", fontsize=10)
-    fig.suptitle("Fig 3: Grating Period Recovery vs Training n",
-                 fontsize=12, fontweight="bold", y=1.01)
-    fig.tight_layout()
+    ax_a.text(-0.20, 1.05, "(a)", transform=ax_a.transAxes, fontsize=14, fontfamily="serif")
+    ax_b.text(-0.20, 1.05, "(b)", transform=ax_b.transAxes, fontsize=14, fontfamily="serif")
+    fig.subplots_adjust(left=0.10, right=0.98, top=0.86, bottom=0.18, wspace=0.50)
 
     if save_path is not None:
         save_figure(fig, save_path)

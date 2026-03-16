@@ -19,6 +19,10 @@ def main():
     parser.add_argument("--runs-root", default="runs", type=str)
     parser.add_argument("--output-dir", default="figures", type=str)
     parser.add_argument("--config", default="configs/baseline.yaml", type=str)
+    parser.add_argument("--compare-runs-root", default=None, type=str,
+                        help="Second runs root for phase comparison (e.g. runs for B=64)")
+    parser.add_argument("--compare-label", default=None, type=str,
+                        help="Label for the comparison (e.g. 'B=64 (100ep)')")
     args = parser.parse_args()
 
     runs_root = Path(args.runs_root)
@@ -70,6 +74,45 @@ def main():
     else:
         logger.warning("Skipping Fig 2: n20_L4 checkpoint not found")
 
+    # ----- Supp. Fig. S3: Overlap map of phase islands -----
+    if baseline_ckpt:
+        logger.info("Generating Supplementary Fig. S3...")
+        from luo2022_d2nn.figures.figs3_overlap_map import make_figs3
+        make_figs3(
+            checkpoint_path=baseline_ckpt,
+            config_path=args.config,
+            save_path=str(output_dir / "figS3_overlap_map.png"),
+        )
+        logger.info("  Saved figS3_overlap_map.png")
+    else:
+        logger.warning("Skipping Supplementary Fig. S3: n20_L4 checkpoint not found")
+
+    # ----- Supp. Fig. S4: pruning-condition comparison -----
+    if baseline_ckpt:
+        logger.info("Generating Supplementary Fig. S4...")
+        from luo2022_d2nn.figures.figs4_pruning import make_figs4
+        make_figs4(
+            checkpoint_path=baseline_ckpt,
+            config_path=args.config,
+            save_path=str(output_dir / "figS4_pruning.png"),
+        )
+        logger.info("  Saved figS4_pruning.png")
+    else:
+        logger.warning("Skipping Supplementary Fig. S4: n20_L4 checkpoint not found")
+
+    # ----- Supp. Fig. S1: Layer phase patterns -----
+    if baseline_ckpt:
+        logger.info("Generating Supplementary Fig. S1...")
+        from luo2022_d2nn.figures.figs1_layer_phases import make_figs1
+        make_figs1(
+            checkpoint_path=baseline_ckpt,
+            config_path=args.config,
+            save_path=str(output_dir / "figS1_layer_phases.png"),
+        )
+        logger.info("  Saved figS1_layer_phases.png")
+    else:
+        logger.warning("Skipping Supplementary Fig. S1: n20_L4 checkpoint not found")
+
     # ----- Fig 3: Period sweep -----
     n_ckpts = {}
     for n in [1, 10, 15, 20]:
@@ -114,6 +157,20 @@ def main():
     else:
         logger.warning("Skipping Fig 6: no 4-layer checkpoints found")
 
+    # ----- Supp. Fig. S5: Correlation length test -----
+    if n_ckpts:
+        logger.info("Generating Supplementary Fig. S5...")
+        from luo2022_d2nn.figures.figs5_corr_length import make_figs5
+        s5_ckpts = {f"n={n}": path for n, path in n_ckpts.items()}
+        make_figs5(
+            checkpoint_paths=s5_ckpts,
+            config_path=args.config,
+            save_path=str(output_dir / "figS5_corr_length.png"),
+        )
+        logger.info("  Saved figS5_corr_length.png")
+    else:
+        logger.warning("Skipping Supplementary Fig. S5: no 4-layer checkpoints found")
+
     # ----- Fig 7: Depth advantage -----
     depth_ckpts = {}
     for layers in [2, 4, 5]:
@@ -132,6 +189,27 @@ def main():
         logger.info("  Saved fig7_depth.png")
     else:
         logger.warning("Skipping Fig 7: no depth-sweep checkpoints found")
+
+    # ----- Phase comparison (optional) -----
+    if args.compare_runs_root and baseline_ckpt:
+        compare_root = Path(args.compare_runs_root)
+        compare_ckpt = compare_root / "n20_L4" / "model.pt"
+        if compare_ckpt.exists():
+            logger.info("Generating phase comparison...")
+            from luo2022_d2nn.figures.figs1_layer_phases import make_figs1_comparison
+            current_label = f"{runs_root.name}"
+            compare_label = args.compare_label or f"{compare_root.name}"
+            make_figs1_comparison(
+                checkpoint_paths={
+                    compare_label: str(compare_ckpt),
+                    current_label: baseline_ckpt,
+                },
+                config_path=args.config,
+                save_path=str(output_dir / "figS1_phase_comparison.png"),
+            )
+            logger.info("  Saved figS1_phase_comparison.png")
+        else:
+            logger.warning("Comparison checkpoint not found: %s", compare_ckpt)
 
     logger.info("=" * 60)
     logger.info("Figure generation complete! Output: %s", output_dir)

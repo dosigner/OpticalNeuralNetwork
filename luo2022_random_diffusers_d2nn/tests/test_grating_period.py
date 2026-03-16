@@ -4,11 +4,12 @@ import numpy as np
 import torch
 import pytest
 
+from luo2022_d2nn.data.resolution_targets import SUPPORTED_PERIODS_MM, generate_grating_target
 from luo2022_d2nn.eval.grating_period import estimate_grating_period
 
 
 def _make_synthetic_grating(N: int, dx_mm: float, period_mm: float) -> torch.Tensor:
-    """Create a synthetic 3-bar grating with Gaussian-shaped bars.
+    """Create a synthetic horizontal 3-bar grating with Gaussian-shaped bars.
 
     Bars are centered at  center - period_mm, center, center + period_mm
     so that (max_peak - min_peak) / 2 = period_mm.
@@ -22,8 +23,8 @@ def _make_synthetic_grating(N: int, dx_mm: float, period_mm: float) -> torch.Ten
     for mu in positions:
         profile += np.exp(-((x - mu) ** 2) / (2 * sigma ** 2))
 
-    # Make it 2D: replicate along y
-    img = np.tile(profile[np.newaxis, :], (N, 1)).astype(np.float32)
+    # Make it 2D as horizontal bars: replicate the 1D y-profile across x.
+    img = np.tile(profile[:, np.newaxis], (1, N)).astype(np.float32)
     return torch.from_numpy(img)
 
 
@@ -54,3 +55,17 @@ class TestGratingPeriod:
         assert est_2d == pytest.approx(period_mm, abs=1.0)
         assert est_3d == pytest.approx(period_mm, abs=1.0)
         assert est_2d == pytest.approx(est_3d, abs=0.01)
+
+    @pytest.mark.parametrize("period_mm", SUPPORTED_PERIODS_MM)
+    def test_generated_horizontal_bar_target_matches_requested_period(self, period_mm):
+        """Estimator should recover the requested period from generated paper-style targets."""
+        target = generate_grating_target(
+            period_mm=period_mm,
+            dx_mm=0.3,
+            active_size=160,
+            final_size=240,
+        )
+
+        estimated = estimate_grating_period(target, dx_mm=0.3)
+
+        assert estimated == pytest.approx(period_mm, abs=1.0)

@@ -1,20 +1,29 @@
 """Correlation length estimation for phase diffusers.
 
-Autocorrelation model: R_d(x,y) = exp(-π (x²+y²) / L²)
-Estimate L from the 2-D autocorrelation of the phase map.
+Paper model (Eq. 5, Luo et al. eLight 2022):
+    R_d(x,y) = exp(-π (x²+y²) / L²)
+
+Estimate L from the radially-averaged 2-D autocorrelation of the phase map
+by fitting the Gaussian decay to extract L.
 """
 
 from __future__ import annotations
 
 import math
 
+import numpy as np
 import torch
 
 from luo2022_d2nn.optics.grids import make_spatial_grid
 
 
 def estimate_correlation_length(phase_map: torch.Tensor, dx_mm: float) -> float:
-    """Estimate the 1/e correlation length *L* of a phase map.
+    """Estimate correlation length L matching paper's definition.
+
+    Fits the radially-averaged autocorrelation to:
+        R(r) = exp(-π r² / L²)
+
+    At r = L, R drops to exp(-π) ≈ 0.043.
 
     Parameters
     ----------
@@ -23,7 +32,7 @@ def estimate_correlation_length(phase_map: torch.Tensor, dx_mm: float) -> float:
 
     Returns
     -------
-    L : float, correlation length in mm.
+    L : float, correlation length in mm (paper's definition).
     """
     phi = phase_map.to(torch.float64)
     phi = phi - phi.mean()
@@ -33,37 +42,65 @@ def estimate_correlation_length(phase_map: torch.Tensor, dx_mm: float) -> float:
     power = F_phi.real ** 2 + F_phi.imag ** 2
     R = torch.fft.ifft2(power).real
     R = torch.fft.fftshift(R, dim=(-2, -1))
-
-    # Normalise so peak = 1
     R = R / R.max()
 
-    # Build radial distance grid
     N = phi.shape[-1]
-    x, y = make_spatial_grid(N, dx_mm, device=phi.device, dtype=torch.float64)
-    r_sq = x ** 2 + y ** 2
+    mid = N // 2
 
-    # Fit: R ≈ exp(-π r² / L²)  →  ln(R) = -π r² / L²
-    # Use only points where R > threshold (avoid log of small/negative)
-    mask = R > 0.05
-    if mask.sum() < 10:
-        mask = R > 0.01
+    # Radially-averaged autocorrelation for robust fitting
+    y_idx, x_idx = np.mgrid[:N, :N]
+    r_px = np.sqrt((x_idx - mid) ** 2 + (y_idx - mid) ** 2)
+    R_np = R.cpu().numpy()
 
-    log_R = torch.log(R[mask].clamp(min=1e-12))
-    r_sq_vals = r_sq[mask]
+    # Bin by radius (integer pixel bins)
+    max_r = min(mid, 60)  # fit within reasonable range
+    r_bins = np.arange(0, max_r + 1)
+    r_avg = np.zeros(len(r_bins))
+    for i, r in enumerate(r_bins):
+        mask = (r_px >= r - 0.5) & (r_px < r + 0.5)
+        if mask.sum() > 0:
+            r_avg[i] = R_np[mask].mean()
 
-    # Weighted least-squares:  log_R = slope * r_sq  where slope = -π/L²
-    # slope = Σ(r² * log_R) / Σ(r²²)
-    numerator = (r_sq_vals * log_R).sum()
-    denominator = (r_sq_vals * r_sq_vals).sum()
+    # Fit: ln(R) = -π r² / L²  →  slope = -π / L²
+    # Use points where R > 0.05 to avoid noise in the tail
+    valid = r_avg > 0.05
+    valid[0] = False  # skip r=0 (always 1.0)
+    if valid.sum() < 3:
+        valid = r_avg > 0.01
+        valid[0] = False
 
-    if denominator.abs() < 1e-30:
+    r_mm = r_bins[valid] * dx_mm
+    log_R = np.log(np.clip(r_avg[valid], 1e-12, None))
+    r_sq = r_mm ** 2
+
+    # Least squares: log_R = slope * r_sq, where slope = -π/L²
+    slope = np.sum(r_sq * log_R) / np.sum(r_sq ** 2)
+
+    if slope >= 0:
         return float(dx_mm)  # fallback
 
-    slope = numerator / denominator  # should be negative
-
-    # L² = -π / slope
-    L_sq = -math.pi / slope.item()
-    if L_sq <= 0:
-        return float(dx_mm)  # fallback
-
+    L_sq = -math.pi / slope
     return math.sqrt(L_sq)
+
+
+def estimate_correlation_fwhm(phase_map: torch.Tensor, dx_mm: float) -> float:
+    """Estimate FWHM of autocorrelation (alternative metric).
+
+    Returns the half-width at half-maximum in mm.
+    """
+    phi = phase_map.to(torch.float64)
+    phi = phi - phi.mean()
+
+    F_phi = torch.fft.fft2(phi)
+    power = F_phi.real ** 2 + F_phi.imag ** 2
+    R = torch.fft.ifft2(power).real
+    R = torch.fft.fftshift(R, dim=(-2, -1))
+    R = R / R.max()
+
+    N = phi.shape[-1]
+    mid = N // 2
+    line = R[mid, mid:].cpu().numpy()
+
+    below = np.where(line < 0.5)[0]
+    fwhm_px = float(below[0]) if len(below) > 0 else float(N // 2)
+    return fwhm_px * dx_mm
