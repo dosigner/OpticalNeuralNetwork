@@ -21,3 +21,6 @@ wandb/
 
 # Claude
 .claude/
+
+# Local git worktrees
+/worktrees/
