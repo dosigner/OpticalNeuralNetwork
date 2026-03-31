@@ -1,0 +1,14 @@
+ep  0 loss=0.28613 lr=1.60e-03 419.3s
+  -> starting eval at epoch 0...
+  Epoch   0/29 | loss=0.28613 | co=0.2865 | fpib10=0.1799 | fpib50=0.9802 | fstrehl=0.0454 | lr=1.60e-03 | 419.3s
+ep  1 loss=0.27655 lr=3.20e-03 445.9s
+ep  2 loss=0.26144 lr=4.80e-03 460.9s
+ep  3 loss=0.23461 lr=6.40e-03 412.4s
+ep  4 loss=0.20909 lr=8.00e-03 406.0s
+ep  5 loss=0.18843 lr=7.97e-03 386.7s
+ep  6 loss=0.16925 lr=7.87e-03 385.9s
+ep  7 loss=0.15196 lr=7.72e-03 389.0s
+ep  8 loss=0.13680 lr=7.51e-03 385.4s
+ep  9 loss=0.12366 lr=7.24e-03 424.3s
+ep 10 loss=0.11389 lr=6.92e-03 395.8s
+ep 11 loss=0.10695 lr=6.55e-03 409.6s

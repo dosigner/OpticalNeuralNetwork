@@ -37,3 +37,72 @@ D2NN Focal-Plane PIB Sweep
   Focus lens f=4.5mm, PIB bucket=10μm
 ======================================================================
   Epoch   0/29 | loss=0.68672 | co=0.1945 | fpib10=0.4636 | fpib50=0.9830 | fstrehl=0.2213 | lr=1.60e-03 | 391.6s
+  Epoch  29/29 | loss=0.11063 | co=0.1106 | fpib10=0.8945 | fpib50=0.9851 | fstrehl=0.6545 | lr=1.00e-05 | 392.4s
+
+============================================================
+  PHYSICS SANITY CHECKS
+============================================================
+  [FAIL] Energy Throughput: 0.428211 ([0.9, 1.1])
+         Throughput=0.4282, energy lost
+  [FAIL] Unitary CO Preservation: 0.089626 (|delta| < 0.01)
+         CO delta=0.089626, D2NN may not be unitary
+  [PASS] Strehl Upper Bound: 0.625748 (<= 1.05)
+
+  Result: FAILURES DETECTED
+============================================================
+
+WARNING: Post-training sanity checks failed for focal_pib_only.
+
+  TEST RESULTS (metric plane separation):
+    === D2NN Output Plane ===
+    CO:     0.2799 → 0.1096 (-0.1704)
+    IO:     0.8049
+    WF RMS: 433.9 → 447.0 nm (-3.0%)
+    === Focal Plane (f=4.5mm) ===
+    PIB@10μm: 0.1722 → 0.9001 (Δ=+0.7279, 545.0% of vacuum=0.1652)
+    PIB@50μm: 0.9781 → 0.9857 (vacuum=0.9847)
+    Strehl:   0.6384
+    dx_focal: 3.406 μm
+    TP:       0.4381
+
+======================================================================
+  [focal_strehl_only] Focal-plane Strehl ratio loss
+  TV=0.05, LR=0.008→cosine, epochs=30
+  Focus lens f=4.5mm, PIB bucket=10μm
+======================================================================
+  Epoch   0/29 | loss=0.94242 | co=0.2691 | fpib10=0.2357 | fpib50=0.9831 | fstrehl=0.0655 | lr=1.60e-03 | 448.7s
+  Epoch  29/29 | loss=-0.14293 | co=0.0737 | fpib10=0.8301 | fpib50=0.9585 | fstrehl=1.1956 | lr=1.00e-05 | 413.3s
+
+============================================================
+  PHYSICS SANITY CHECKS
+============================================================
+  [FAIL] Energy Throughput: 0.023578 ([0.9, 1.1])
+         Throughput=0.0236, energy lost
+  [FAIL] Unitary CO Preservation: 0.593463 (|delta| < 0.01)
+         CO delta=0.593463, D2NN may not be unitary
+  [FAIL] Strehl Upper Bound: 1.219248 (<= 1.05)
+         Strehl=1.2192 exceeds passive limit
+
+  Result: FAILURES DETECTED
+============================================================
+
+WARNING: Post-training sanity checks failed for focal_strehl_only.
+
+  TEST RESULTS (metric plane separation):
+    === D2NN Output Plane ===
+    CO:     0.2799 → 0.0730 (-0.2069)
+    IO:     0.8175
+    WF RMS: 433.9 → 445.4 nm (-2.7%)
+    === Focal Plane (f=4.5mm) ===
+    PIB@10μm: 0.1722 → 0.8391 (Δ=+0.6669, 508.1% of vacuum=0.1652)
+    PIB@50μm: 0.9781 → 0.9608 (vacuum=0.9847)
+    Strehl:   1.2014
+    dx_focal: 3.406 μm
+    TP:       0.0218
+
+======================================================================
+  [focal_intensity_overlap] Focal-plane intensity overlap loss
+  TV=0.05, LR=0.008→cosine, epochs=30
+  Focus lens f=4.5mm, PIB bucket=10μm
+======================================================================
+  Epoch   0/29 | loss=0.28613 | co=0.2865 | fpib10=0.1799 | fpib50=0.9802 | fstrehl=0.0454 | lr=1.60e-03 | 419.3s
