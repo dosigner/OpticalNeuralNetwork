@@ -1,0 +1,15 @@
+Device: cuda
+GPU: NVIDIA A100-SXM4-40GB
+
+Focal Strehl Retrain (CORRECT: 4x padding + flat-phase ref)
+  Airy first zero: 4.25μm
+  dx_focal (no pad): 3.406μm → Airy=1.25px (undersampled!)
+  dx_focal (4x pad): 0.851μm → Airy=5.00px (OK)
+  batch_size=8, lr=0.002, epochs=100
+  Data: train=4000, val=500, test=500
+
+======================================================================
+  [focal_strehl_only] CORRECT Strehl loss (4x pad, flat-phase ref)
+  TV=0.05, LR=0.002→cosine, epochs=100
+======================================================================
+  Epoch   0/99 | loss=0.95110 | co=0.2587 | strehl=0.0500 | fpib10=0.1650 | lr=2.00e-04 | 710.1s

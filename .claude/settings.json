@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(*)",
+      "Read(*)",
+      "Write(*)"
+    ],
+    "deny": [
+      "Bash(rm -rf /*)",
+      "Bash(curl * | bash)",
+      "Bash(wget * | bash)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if echo \"$CLAUDE_FILE\" | grep -qE '\\.py$'; then python3 -m py_compile \"$CLAUDE_FILE\" 2>&1 || echo 'SYNTAX ERROR'; fi",
+            "timeout": 10,
+            "statusMessage": "Checking Python syntax..."
+          }
+        ]
+      }
+    ]
+  }
+}

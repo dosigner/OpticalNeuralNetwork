@@ -1,0 +1,59 @@
+{
+  "name": "focal_pib_only",
+  "description": "Focal-plane PIB@10\u03bcm loss",
+  "arch": {
+    "num_layers": 5,
+    "layer_spacing_m": 0.01,
+    "detector_distance_m": 0.01
+  },
+  "focus_f_mm": 4.5,
+  "pib_bucket_radius_um": 10.0,
+  "co_output": 0.09793514013290405,
+  "io_output": 0.781090259552002,
+  "co_baseline": 0.2799460291862488,
+  "focal_pib_10um": 0.8124586939811707,
+  "focal_pib_50um": 0.9784137606620789,
+  "focal_pib_10um_baseline": 0.17219534516334534,
+  "focal_pib_50um_baseline": 0.9780635833740234,
+  "focal_pib_10um_vacuum": 0.16515542566776276,
+  "focal_pib_50um_vacuum": 0.9846898913383484,
+  "focal_strehl": 28.780078887939453,
+  "focal_strehl_correct_recomputed": 0.5463925112807562,
+  "dx_focal_um": 3.40576171875,
+  "throughput": 0.9999978987431767,
+  "physics_hardening_status": "pre-hardening_run_reassessed_under_2026-03-31_physics",
+  "retrain_required_current_physics": true,
+  "retrain_reason": "The checkpoint was optimized with the old periodic same-window propagation and legacy Strehl path. Current kim2026 D2NN physics uses padded alias-safe propagation plus corrected Strehl, so the learned masks are not the optimum of the current forward model.",
+  "wf_rms_rad": 1.8130260140895844,
+  "wf_rms_baseline_rad": 1.7636607669591904,
+  "wf_rms_nm": 447.25568074965815,
+  "wf_rms_baseline_nm": 435.07775994813755,
+  "training_seconds": 36271.73631310463,
+  "history": {
+    "epoch": [
+      0,
+      50,
+      99
+    ],
+    "loss": [
+      0.793889060974121,
+      0.19263621127605438,
+      0.19168256545066834
+    ],
+    "val_co": [
+      0.22493630647659302,
+      0.10102624446153641,
+      0.10148074477910995
+    ],
+    "val_focal_pib_10": [
+      0.2519124746322632,
+      0.8048796653747559,
+      0.8054925799369812
+    ],
+    "lr": [
+      0.0008,
+      0.0045609965383354625,
+      1e-05
+    ]
+  }
+}

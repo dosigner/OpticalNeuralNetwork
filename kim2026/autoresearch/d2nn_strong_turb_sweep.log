@@ -1,0 +1,118 @@
+Device: cuda
+GPU: NVIDIA A100-SXM4-40GB
+Model: D2NN (non-Fourier, angular spectrum)
+Data: strong turbulence (Cn²=5e-14, D/r₀≈5)
+Sweeping 5 loss configurations
+Fixed: layers=5, spacing=10mm, N=1024, lr=0.0005, epochs=100
+Data: train=400, val=50, test=50
+
+--- Throughput diagnostic (zero-phase D2NN) ---
+  Zero-phase throughput: 1.0000
+  OK: Energy conserved (within 10%)
+  Baseline CO (no correction): 0.3044
+
+======================================================================
+  [baseline_co] complex_overlap:1.0
+  D2NN: 5 layers, N=1024, 100 epochs
+  Data: strong turbulence (Cn²=5e-14, D/r₀≈5)
+======================================================================
+  Epoch   0/99 | loss=0.73025 | co=0.2959 | io=0.6686 | sr=4.1239 | bl_co=0.3460 | 38.3s
+  Epoch  10/99 | loss=0.70321 | co=0.3446 | io=0.6799 | sr=5.1746 | bl_co=0.3460 | 36.0s
+  Epoch  20/99 | loss=0.70039 | co=0.3510 | io=0.6732 | sr=5.9317 | bl_co=0.3460 | 36.3s
+  Epoch  30/99 | loss=0.69924 | co=0.3531 | io=0.6701 | sr=6.3485 | bl_co=0.3460 | 34.5s
+  Epoch  40/99 | loss=0.69857 | co=0.3542 | io=0.6693 | sr=6.6445 | bl_co=0.3460 | 39.2s
+  Epoch  50/99 | loss=0.69788 | co=0.3548 | io=0.6696 | sr=6.8540 | bl_co=0.3460 | 65.6s
+  Epoch  60/99 | loss=0.69731 | co=0.3553 | io=0.6705 | sr=7.0169 | bl_co=0.3460 | 67.6s
+  Epoch  70/99 | loss=0.69688 | co=0.3560 | io=0.6714 | sr=7.1387 | bl_co=0.3460 | 67.9s
+  Epoch  80/99 | loss=0.69641 | co=0.3562 | io=0.6726 | sr=7.2086 | bl_co=0.3460 | 68.4s
+  Epoch  90/99 | loss=0.69592 | co=0.3566 | io=0.6735 | sr=7.2695 | bl_co=0.3460 | 65.3s
+  Epoch  99/99 | loss=0.69549 | co=0.3568 | io=0.6744 | sr=7.3171 | bl_co=0.3460 | 66.8s
+  TEST: co=0.3286 | baseline=0.3044 | delta=+0.0241 | tp=1.0000 | IMPROVED | 5437s
+
+======================================================================
+  [co_amp] complex_overlap:1.0 + amplitude_mse:0.5
+  D2NN: 5 layers, N=1024, 100 epochs
+  Data: strong turbulence (Cn²=5e-14, D/r₀≈5)
+======================================================================
+  Epoch   0/99 | loss=0.73030 | co=0.2959 | io=0.6686 | sr=4.1238 | bl_co=0.3460 | 67.5s
+  Epoch  10/99 | loss=0.70326 | co=0.3446 | io=0.6799 | sr=5.1763 | bl_co=0.3460 | 66.8s
+  Epoch  20/99 | loss=0.70043 | co=0.3510 | io=0.6732 | sr=5.9339 | bl_co=0.3460 | 66.9s
+  Epoch  30/99 | loss=0.69929 | co=0.3531 | io=0.6702 | sr=6.3511 | bl_co=0.3460 | 66.0s
+  Epoch  40/99 | loss=0.69861 | co=0.3542 | io=0.6693 | sr=6.6469 | bl_co=0.3460 | 67.5s
+  Epoch  50/99 | loss=0.69792 | co=0.3548 | io=0.6697 | sr=6.8559 | bl_co=0.3460 | 66.9s
+  Epoch  60/99 | loss=0.69735 | co=0.3553 | io=0.6706 | sr=7.0186 | bl_co=0.3460 | 67.1s
+  Epoch  70/99 | loss=0.69692 | co=0.3560 | io=0.6715 | sr=7.1395 | bl_co=0.3460 | 67.2s
+  Epoch  80/99 | loss=0.69645 | co=0.3562 | io=0.6728 | sr=7.2082 | bl_co=0.3460 | 65.8s
+  Epoch  90/99 | loss=0.69596 | co=0.3566 | io=0.6737 | sr=7.2688 | bl_co=0.3460 | 68.1s
+  Epoch  99/99 | loss=0.69554 | co=0.3568 | io=0.6745 | sr=7.3160 | bl_co=0.3460 | 67.6s
+  TEST: co=0.3285 | baseline=0.3044 | delta=+0.0241 | tp=1.0000 | IMPROVED | 6785s
+
+======================================================================
+  [co_phasor] complex_overlap:1.0 + phasor_mse:1.0
+  D2NN: 5 layers, N=1024, 100 epochs
+  Data: strong turbulence (Cn²=5e-14, D/r₀≈5)
+======================================================================
+  Epoch   0/99 | loss=2.75656 | co=0.2853 | io=0.6651 | sr=4.0983 | bl_co=0.3460 | 66.3s
+  Epoch  10/99 | loss=2.73328 | co=0.3115 | io=0.6823 | sr=4.3673 | bl_co=0.3460 | 66.7s
+  Epoch  20/99 | loss=2.72029 | co=0.3214 | io=0.6904 | sr=4.9234 | bl_co=0.3460 | 67.9s
+  Epoch  30/99 | loss=2.71046 | co=0.3252 | io=0.6957 | sr=5.4300 | bl_co=0.3460 | 68.8s
+  Epoch  40/99 | loss=2.70236 | co=0.3267 | io=0.6998 | sr=5.8666 | bl_co=0.3460 | 67.2s
+  Epoch  50/99 | loss=2.69512 | co=0.3272 | io=0.7028 | sr=6.2503 | bl_co=0.3460 | 67.8s
+  Epoch  60/99 | loss=2.68877 | co=0.3269 | io=0.7047 | sr=6.6009 | bl_co=0.3460 | 68.1s
+  Epoch  70/99 | loss=2.68276 | co=0.3272 | io=0.7055 | sr=6.9062 | bl_co=0.3460 | 68.3s
+  Epoch  80/99 | loss=2.67746 | co=0.3269 | io=0.7057 | sr=7.1731 | bl_co=0.3460 | 69.1s
+  Epoch  90/99 | loss=2.67266 | co=0.3269 | io=0.7053 | sr=7.4577 | bl_co=0.3460 | 67.1s
+  Epoch  99/99 | loss=2.66869 | co=0.3271 | io=0.7046 | sr=7.7121 | bl_co=0.3460 | 36.9s
+  TEST: co=0.2987 | baseline=0.3044 | delta=-0.0057 | tp=1.0000 | WORSE | 6820s
+
+======================================================================
+  [co_ffp] complex_overlap:1.0 + full_field_phase:1.0
+  D2NN: 5 layers, N=1024, 100 epochs
+  Data: strong turbulence (Cn²=5e-14, D/r₀≈5)
+======================================================================
+  Epoch   0/99 | loss=1.07415 | co=0.2954 | io=0.6656 | sr=4.1861 | bl_co=0.3460 | 38.9s
+  Epoch  10/99 | loss=1.03113 | co=0.3426 | io=0.6646 | sr=6.2852 | bl_co=0.3460 | 35.0s
+  Epoch  20/99 | loss=1.02580 | co=0.3490 | io=0.6536 | sr=5.8244 | bl_co=0.3460 | 35.0s
+  Epoch  30/99 | loss=1.02351 | co=0.3503 | io=0.6462 | sr=6.4569 | bl_co=0.3460 | 35.8s
+  Epoch  40/99 | loss=1.02184 | co=0.3509 | io=0.6401 | sr=6.4437 | bl_co=0.3460 | 37.1s
+  Epoch  50/99 | loss=1.01995 | co=0.3511 | io=0.6340 | sr=7.9609 | bl_co=0.3460 | 35.0s
+  Epoch  60/99 | loss=1.01811 | co=0.3514 | io=0.6278 | sr=8.4254 | bl_co=0.3460 | 37.1s
+  Epoch  70/99 | loss=1.01615 | co=0.3519 | io=0.6204 | sr=24.7506 | bl_co=0.3460 | 37.7s
+  Epoch  80/99 | loss=1.01400 | co=0.3520 | io=0.6135 | sr=15.4336 | bl_co=0.3460 | 35.1s
+  Epoch  90/99 | loss=1.01146 | co=0.3522 | io=0.6051 | sr=14.8354 | bl_co=0.3460 | 35.4s
+  Epoch  99/99 | loss=1.00907 | co=0.3523 | io=0.5972 | sr=12.7199 | bl_co=0.3460 | 35.2s
+  TEST: co=0.3295 | baseline=0.3044 | delta=+0.0250 | tp=1.0000 | IMPROVED | 3661s
+
+======================================================================
+  [roi80] ROI(th=0.8, lk=1.0)
+  D2NN: 5 layers, N=1024, 100 epochs
+  Data: strong turbulence (Cn²=5e-14, D/r₀≈5)
+======================================================================
+  Epoch   0/99 | loss=0.90718 | co=0.2829 | io=0.6658 | sr=4.0259 | bl_co=0.3460 | 38.7s
+  Epoch  10/99 | loss=0.63820 | co=0.2799 | io=0.7170 | sr=8.0968 | bl_co=0.3460 | 38.3s
+  Epoch  20/99 | loss=0.56593 | co=0.2811 | io=0.7087 | sr=9.4341 | bl_co=0.3460 | 37.1s
+  Epoch  30/99 | loss=0.55383 | co=0.2829 | io=0.7088 | sr=9.5866 | bl_co=0.3460 | 37.6s
+  Epoch  40/99 | loss=0.54729 | co=0.2841 | io=0.7098 | sr=9.9285 | bl_co=0.3460 | 38.3s
+  Epoch  50/99 | loss=0.54284 | co=0.2850 | io=0.7109 | sr=9.6947 | bl_co=0.3460 | 37.8s
+  Epoch  60/99 | loss=0.53943 | co=0.2856 | io=0.7120 | sr=9.6617 | bl_co=0.3460 | 38.0s
+  Epoch  70/99 | loss=0.53664 | co=0.2862 | io=0.7130 | sr=9.6620 | bl_co=0.3460 | 37.4s
+  Epoch  80/99 | loss=0.53429 | co=0.2866 | io=0.7140 | sr=9.8264 | bl_co=0.3460 | 37.8s
+  Epoch  90/99 | loss=0.53231 | co=0.2869 | io=0.7150 | sr=9.7539 | bl_co=0.3460 | 37.8s
+  Epoch  99/99 | loss=0.53068 | co=0.2870 | io=0.7157 | sr=9.7247 | bl_co=0.3460 | 37.8s
+  TEST: co=0.2733 | baseline=0.3044 | delta=-0.0311 | tp=1.0000 | WORSE | 3849s
+
+====================================================================================================
+D2NN STRONG TURBULENCE SWEEP SUMMARY
+====================================================================================================
+Rank |                   Name |      CO | Baseline |   Delta |      IO |     TP |   Status
+------------------------------------------------------------------------------------------
+   1 |                 co_ffp |  0.3295 |   0.3044 | +0.0250 |  0.6070 | 1.0000 |   BETTER
+   2 |            baseline_co |  0.3286 |   0.3044 | +0.0241 |  0.6843 | 1.0000 |   BETTER
+   3 |                 co_amp |  0.3285 |   0.3044 | +0.0241 |  0.6844 | 1.0000 |   BETTER
+   4 |              co_phasor |  0.2987 |   0.3044 | -0.0057 |  0.7081 | 1.0000 |    WORSE
+   5 |                  roi80 |  0.2733 |   0.3044 | -0.0311 |  0.7186 | 1.0000 |    WORSE
+
+Baseline (no correction): co=0.3044
+Best: [co_ffp] co=0.3295 (delta=+0.0250)
+
+Results saved to /root/dj/D2NN/kim2026/autoresearch/runs/d2nn_strong_turb_sweep

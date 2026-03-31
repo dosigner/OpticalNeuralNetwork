@@ -1,0 +1,70 @@
+# Focal-Plane PIB Sweep Configuration
+# ====================================
+# D2NN optimized at focal plane (after focusing lens),
+# NOT at D2NN output plane.
+#
+# Usage:
+#   cd kim2026 && PYTHONPATH=src python -m autoresearch.d2nn_focal_pib_sweep \
+#       --config autoresearch/configs/focal_pib_sweep.yaml
+
+physics:
+  wavelength_m: 1.55e-6
+  receiver_window_m: 0.002048
+  aperture_diameter_m: 0.002
+  focus_f_m: 4.5e-3               # f=4.5mm focusing lens
+  pib_bucket_radius_um: 10.0      # 10μm bucket (SMF coupling proxy)
+  pib_eval_radii_um: [5, 10, 25, 50]
+
+architecture:
+  num_layers: 5
+  layer_spacing_m: 0.01           # 10mm inter-layer
+  detector_distance_m: 0.01       # 10mm to detector
+  propagation_pad_factor: 2       # zero-pad BL-ASM to suppress wrap-around
+  n_grid: 1024
+  roi_n: 1024
+
+training:
+  epochs: 100
+  batch_size: 32
+  lr: 8.0e-3                      # linear scaling: 1e-3 x 32/2 x 0.5
+  warmup_epochs: 10
+  tv_weight: 0.05                 # total variation regularization
+  seed: 20260329
+  scheduler: cosine               # cosine annealing after warmup
+  scheduler_eta_min: 1.0e-5
+
+data:
+  path: data/kim2026/1km_cn2_5e-14_tel15cm_n1024_br75
+  # Alternative datasets:
+  # path: data/kim2026/1km_cn2e-14_w2m_n1024_dx2mm  # weak turbulence
+
+loss_strategies:
+  focal_pib_only:
+    desc: "Focal-plane PIB@10um loss"
+    type: pib
+  focal_strehl_only:
+    desc: "Focal-plane Strehl ratio loss"
+    type: strehl
+  focal_intensity_overlap:
+    desc: "Focal-plane intensity overlap loss"
+    type: intensity_overlap
+  focal_co_pib_hybrid:
+    desc: "D2NN-output CO + focal PIB@10um hybrid"
+    type: co_pib_hybrid
+    co_weight: 1.0
+    pib_weight: 0.5
+
+sanity_checks:
+  enabled: true
+  vacuum_strehl_min: 0.0          # corrected raw-vacuum Strehl can be << 1 due wavefront curvature
+  vacuum_strehl_max: 1.05         # passive device Strehl <= 1.05
+  throughput_min: 0.90            # energy conservation lower bound
+  throughput_max: 1.10            # energy conservation upper bound
+  unitary_co_tolerance: 0.01     # CO preservation |delta| < 0.01
+
+output:
+  dir: autoresearch/runs/d2nn_focal_pib_sweep
+  save_phases: true
+  save_checkpoint: true
+  save_epoch_log: true
+  eval_interval: 50               # validate every N epochs

@@ -1,0 +1,4 @@
+interface:
+  display_name: "FD2NN Figure Curator"
+  short_description: "Promote codex figures into official store"
+  default_prompt: "Use $fd2nn-figure-curator to dry-run or apply promotion of codex run figures into kim2026/figures."

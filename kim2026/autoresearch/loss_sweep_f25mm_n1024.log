@@ -1,0 +1,309 @@
+Device: cuda
+GPU: NVIDIA A100-SXM4-40GB
+Sweeping 25 loss configurations
+Fixed: layers=5, spacing=5mm, constraint=unconstrained, lr=0.0005, epochs=30
+
+======================================================================
+  [baseline_co_amp] complex_overlap:1.0 + amplitude_mse:0.5
+  + phasor_smoothness: 0.01
+======================================================================
+  Epoch   0/29 | loss=0.82544 | co=0.1893 | io=0.9416 | sr=2.4577 | 38.7s
+  Epoch  10/29 | loss=0.81844 | co=0.1966 | io=0.9382 | sr=2.5265 | 39.8s
+  Epoch  20/29 | loss=0.81436 | co=0.2032 | io=0.9346 | sr=2.5657 | 37.4s
+  Epoch  29/29 | loss=0.81108 | co=0.2103 | io=0.9323 | sr=2.5994 | 36.5s
+  ⚠ WARN: throughput=0.7592 outside [0.95, 1.05]
+  ⚠ WARN: strehl=2.5503 > 1.05
+  TEST: co=0.1658 | io=0.9330 | sr=2.5503 | tp=0.7592 | 1143s
+
+======================================================================
+  [baseline_co_only] complex_overlap:1.0
+  + phasor_smoothness: 0.01
+======================================================================
+  Epoch   0/29 | loss=0.82544 | co=0.1893 | io=0.9416 | sr=2.4577 | 37.0s
+  Epoch  10/29 | loss=0.81844 | co=0.1966 | io=0.9382 | sr=2.5265 | 36.3s
+  Epoch  20/29 | loss=0.81436 | co=0.2032 | io=0.9346 | sr=2.5657 | 37.2s
+  Epoch  29/29 | loss=0.81108 | co=0.2103 | io=0.9323 | sr=2.5994 | 37.5s
+  ⚠ WARN: throughput=0.7592 outside [0.95, 1.05]
+  ⚠ WARN: strehl=2.5503 > 1.05
+  TEST: co=0.1658 | io=0.9330 | sr=2.5503 | tp=0.7592 | 1137s
+
+======================================================================
+  [roi50] ROI(th=0.5, lk=1.0)
+  + phasor_smoothness: 0.01
+======================================================================
+  Epoch   0/29 | loss=0.66432 | co=0.1906 | io=0.9374 | sr=2.4385 | 36.5s
+  Epoch  10/29 | loss=0.58364 | co=0.2011 | io=0.8686 | sr=2.8609 | 36.6s
+  Epoch  20/29 | loss=0.50964 | co=0.1981 | io=0.7886 | sr=5.2334 | 38.6s
+  Epoch  29/29 | loss=0.47365 | co=0.1945 | io=0.7685 | sr=6.7678 | 38.2s
+  ⚠ WARN: throughput=0.7592 outside [0.95, 1.05]
+  ⚠ WARN: strehl=6.6879 > 1.05
+  TEST: co=0.1529 | io=0.7672 | sr=6.6879 | tp=0.7592 | 1136s
+
+======================================================================
+  [roi60] ROI(th=0.6, lk=1.0)
+  + phasor_smoothness: 0.01
+======================================================================
+  Epoch   0/29 | loss=0.54602 | co=0.1888 | io=0.9425 | sr=2.4453 | 38.0s
+  Epoch  10/29 | loss=0.46693 | co=0.1962 | io=0.8791 | sr=2.5380 | 38.7s
+  Epoch  20/29 | loss=0.43574 | co=0.2021 | io=0.8626 | sr=2.7368 | 38.0s
+  Epoch  29/29 | loss=0.42075 | co=0.2054 | io=0.8595 | sr=2.9076 | 36.4s
+  ⚠ WARN: throughput=0.7592 outside [0.95, 1.05]
+  ⚠ WARN: strehl=2.8237 > 1.05
+  TEST: co=0.1572 | io=0.8591 | sr=2.8237 | tp=0.7592 | 1152s
+
+======================================================================
+  [roi70] ROI(th=0.7, lk=1.0)
+  + phasor_smoothness: 0.01
+======================================================================
+  Epoch   0/29 | loss=0.41320 | co=0.1893 | io=0.9385 | sr=2.4482 | 37.4s
+  Epoch  10/29 | loss=0.37768 | co=0.1877 | io=0.9218 | sr=2.3979 | 37.0s
+  Epoch  20/29 | loss=0.37023 | co=0.1921 | io=0.9201 | sr=2.3846 | 36.5s
+  Epoch  29/29 | loss=0.36565 | co=0.1987 | io=0.9208 | sr=2.3831 | 37.6s
+  ⚠ WARN: throughput=0.7592 outside [0.95, 1.05]
+  ⚠ WARN: strehl=2.4286 > 1.05
+  TEST: co=0.1623 | io=0.9210 | sr=2.4286 | tp=0.7592 | 1145s
+
+======================================================================
+  [roi80] ROI(th=0.8, lk=1.0)
+  + phasor_smoothness: 0.01
+======================================================================
+  Epoch   0/29 | loss=0.37727 | co=0.1896 | io=0.9423 | sr=2.4434 | 37.2s
+  Epoch  10/29 | loss=0.36084 | co=0.1936 | io=0.9441 | sr=2.4148 | 36.8s
+  Epoch  20/29 | loss=0.35817 | co=0.1964 | io=0.9454 | sr=2.4011 | 37.9s
+  Epoch  29/29 | loss=0.35661 | co=0.1983 | io=0.9460 | sr=2.4006 | 37.4s
+  ⚠ WARN: throughput=0.7592 outside [0.95, 1.05]
+  ⚠ WARN: strehl=2.3922 > 1.05
+  TEST: co=0.1687 | io=0.9464 | sr=2.3922 | tp=0.7592 | 1182s
+
+======================================================================
+  [roi90] ROI(th=0.9, lk=1.0)
+  + phasor_smoothness: 0.01
+======================================================================
+  Epoch   0/29 | loss=0.39032 | co=0.1895 | io=0.9434 | sr=2.4541 | 35.7s
+  Epoch  10/29 | loss=0.37243 | co=0.1930 | io=0.9488 | sr=2.4289 | 40.2s
+  Epoch  20/29 | loss=0.36852 | co=0.1946 | io=0.9520 | sr=2.3773 | 38.1s
+  Epoch  29/29 | loss=0.36579 | co=0.1943 | io=0.9543 | sr=2.3286 | 49.1s
+  ⚠ WARN: throughput=0.7592 outside [0.95, 1.05]
+  ⚠ WARN: strehl=2.3258 > 1.05
+  TEST: co=0.1652 | io=0.9547 | sr=2.3258 | tp=0.7592 | 1209s
+
+======================================================================
+  [roi70_ph05] ROI(th=0.7, lk=1.0) + ph:0.5
+  + phasor_smoothness: 0.01
+======================================================================
+  Epoch   0/29 | loss=1.42631 | co=0.1895 | io=0.9404 | sr=2.4495 | 49.1s
+  Epoch  10/29 | loss=1.39124 | co=0.1906 | io=0.9276 | sr=2.4065 | 47.7s
+  Epoch  20/29 | loss=1.37941 | co=0.1909 | io=0.9207 | sr=2.3888 | 45.6s
+  Epoch  29/29 | loss=1.37233 | co=0.1919 | io=0.9180 | sr=2.3832 | 46.8s
+  ⚠ WARN: throughput=0.7592 outside [0.95, 1.05]
+  ⚠ WARN: strehl=2.4491 > 1.05
+  TEST: co=0.1788 | io=0.9182 | sr=2.4491 | tp=0.7592 | 1432s
+
+======================================================================
+  [roi70_ph1] ROI(th=0.7, lk=1.0) + ph:1.0
+  + phasor_smoothness: 0.01
+======================================================================
+  Epoch   0/29 | loss=2.43782 | co=0.1894 | io=0.9410 | sr=2.4480 | 46.3s
+  Epoch  10/29 | loss=2.40109 | co=0.1909 | io=0.9319 | sr=2.4182 | 46.7s
+  Epoch  20/29 | loss=2.38162 | co=0.1907 | io=0.9246 | sr=2.3937 | 46.5s
+  Epoch  29/29 | loss=2.36772 | co=0.1902 | io=0.9198 | sr=2.3812 | 46.1s
+  ⚠ WARN: throughput=0.7592 outside [0.95, 1.05]
+  ⚠ WARN: strehl=2.4478 > 1.05
+  TEST: co=0.1825 | io=0.9201 | sr=2.4478 | tp=0.7592 | 1421s
+
+======================================================================
+  [roi70_ph2] ROI(th=0.7, lk=1.0) + ph:2.0
+  + phasor_smoothness: 0.01
+======================================================================
+  Epoch   0/29 | loss=4.45836 | co=0.1891 | io=0.9413 | sr=2.4453 | 46.0s
+  Epoch  10/29 | loss=4.41340 | co=0.1905 | io=0.9349 | sr=2.4371 | 46.0s
+  Epoch  20/29 | loss=4.38228 | co=0.1896 | io=0.9283 | sr=2.4224 | 46.4s
+  Epoch  29/29 | loss=4.35696 | co=0.1881 | io=0.9230 | sr=2.4054 | 47.5s
+  ⚠ WARN: throughput=0.7592 outside [0.95, 1.05]
+  ⚠ WARN: strehl=2.4209 > 1.05
+  TEST: co=0.1841 | io=0.9233 | sr=2.4209 | tp=0.7592 | 1428s
+
+======================================================================
+  [roi70_ffp005] ROI(th=0.7, lk=1.0) + ffp:0.05/g1.0/th0.05
+  + phasor_smoothness: 0.01
+======================================================================
+  Epoch   0/29 | loss=0.43608 | co=0.1893 | io=0.9387 | sr=2.4488 | 47.4s
+  Epoch  10/29 | loss=0.40073 | co=0.1879 | io=0.9220 | sr=2.3987 | 45.7s
+  Epoch  20/29 | loss=0.39431 | co=0.1907 | io=0.9198 | sr=2.3859 | 45.1s
+  Epoch  29/29 | loss=0.39098 | co=0.1950 | io=0.9201 | sr=2.3889 | 47.0s
+  ⚠ WARN: throughput=0.7592 outside [0.95, 1.05]
+  ⚠ WARN: strehl=2.4353 > 1.05
+  TEST: co=0.1623 | io=0.9202 | sr=2.4353 | tp=0.7592 | 1423s
+
+======================================================================
+  [roi70_ffp015] ROI(th=0.7, lk=1.0) + ffp:0.15/g1.0/th0.05
+  + phasor_smoothness: 0.01
+======================================================================
+  Epoch   0/29 | loss=0.48263 | co=0.1893 | io=0.9393 | sr=2.4482 | 46.9s
+  Epoch  10/29 | loss=0.44899 | co=0.1888 | io=0.9237 | sr=2.4043 | 45.7s
+  Epoch  20/29 | loss=0.44327 | co=0.1893 | io=0.9201 | sr=2.3962 | 47.7s
+  Epoch  29/29 | loss=0.44059 | co=0.1907 | io=0.9196 | sr=2.3921 | 46.0s
+  ⚠ WARN: throughput=0.7592 outside [0.95, 1.05]
+  ⚠ WARN: strehl=2.4377 > 1.05
+  TEST: co=0.1630 | io=0.9197 | sr=2.4377 | tp=0.7592 | 1426s
+
+======================================================================
+  [roi70_ffp030] ROI(th=0.7, lk=1.0) + ffp:0.3/g1.0/th0.05
+  + phasor_smoothness: 0.01
+======================================================================
+  Epoch   0/29 | loss=0.55243 | co=0.1892 | io=0.9400 | sr=2.4484 | 47.8s
+  Epoch  10/29 | loss=0.52129 | co=0.1895 | io=0.9276 | sr=2.4089 | 35.2s
+  Epoch  20/29 | loss=0.51465 | co=0.1894 | io=0.9225 | sr=2.3991 | 36.3s
+  Epoch  29/29 | loss=0.51186 | co=0.1897 | io=0.9207 | sr=2.3981 | 36.3s
+  ⚠ WARN: throughput=0.7592 outside [0.95, 1.05]
+  ⚠ WARN: strehl=2.4301 > 1.05
+  TEST: co=0.1638 | io=0.9209 | sr=2.4301 | tp=0.7592 | 1186s
+
+======================================================================
+  [roi50_ph1] ROI(th=0.5, lk=1.0) + ph:1.0
+  + phasor_smoothness: 0.01
+======================================================================
+  Epoch   0/29 | loss=2.68815 | co=0.1895 | io=0.9410 | sr=2.4535 | 35.5s
+  Epoch  10/29 | loss=2.64019 | co=0.1940 | io=0.9239 | sr=2.4808 | 35.6s
+  Epoch  20/29 | loss=2.61204 | co=0.1964 | io=0.9081 | sr=2.5209 | 36.5s
+  Epoch  29/29 | loss=2.58980 | co=0.1974 | io=0.8976 | sr=2.5566 | 35.5s
+  ⚠ WARN: throughput=0.7592 outside [0.95, 1.05]
+  ⚠ WARN: strehl=2.5545 > 1.05
+  TEST: co=0.1788 | io=0.8962 | sr=2.5545 | tp=0.7592 | 1090s
+
+======================================================================
+  [roi60_ph1] ROI(th=0.6, lk=1.0) + ph:1.0
+  + phasor_smoothness: 0.01
+======================================================================
+  Epoch   0/29 | loss=2.57130 | co=0.1890 | io=0.9421 | sr=2.4494 | 35.4s
+  Epoch  10/29 | loss=2.53034 | co=0.1891 | io=0.9382 | sr=2.4594 | 36.1s
+  Epoch  20/29 | loss=2.50601 | co=0.1898 | io=0.9291 | sr=2.4755 | 36.3s
+  Epoch  29/29 | loss=2.48423 | co=0.1916 | io=0.9149 | sr=2.4773 | 27.0s
+  ⚠ WARN: throughput=0.7592 outside [0.95, 1.05]
+  ⚠ WARN: strehl=2.4763 > 1.05
+  TEST: co=0.1791 | io=0.9150 | sr=2.4763 | tp=0.7592 | 1078s
+
+======================================================================
+  [roi80_ph1] ROI(th=0.8, lk=1.0) + ph:1.0
+  + phasor_smoothness: 0.01
+======================================================================
+  Epoch   0/29 | loss=2.40065 | co=0.1893 | io=0.9419 | sr=2.4463 | 26.4s
+  Epoch  10/29 | loss=2.37274 | co=0.1915 | io=0.9412 | sr=2.4174 | 27.4s
+  Epoch  20/29 | loss=2.35821 | co=0.1921 | io=0.9403 | sr=2.4090 | 26.7s
+  Epoch  29/29 | loss=2.34752 | co=0.1920 | io=0.9397 | sr=2.3945 | 27.1s
+  ⚠ WARN: throughput=0.7592 outside [0.95, 1.05]
+  ⚠ WARN: strehl=2.3982 > 1.05
+  TEST: co=0.1856 | io=0.9401 | sr=2.3982 | tp=0.7592 | 812s
+
+======================================================================
+  [roi90_ph1] ROI(th=0.9, lk=1.0) + ph:1.0
+  + phasor_smoothness: 0.01
+======================================================================
+  Epoch   0/29 | loss=2.41285 | co=0.1893 | io=0.9422 | sr=2.4486 | 26.0s
+  Epoch  10/29 | loss=2.38278 | co=0.1909 | io=0.9442 | sr=2.4502 | 27.5s
+  Epoch  20/29 | loss=2.36884 | co=0.1906 | io=0.9461 | sr=2.3843 | 26.1s
+  Epoch  29/29 | loss=2.35903 | co=0.1898 | io=0.9476 | sr=2.3355 | 27.3s
+  ⚠ WARN: throughput=0.7592 outside [0.95, 1.05]
+  ⚠ WARN: strehl=2.3451 > 1.05
+  TEST: co=0.1813 | io=0.9480 | sr=2.3451 | tp=0.7592 | 812s
+
+======================================================================
+  [roi70_sph1_g2] ROI(th=0.7, lk=1.0) + sph:1.0/g2.0
+  + phasor_smoothness: 0.01
+======================================================================
+  Epoch   0/29 | loss=2.11473 | co=0.1889 | io=0.9413 | sr=2.4479 | 26.8s
+  Epoch  10/29 | loss=2.08539 | co=0.1916 | io=0.9370 | sr=2.4429 | 25.2s
+  Epoch  20/29 | loss=2.07353 | co=0.1931 | io=0.9335 | sr=2.4330 | 27.2s
+  Epoch  29/29 | loss=2.06664 | co=0.1939 | io=0.9311 | sr=2.4292 | 27.0s
+  ⚠ WARN: throughput=0.7592 outside [0.95, 1.05]
+  ⚠ WARN: strehl=2.4216 > 1.05
+  TEST: co=0.1652 | io=0.9313 | sr=2.4216 | tp=0.7592 | 815s
+
+======================================================================
+  [roi70_sph1_g3] ROI(th=0.7, lk=1.0) + sph:1.0/g3.0
+  + phasor_smoothness: 0.01
+======================================================================
+  Epoch   0/29 | loss=2.02360 | co=0.1893 | io=0.9408 | sr=2.4435 | 26.8s
+  Epoch  10/29 | loss=1.98748 | co=0.1929 | io=0.9315 | sr=2.4258 | 26.3s
+  Epoch  20/29 | loss=1.97682 | co=0.1944 | io=0.9266 | sr=2.4186 | 27.4s
+  Epoch  29/29 | loss=1.97067 | co=0.1960 | io=0.9240 | sr=2.4238 | 25.9s
+  ⚠ WARN: throughput=0.7592 outside [0.95, 1.05]
+  ⚠ WARN: strehl=2.4594 > 1.05
+  TEST: co=0.1629 | io=0.9241 | sr=2.4594 | tp=0.7592 | 811s
+
+======================================================================
+  [roi70_sph1_g4] ROI(th=0.7, lk=1.0) + sph:1.0/g4.0
+  + phasor_smoothness: 0.01
+======================================================================
+  Epoch   0/29 | loss=1.95740 | co=0.1892 | io=0.9402 | sr=2.4380 | 26.8s
+  Epoch  10/29 | loss=1.91791 | co=0.1919 | io=0.9260 | sr=2.4132 | 26.9s
+  Epoch  20/29 | loss=1.90806 | co=0.1930 | io=0.9203 | sr=2.4229 | 27.3s
+  Epoch  29/29 | loss=1.90307 | co=0.1943 | io=0.9182 | sr=2.4344 | 27.4s
+  ⚠ WARN: throughput=0.7592 outside [0.95, 1.05]
+  ⚠ WARN: strehl=2.4827 > 1.05
+  TEST: co=0.1604 | io=0.9183 | sr=2.4827 | tp=0.7592 | 812s
+
+======================================================================
+  [roi70_ph1_lk025] ROI(th=0.7, lk=0.25) + ph:1.0
+  + phasor_smoothness: 0.01
+======================================================================
+  Epoch   0/29 | loss=2.38142 | co=0.1890 | io=0.9418 | sr=2.4387 | 25.9s
+  Epoch  10/29 | loss=2.36535 | co=0.1912 | io=0.9406 | sr=2.4197 | 26.5s
+  Epoch  20/29 | loss=2.35439 | co=0.1916 | io=0.9390 | sr=2.4044 | 27.1s
+  Epoch  29/29 | loss=2.34587 | co=0.1917 | io=0.9376 | sr=2.3893 | 27.6s
+  ⚠ WARN: throughput=0.7592 outside [0.95, 1.05]
+  ⚠ WARN: strehl=2.4160 > 1.05
+  TEST: co=0.1833 | io=0.9380 | sr=2.4160 | tp=0.7592 | 815s
+
+======================================================================
+  [roi70_ph1_lk05] ROI(th=0.7, lk=0.5) + ph:1.0
+  + phasor_smoothness: 0.01
+======================================================================
+  Epoch   0/29 | loss=2.40066 | co=0.1892 | io=0.9415 | sr=2.4422 | 27.3s
+  Epoch  10/29 | loss=2.37991 | co=0.1913 | io=0.9379 | sr=2.4208 | 27.0s
+  Epoch  20/29 | loss=2.36706 | co=0.1914 | io=0.9343 | sr=2.4058 | 26.8s
+  Epoch  29/29 | loss=2.35657 | co=0.1913 | io=0.9316 | sr=2.3831 | 26.7s
+  ⚠ WARN: throughput=0.7592 outside [0.95, 1.05]
+  ⚠ WARN: strehl=2.4255 > 1.05
+  TEST: co=0.1834 | io=0.9319 | sr=2.4255 | tp=0.7592 | 812s
+
+======================================================================
+  [roi70_ph1_lk2] ROI(th=0.7, lk=2.0) + ph:1.0
+  + phasor_smoothness: 0.01
+======================================================================
+  Epoch   0/29 | loss=2.50875 | co=0.1895 | io=0.9400 | sr=2.4533 | 26.7s
+  Epoch  10/29 | loss=2.42629 | co=0.1899 | io=0.9211 | sr=2.4129 | 26.1s
+  Epoch  20/29 | loss=2.39738 | co=0.1887 | io=0.9098 | sr=2.4013 | 27.5s
+  Epoch  29/29 | loss=2.38216 | co=0.1874 | io=0.9051 | sr=2.4243 | 27.3s
+  ⚠ WARN: throughput=0.7592 outside [0.95, 1.05]
+  ⚠ WARN: strehl=2.4622 > 1.05
+  TEST: co=0.1810 | io=0.9051 | sr=2.4622 | tp=0.7592 | 832s
+
+======================================================================
+  [roi60_ph1_sph05_g3] ROI(th=0.6, lk=1.0) + ph:1.0 + sph:0.5/g3.0
+  + phasor_smoothness: 0.01
+======================================================================
+Traceback (most recent call last):
+  File "/root/dj/D2NN/miniconda3/envs/d2nn/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/root/dj/D2NN/miniconda3/envs/d2nn/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/root/dj/D2NN/kim2026/autoresearch/loss_sweep.py", line 555, in <module>
+  File "/root/dj/D2NN/kim2026/autoresearch/loss_sweep.py", line 521, in main
+  File "/root/dj/D2NN/kim2026/autoresearch/loss_sweep.py", line 395, in train_one
+    # Window info for physical coordinates
+  File "/root/dj/D2NN/miniconda3/envs/d2nn/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 741, in __next__
+    data = self._next_data()
+  File "/root/dj/D2NN/miniconda3/envs/d2nn/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 801, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+  File "/root/dj/D2NN/miniconda3/envs/d2nn/lib/python3.10/site-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/root/dj/D2NN/miniconda3/envs/d2nn/lib/python3.10/site-packages/torch/utils/data/_utils/fetch.py", line 54, in <listcomp>
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/root/dj/D2NN/kim2026/src/kim2026/data/dataset.py", line 27, in __getitem__
+    record = read_pair_npz(self.entries[index])
+  File "/root/dj/D2NN/kim2026/src/kim2026/data/npz_pairs.py", line 48, in read_pair_npz
+    with np.load(path, allow_pickle=False) as data:
+  File "/root/dj/D2NN/miniconda3/envs/d2nn/lib/python3.10/site-packages/numpy/lib/_npyio_impl.py", line 451, in load
+    fid = stack.enter_context(open(os.fspath(file), "rb"))
+FileNotFoundError: [Errno 2] No such file or directory: '/root/dj/D2NN/kim2026/data/kim2026/1km_cn2e-14_w2m_n1024_dx2mm/cache/realization_00081.npz'

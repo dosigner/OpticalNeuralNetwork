@@ -1,0 +1,106 @@
+{
+  "pib_only": {
+    "strategy": "pib_only",
+    "n_samples": 50,
+    "theorem1_CO": {
+      "CO(U_t,U_v)_mean": 0.3044459130242467,
+      "CO(U_t,U_v)_std": 0.195433070540708,
+      "CO(HU_t,HU_v)_mean": 0.3044459055364132,
+      "CO(HU_t,HU_v)_std": 0.19543306541829153,
+      "abs_diff_mean": 3.885477781295776e-08,
+      "abs_diff_max": 1.1920928955078125e-07,
+      "rel_diff_mean": 2.3135886294503704e-07,
+      "VERDICT": "PRESERVED"
+    },
+    "mixed_CO": {
+      "CO(HU_t,U_v_det)_mean": 0.014715518020093441,
+      "CO(HU_t,U_v_det)_std": 0.005628318551732476,
+      "delta_from_baseline": -0.2897303950041532
+    },
+    "theorem2_L2": {
+      "L2(U_t-U_v)_mean": 24.80731044769287,
+      "L2(HU_t-HU_v)_mean": 24.80728115081787,
+      "abs_diff_mean": 2.9296875e-05,
+      "abs_diff_max": 3.814697265625e-05,
+      "VERDICT": "PRESERVED"
+    }
+  },
+  "co_pib_hybrid": {
+    "strategy": "co_pib_hybrid",
+    "n_samples": 50,
+    "theorem1_CO": {
+      "CO(U_t,U_v)_mean": 0.3044459130242467,
+      "CO(U_t,U_v)_std": 0.195433070540708,
+      "CO(HU_t,HU_v)_mean": 0.3044459046795964,
+      "CO(HU_t,HU_v)_std": 0.1954330686764682,
+      "abs_diff_mean": 4.5150518417358396e-08,
+      "abs_diff_max": 1.4528632164001465e-07,
+      "rel_diff_mean": 3.5844005119168197e-07,
+      "VERDICT": "PRESERVED"
+    },
+    "mixed_CO": {
+      "CO(HU_t,U_v_det)_mean": 0.19025200512260199,
+      "CO(HU_t,U_v_det)_std": 0.0663422197750803,
+      "delta_from_baseline": -0.11419390790164469
+    },
+    "theorem2_L2": {
+      "L2(U_t-U_v)_mean": 24.80731044769287,
+      "L2(HU_t-HU_v)_mean": 24.807281074523925,
+      "abs_diff_mean": 2.93731689453125e-05,
+      "abs_diff_max": 3.814697265625e-05,
+      "VERDICT": "PRESERVED"
+    }
+  },
+  "strehl_only": {
+    "strategy": "strehl_only",
+    "n_samples": 50,
+    "theorem1_CO": {
+      "CO(U_t,U_v)_mean": 0.3044459130242467,
+      "CO(U_t,U_v)_std": 0.195433070540708,
+      "CO(HU_t,HU_v)_mean": 0.30444590020924805,
+      "CO(HU_t,HU_v)_std": 0.19543306052464235,
+      "abs_diff_mean": 6.005167961120606e-08,
+      "abs_diff_max": 1.7881393432617188e-07,
+      "rel_diff_mean": 3.550864789291052e-07,
+      "VERDICT": "PRESERVED"
+    },
+    "mixed_CO": {
+      "CO(HU_t,U_v_det)_mean": 0.023101533739827575,
+      "CO(HU_t,U_v_det)_std": 0.011081451743490598,
+      "delta_from_baseline": -0.2813443792844191
+    },
+    "theorem2_L2": {
+      "L2(U_t-U_v)_mean": 24.80731044769287,
+      "L2(HU_t-HU_v)_mean": 24.80727870941162,
+      "abs_diff_mean": 3.173828125e-05,
+      "abs_diff_max": 4.38690185546875e-05,
+      "VERDICT": "PRESERVED"
+    }
+  },
+  "intensity_overlap": {
+    "strategy": "intensity_overlap",
+    "n_samples": 50,
+    "theorem1_CO": {
+      "CO(U_t,U_v)_mean": 0.3044459130242467,
+      "CO(U_t,U_v)_std": 0.195433070540708,
+      "CO(HU_t,HU_v)_mean": 0.30444587793201205,
+      "CO(HU_t,HU_v)_std": 0.1954330359363208,
+      "abs_diff_mean": 1.0930001735687256e-07,
+      "abs_diff_max": 3.2782554626464844e-07,
+      "rel_diff_mean": 7.875563747539049e-07,
+      "VERDICT": "PRESERVED"
+    },
+    "mixed_CO": {
+      "CO(HU_t,U_v_det)_mean": 0.18392791777849196,
+      "CO(HU_t,U_v_det)_std": 0.09795458592233605,
+      "delta_from_baseline": -0.12051799524575471
+    },
+    "theorem2_L2": {
+      "L2(U_t-U_v)_mean": 24.80731044769287,
+      "L2(HU_t-HU_v)_mean": 24.807278671264648,
+      "abs_diff_mean": 3.177642822265625e-05,
+      "abs_diff_max": 4.57763671875e-05,
+      "VERDICT": "PRESERVED"
+    }
+  }
+}

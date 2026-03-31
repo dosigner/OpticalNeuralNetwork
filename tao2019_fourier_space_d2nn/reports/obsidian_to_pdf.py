@@ -340,7 +340,7 @@ def build_css() -> str:
         margin: 22mm 18mm 22mm 18mm;
         @bottom-center {{
             content: counter(page);
-            font-family: "Noto Sans CJK KR", "Noto Sans", sans-serif;
+            font-family: "Pretendard", "Noto Sans CJK KR", sans-serif;
             font-size: 8.5pt;
             color: #7a8188;
         }}
@@ -356,9 +356,9 @@ def build_css() -> str:
     }}
 
     body {{
-        font-family: "Noto Serif CJK KR", "Noto Serif CJK SC", "Noto Serif", "Baekmuk Batang", serif;
-        font-size: 10.35pt;
-        line-height: 1.62;
+        font-family: "Pretendard", "Noto Sans CJK KR", sans-serif;
+        font-size: 10.5pt;
+        line-height: 1.72;
         color: #17212b;
         max-width: 100%;
         word-wrap: break-word;
@@ -390,7 +390,7 @@ def build_css() -> str:
         border-top: 2px solid #17324d;
     }}
     .journal-kicker {{
-        font-family: "Noto Sans CJK KR", "Noto Sans", sans-serif;
+        font-family: "Pretendard", "Noto Sans CJK KR", sans-serif;
         font-size: 8.8pt;
         text-transform: uppercase;
         letter-spacing: 0.18em;
@@ -402,7 +402,7 @@ def build_css() -> str:
         margin-bottom: 10mm;
     }}
     .title-page h1 {{
-        font-family: "EB Garamond", "Noto Serif CJK KR", serif;
+        font-family: "Pretendard", sans-serif;
         font-size: 27pt;
         line-height: 1.08;
         color: #102538;
@@ -411,14 +411,14 @@ def build_css() -> str:
         font-weight: 700;
     }}
     .title-page .deck-subtitle {{
-        font-family: "Noto Sans CJK KR", "Noto Sans", sans-serif;
+        font-family: "Pretendard", "Noto Sans CJK KR", sans-serif;
         font-size: 10.2pt;
         line-height: 1.6;
         color: #5b6875;
         max-width: 138mm;
     }}
     .title-page .aliases {{
-        font-family: "Noto Sans CJK KR", "Noto Sans", sans-serif;
+        font-family: "Pretendard", "Noto Sans CJK KR", sans-serif;
         font-size: 9pt;
         color: #74808b;
         margin-top: 4mm;
@@ -439,14 +439,14 @@ def build_css() -> str:
     }}
     .report-metadata .meta-label {{
         min-width: 28mm;
-        font-family: "Noto Sans CJK KR", "Noto Sans", sans-serif;
+        font-family: "Pretendard", "Noto Sans CJK KR", sans-serif;
         font-size: 8.5pt;
         text-transform: uppercase;
         letter-spacing: 0.12em;
         color: #73808b;
     }}
     .report-metadata .meta-value {{
-        font-family: "Noto Sans CJK KR", "Noto Sans", sans-serif;
+        font-family: "Pretendard", "Noto Sans CJK KR", sans-serif;
         font-size: 10pt;
         color: #223243;
     }}
@@ -456,7 +456,7 @@ def build_css() -> str:
         flex-wrap: wrap;
     }}
     .title-page .meta-chip {{
-        font-family: "Noto Sans CJK KR", "Noto Sans", sans-serif;
+        font-family: "Pretendard", "Noto Sans CJK KR", sans-serif;
         border: 1px solid #c8d1da;
         color: #435160;
         padding: 3px 9px;
@@ -467,7 +467,7 @@ def build_css() -> str:
 
     /* ---------- Headings ---------- */
     h1 {{
-        font-family: "EB Garamond", "Noto Serif CJK KR", serif;
+        font-family: "Pretendard", sans-serif;
         font-size: 19pt;
         color: #102538;
         border-bottom: 1.5px solid #17324d;
@@ -478,7 +478,7 @@ def build_css() -> str:
         font-weight: 700;
     }}
     h2 {{
-        font-family: "EB Garamond", "Noto Serif CJK KR", serif;
+        font-family: "Pretendard", sans-serif;
         font-size: 15.5pt;
         color: #17324d;
         border-bottom: 1px solid #d3dbe3;
@@ -489,7 +489,7 @@ def build_css() -> str:
         font-weight: 700;
     }}
     h3 {{
-        font-family: "Noto Sans CJK KR", "Noto Sans", sans-serif;
+        font-family: "Pretendard", "Noto Sans CJK KR", sans-serif;
         font-size: 12pt;
         color: #17324d;
         margin-top: 21px;
@@ -498,7 +498,7 @@ def build_css() -> str:
         letter-spacing: 0.01em;
     }}
     h4 {{
-        font-family: "Noto Sans CJK KR", "Noto Sans", sans-serif;
+        font-family: "Pretendard", "Noto Sans CJK KR", sans-serif;
         font-size: 10.7pt;
         color: #31485e;
         margin-top: 18px;
@@ -506,7 +506,7 @@ def build_css() -> str:
         page-break-after: avoid;
     }}
     h5, h6 {{
-        font-family: "Noto Sans CJK KR", "Noto Sans", sans-serif;
+        font-family: "Pretendard", "Noto Sans CJK KR", sans-serif;
         font-size: 10pt;
         color: #31485e;
         margin-top: 14px;
@@ -695,7 +695,7 @@ def build_css() -> str:
         border: 1px solid #e5eaef;
     }}
     .figure-caption {{
-        font-family: "Noto Serif CJK KR", "Noto Serif", serif;
+        font-family: "Pretendard", sans-serif;
         font-size: 8.9pt;
         line-height: 1.45;
         color: #51606d;

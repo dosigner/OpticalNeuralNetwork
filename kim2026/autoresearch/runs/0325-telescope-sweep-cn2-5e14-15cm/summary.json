@@ -1,0 +1,136 @@
+[
+  {
+    "name": "baseline_co",
+    "description": "complex_overlap:1.0",
+    "model_type": "d2nn",
+    "loss_config": {
+      "weights": {
+        "complex_overlap": 1.0
+      }
+    },
+    "arch": {
+      "num_layers": 5,
+      "layer_spacing_m": 0.01,
+      "detector_distance_m": 0.01
+    },
+    "complex_overlap": 0.6455932259559631,
+    "phase_rmse_rad": 0.824981689453125,
+    "full_field_phase_rmse_rad": 0.8357399106025696,
+    "amplitude_rmse": 0.32419946789741516,
+    "intensity_overlap": 0.7843353748321533,
+    "strehl": 4.858197212219238,
+    "encircled_energy": 0.8398861885070801,
+    "baseline_co": 0.6249489784240723,
+    "throughput": 0.9999975758707778,
+    "training_seconds": 3211.508148431778,
+    "peak_vram_mb": 344.0009765625
+  },
+  {
+    "name": "co_amp",
+    "description": "complex_overlap:1.0 + amplitude_mse:0.5",
+    "model_type": "d2nn",
+    "loss_config": {
+      "weights": {
+        "complex_overlap": 1.0,
+        "amplitude_mse": 0.5
+      }
+    },
+    "arch": {
+      "num_layers": 5,
+      "layer_spacing_m": 0.01,
+      "detector_distance_m": 0.01
+    },
+    "complex_overlap": 0.6455941200256348,
+    "phase_rmse_rad": 0.8250435590744019,
+    "full_field_phase_rmse_rad": 0.8357996940612793,
+    "amplitude_rmse": 0.32412850856781006,
+    "intensity_overlap": 0.7843828201293945,
+    "strehl": 4.85723876953125,
+    "encircled_energy": 0.8399615287780762,
+    "baseline_co": 0.6249489784240723,
+    "throughput": 0.9999975863196107,
+    "training_seconds": 2695.2104184627533,
+    "peak_vram_mb": 344.0009765625
+  },
+  {
+    "name": "co_phasor",
+    "description": "complex_overlap:1.0 + phasor_mse:1.0",
+    "model_type": "d2nn",
+    "loss_config": {
+      "weights": {
+        "complex_overlap": 1.0,
+        "phasor_mse": 1.0
+      }
+    },
+    "arch": {
+      "num_layers": 5,
+      "layer_spacing_m": 0.01,
+      "detector_distance_m": 0.01
+    },
+    "complex_overlap": 0.6295191049575806,
+    "phase_rmse_rad": 0.8566015958786011,
+    "full_field_phase_rmse_rad": 0.8738703727722168,
+    "amplitude_rmse": 0.34252631664276123,
+    "intensity_overlap": 0.7646507620811462,
+    "strehl": 4.702826976776123,
+    "encircled_energy": 0.8185942769050598,
+    "baseline_co": 0.6249489784240723,
+    "throughput": 0.9999975967684435,
+    "training_seconds": 2704.3640916347504,
+    "peak_vram_mb": 380.0009765625
+  },
+  {
+    "name": "co_ffp",
+    "description": "complex_overlap:1.0 + full_field_phase:1.0",
+    "model_type": "d2nn",
+    "loss_config": {
+      "weights": {
+        "complex_overlap": 1.0,
+        "full_field_phase": 1.0
+      }
+    },
+    "arch": {
+      "num_layers": 5,
+      "layer_spacing_m": 0.01,
+      "detector_distance_m": 0.01
+    },
+    "complex_overlap": 0.6406611204147339,
+    "phase_rmse_rad": 0.7598594427108765,
+    "full_field_phase_rmse_rad": 0.7645078897476196,
+    "amplitude_rmse": 0.37409472465515137,
+    "intensity_overlap": 0.7149373292922974,
+    "strehl": 6.471781253814697,
+    "encircled_energy": 0.7708996534347534,
+    "baseline_co": 0.6249489784240723,
+    "throughput": 0.9999975967684435,
+    "training_seconds": 2707.7353043556213,
+    "peak_vram_mb": 380.00732421875
+  },
+  {
+    "name": "roi80",
+    "description": "ROI(th=0.8, lk=1.0)",
+    "model_type": "d2nn",
+    "loss_config": {
+      "roi": {
+        "roi_threshold": 0.8,
+        "leakage_weight": 1.0
+      }
+    },
+    "arch": {
+      "num_layers": 5,
+      "layer_spacing_m": 0.01,
+      "detector_distance_m": 0.01
+    },
+    "complex_overlap": 0.5457231402397156,
+    "phase_rmse_rad": 1.1583068370819092,
+    "full_field_phase_rmse_rad": 1.4113892316818237,
+    "amplitude_rmse": 0.3628081679344177,
+    "intensity_overlap": 0.8073698282241821,
+    "strehl": 6.264418601989746,
+    "encircled_energy": 0.9880000948905945,
+    "baseline_co": 0.6249489784240723,
+    "throughput": 0.9999974609336164,
+    "training_seconds": 2759.612910747528,
+    "peak_vram_mb": 430.00537109375
+  }
+]

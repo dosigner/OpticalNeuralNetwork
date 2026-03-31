@@ -1,0 +1,78 @@
+experiment:
+  id: pilot_eval_a100
+  save_dir: runs/pilot_a100
+
+optics:
+  lambda_m: 1.55e-6
+  half_angle_rad: 3.0e-4
+  m2: 1.0
+
+grid:
+  n: 512
+  source_window_m: 0.03
+  receiver_window_m: 0.72
+
+channel:
+  path_length_m: 1000.0
+  cn2: 2.0e-14
+  outer_scale_m: 30.0
+  inner_scale_m: 5.0e-3
+  num_screens: 8
+  frozen_flow:
+    wind_speed_mps: 10.0
+    wind_direction_mode: per_episode_random
+    dt_s: 5.0e-4
+    frames_per_episode: 32
+    screen_canvas_scale: 2.0
+
+receiver:
+  aperture_diameter_m: 0.6
+
+model:
+  num_layers: 4
+  layer_spacing_m: 0.15
+  detector_distance_m: 0.30
+
+training:
+  epochs: 20
+  batch_size: 32
+  pair_generation_batch_size: 128
+  eval_batch_size: 64
+  learning_rate: 1.0e-3
+  loss:
+    weights:
+      overlap: 1.0
+      radius: 0.25
+      encircled: 0.25
+
+data:
+  cache_dir: data/kim2026/pilot_a100/cache
+  split_manifest_path: data/kim2026/pilot_a100/split_manifest.json
+  episode_manifest_path: data/kim2026/pilot_a100/episodes.json
+  split_episode_counts:
+    train: 100
+    val: 20
+    test: 20
+
+evaluation:
+  split: test
+  metrics: [overlap, strehl, beam_radius, encircled_energy]
+  save_json: true
+
+visualization:
+  save_raw: true
+  save_plots: true
+  output_dir: runs/pilot_a100/figures
+
+runtime:
+  seed: 20260316
+  strict_reproducibility: true
+  allow_tf32: false
+  deterministic_algorithms: true
+  cublas_workspace_config: ":4096:8"
+  device: cuda
+  num_workers: 4
+  pin_memory: true
+  persistent_workers: false
+  prefetch_factor: 2
+  fft_warmup_iters: 3

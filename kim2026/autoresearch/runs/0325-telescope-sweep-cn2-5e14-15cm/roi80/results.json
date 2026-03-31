@@ -1,0 +1,27 @@
+{
+  "name": "roi80",
+  "description": "ROI(th=0.8, lk=1.0)",
+  "model_type": "d2nn",
+  "loss_config": {
+    "roi": {
+      "roi_threshold": 0.8,
+      "leakage_weight": 1.0
+    }
+  },
+  "arch": {
+    "num_layers": 5,
+    "layer_spacing_m": 0.01,
+    "detector_distance_m": 0.01
+  },
+  "complex_overlap": 0.5457231402397156,
+  "phase_rmse_rad": 1.1583068370819092,
+  "full_field_phase_rmse_rad": 1.4113892316818237,
+  "amplitude_rmse": 0.3628081679344177,
+  "intensity_overlap": 0.8073698282241821,
+  "strehl": 6.264418601989746,
+  "encircled_energy": 0.9880000948905945,
+  "baseline_co": 0.6249489784240723,
+  "throughput": 0.9999974609336164,
+  "training_seconds": 2759.612910747528,
+  "peak_vram_mb": 430.00537109375
+}

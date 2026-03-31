@@ -1,0 +1,261 @@
+{
+  "paper": "PAPER_static_d2nn_limits_v2.md",
+  "pdf": "PAPER_static_d2nn_limits_v2.pdf",
+  "created": "2026-03-29",
+  "author": "김동주 (Dongju Kim)",
+  "base_dir": "kim2026/autoresearch/runs",
+
+  "figures": [
+    {
+      "id": "fig1",
+      "path": "paper_figures/fig1_system.png",
+      "caption": "D2NN 빔 정화 시스템 구성도. TX→1km 대기(Cn²=5e-14, D/r₀=5.02)→15cm 망원경→75:1 BR→5층 D2NN→검출기. 하단에 실험 파라미터 표 포함.",
+      "section": "2.1 시스템 모델",
+      "type": "system_diagram",
+      "source": "직접 생성 (matplotlib)"
+    },
+    {
+      "id": "fig2",
+      "path": "d2nn_loss_strategy/phase2_fig1_input.png",
+      "caption": "수신 필드 전형적인 예 (Cn²=5e-14, D/r₀=5.0). 좌: 진공 빔 세기/위상. 우: 난류 빔 세기/위상. 세기 신틸레이션과 파면 왜곡 관찰.",
+      "section": "2.1 시스템 모델",
+      "type": "field_visualization",
+      "source": "d2nn_loss_strategy_sweep.py 실행 결과"
+    },
+    {
+      "id": "fig3",
+      "path": "paper_figures/theorem1_co_verification.png",
+      "caption": "정리 1 수치 검증. (a) CO(U_t,U_v) vs CO(HU_t,HU_v) 산점도—최대 편차 <10⁻⁷. (b) 혼합 CO는 전략별로 크게 변함 (정리 1의 양이 아님). (c) PIB-only 전략에서 세 가지 CO 정의 비교: 정리 CO=0.3044 불변, 혼합 CO=0.0147.",
+      "section": "4.1 정리 1-2 수치 검증",
+      "type": "theorem_verification",
+      "source": "theorem_verification_figure.py",
+      "key_result": "CO 보존 |diff| < 1.2e-7 (float32 precision)"
+    },
+    {
+      "id": "fig4",
+      "path": "paper_figures/theorem2_l2_verification.png",
+      "caption": "정리 2 수치 검증. (a) L2 거리 산점도—상대 오차 ~10⁻⁶. (b) 4개 전략 200개 샘플 상대 L2 편차 분포 히스토그램.",
+      "section": "4.1 정리 1-2 수치 검증",
+      "type": "theorem_verification",
+      "source": "theorem_verification_figure.py",
+      "key_result": "L2 거리 보존 relative error ~1.2e-6"
+    },
+    {
+      "id": "fig5",
+      "path": "paper_figures/theorem_verification_table.png",
+      "caption": "정리 검증 요약표. 녹색: 보존 확인(CO, L2)—10⁻⁷~10⁻⁵ 오차. 적색: 혼합 CO—전략에 따라 크게 변화.",
+      "section": "4.1 정리 1-2 수치 검증",
+      "type": "summary_table_image",
+      "source": "theorem_verification_figure.py"
+    },
+    {
+      "id": "fig6",
+      "path": "paper_figures/fig3_deterministic_vs_random.png",
+      "caption": "결정론적 vs 랜덤 난류. (a) 단층 D2NN defocus(Z₄) 교정: WF RMS 212→0.1nm, CO→1.000. (b) 다층 D2NN 랜덤 난류: WF RMS=460nm 불변 (정리 2 확인).",
+      "section": "4.3 결정론적 수차 검증",
+      "type": "training_curve",
+      "source": "이전 실험 결과",
+      "key_result": "단층 성공(phase conjugation), 다층 실패(유니터리 제약)"
+    },
+    {
+      "id": "fig7",
+      "path": "d2nn_loss_strategy/phase2_fig6_metrics.png",
+      "caption": "전략별 지표 비교 막대그래프. 좌: PIB@50μm (PIB-only=83.4%). 중: 혼합 CO (PIB/Strehl은 CO 파괴, hybrid 유지). 우: WF RMS (모든 전략 448-461nm).",
+      "section": "4.4 Phase B: PIB 최적화",
+      "type": "metric_comparison",
+      "source": "d2nn_loss_strategy_sweep.py"
+    },
+    {
+      "id": "fig8",
+      "path": "d2nn_loss_strategy/phase2_fig5_training.png",
+      "caption": "학습 곡선 (4개 전략). 상: 학습 손실. 중: 검증 혼합 CO (점선=기준선 0.304). 하: 검증 PIB@50μm (PIB-only 적색→83% 수렴).",
+      "section": "4.5 학습 곡선 분석",
+      "type": "training_curve",
+      "source": "d2nn_loss_strategy_sweep.py"
+    },
+    {
+      "id": "fig9",
+      "path": "d2nn_loss_strategy/phase2_fig2_output.png",
+      "caption": "D2NN 출력 필드 비교. 각 열: vacuum, turbulent, PIB-only, Strehl, intensity overlap, CO+PIB hybrid. 상: 세기 |U|², 중: 위상 arg(U), 하: 각스펙트럼 |F{U}|.",
+      "section": "4.6 D2NN 출력 필드 비교",
+      "type": "field_visualization",
+      "source": "d2nn_loss_strategy_sweep.py"
+    },
+    {
+      "id": "fig10",
+      "path": "d2nn_loss_strategy/phase2_fig4_masks.png",
+      "caption": "학습된 위상 마스크 (φ_k mod 2π). 4열×7행: 각 열=전략(PIB-only, Strehl, intensity overlap, CO+PIB hybrid), 행 1-5=층 1-5, 행 6-7=FFT power spectrum. PIB-only는 Fresnel lens 유사 동심원 구조.",
+      "section": "4.7 학습된 위상 마스크",
+      "type": "phase_mask",
+      "source": "d2nn_loss_strategy_sweep.py"
+    },
+    {
+      "id": "fig11",
+      "path": "paper_figures/fig6_energy_redistribution.png",
+      "caption": "검출기 평면 에너지 분포. 좌→우: 진공, 난류, PIB-only, CO+PIB hybrid. 상: 선형 세기, 중: log 세기, 하: bucket 경계(점선 원) 확대. PIB-only는 50μm bucket에 83.4% 집중.",
+      "section": "4.8 검출기 평면 에너지 분포",
+      "type": "detector_plane",
+      "source": "이전 실험 결과"
+    },
+    {
+      "id": "fig12",
+      "path": "d2nn_loss_strategy/phase2_fig3_detector.png",
+      "caption": "검출기 평면 세기 맵 상세 비교. 각 전략의 |U_out|² 동일 스케일 비교.",
+      "section": "4.8 검출기 평면 세기 맵",
+      "type": "detector_plane",
+      "source": "d2nn_loss_strategy_sweep.py"
+    },
+    {
+      "id": "fig13",
+      "path": "paper_figures/fig5_pareto.png",
+      "caption": "CO-PIB 트레이드오프 공간. PIB-only(좌상): PIB=83.4%, 혼합CO=0.015. CO+PIB hybrid(중앙): PIB=50.8%, 혼합CO=0.190. 기준선(우하): PIB=0.34%, CO=0.304.",
+      "section": "4.9 CO-PIB 트레이드오프",
+      "type": "pareto_plot",
+      "source": "이전 실험 결과"
+    }
+  ],
+
+  "tables": [
+    {
+      "id": "tab1",
+      "title": "지표 분류 (유니터리 불변 여부)",
+      "section": "3.4 평가 지표",
+      "columns": ["범주", "지표", "유니터리 불변?"],
+      "rows": [
+        ["필드 기반", "CO", "예"],
+        ["필드 기반", "WF RMS", "근사적"],
+        ["세기 기반", "PIB", "아니오"],
+        ["세기 기반", "Strehl", "아니오"]
+      ]
+    },
+    {
+      "id": "tab2",
+      "title": "정리 1 검증: CO 보존 (50 test realizations)",
+      "section": "4.1 정리 1-2 수치 검증",
+      "columns": ["전략", "CO(U_t,U_v)", "CO(HU_t,HU_v)", "|Δ|_max"],
+      "rows": [
+        ["PIB only", 0.304446, 0.304446, "1.2e-7"],
+        ["CO+PIB hybrid", 0.304446, 0.304446, "1.5e-7"],
+        ["Strehl only", 0.304446, 0.304446, "1.8e-7"],
+        ["Intensity overlap", 0.304446, 0.304446, "3.3e-7"]
+      ],
+      "key_finding": "float32 precision에서 CO 완벽 보존"
+    },
+    {
+      "id": "tab3",
+      "title": "정리 2 검증: L2 거리 보존",
+      "section": "4.1 정리 1-2 수치 검증",
+      "columns": ["전략", "||U_t-U_v||", "||HU_t-HU_v||", "상대 오차"],
+      "rows": [
+        ["PIB only", 24.8073, 24.8073, "1.2e-6"],
+        ["CO+PIB hybrid", 24.8073, 24.8073, "1.2e-6"],
+        ["Strehl only", 24.8073, 24.8073, "1.3e-6"],
+        ["Intensity overlap", 24.8073, 24.8073, "1.3e-6"]
+      ],
+      "key_finding": "L2 거리 상대 오차 ~10⁻⁶으로 보존. D2NN이 유니터리임을 증명."
+    },
+    {
+      "id": "tab4",
+      "title": "Phase A: 필드 기반 손실함수 혼합 CO 결과",
+      "section": "4.2 Phase A",
+      "columns": ["손실함수", "혼합 CO (시험)", "기준 대비 변화"],
+      "rows": [
+        ["co_ffp", 0.330, "+8.2%"],
+        ["baseline_co", 0.329, "+7.9%"],
+        ["co_amp", 0.329, "+7.9%"],
+        ["co_phasor", 0.299, "-1.9%"],
+        ["roi80", 0.273, "-10.2%"]
+      ],
+      "baseline": 0.304,
+      "key_finding": "혼합 CO 변화는 정리 1 위반이 아님. 서로 다른 연산자를 적용한 비교이므로 정리 적용 범위 밖."
+    },
+    {
+      "id": "tab5",
+      "title": "결정론적 수차 시험",
+      "section": "4.3 결정론적 수차 검증",
+      "columns": ["구성", "수차", "WF RMS 전", "WF RMS 후", "개선"],
+      "rows": [
+        ["단층 (전파 없음)", "Defocus 2 rad", "212 nm", "0.1 nm", "99.95%"],
+        ["단층 (전파 없음)", "Coma 3 rad", "114 nm", "<1 nm", "완벽"],
+        ["다층 (10 mm)", "Defocus 2 rad", "213 nm", "213 nm", "0%"]
+      ],
+      "key_finding": "단층=phase conjugation 성공, 다층=유니터리 제약으로 gradient=0"
+    },
+    {
+      "id": "tab6",
+      "title": "Phase B: 세기 기반 손실함수 결과",
+      "section": "4.4 Phase B",
+      "columns": ["전략", "PIB@50μm", "혼합 CO", "정리 CO", "WF RMS"],
+      "rows": [
+        ["보정 없음", "0.34%", 0.304, 0.304, "460 nm"],
+        ["PIB only", "83.4%", 0.015, 0.304, "449 nm"],
+        ["CO+PIB hybrid", "50.8%", 0.190, 0.304, "461 nm"],
+        ["Strehl only", "0.12%", 0.023, 0.304, "448 nm"],
+        ["Intensity overlap", "0.24%", 0.184, 0.304, "455 nm"]
+      ],
+      "key_finding": "정리 CO는 모든 전략에서 0.3044 불변. PIB는 83.4%까지 증가 가능. Throughput=1.0000."
+    },
+    {
+      "id": "tab7",
+      "title": "정리 검증 요약 (수치 데이터)",
+      "section": "4.1",
+      "source_json": "theorem_verification_results.json",
+      "key_finding": "정리 1: |diff|<3.3e-7, 정리 2: rel_err<1.3e-6. 혼합 CO는 0.015~0.190으로 전략별 변화."
+    }
+  ],
+
+  "data_files": [
+    {
+      "path": "theorem_verification_results.json",
+      "description": "정리 1-2 수치 검증 결과 (4개 전략 × 50 test samples). CO/L2 보존량 및 혼합 CO.",
+      "generated_by": "theorem_verification.py"
+    },
+    {
+      "path": "d2nn_loss_strategy/summary.json",
+      "description": "4개 세기 기반 손실함수 전략의 학습 결과. PIB, CO, Strehl, WF RMS, 학습 곡선 history 포함.",
+      "generated_by": "d2nn_loss_strategy_sweep.py"
+    }
+  ],
+
+  "scripts": [
+    {
+      "path": "theorem_verification.py",
+      "description": "정리 1-2 수치 검증. CO(HU_t,HU_v) vs CO(U_t,U_v) 및 L2 거리 직접 비교. 4개 체크포인트 로드.",
+      "output": "theorem_verification_results.json"
+    },
+    {
+      "path": "theorem_verification_figure.py",
+      "description": "정리 검증 figure 생성 (scatter plot, bar chart, summary table).",
+      "output": "paper_figures/theorem1_co_verification.png, theorem2_l2_verification.png, theorem_verification_table.png"
+    },
+    {
+      "path": "md_to_pdf.py",
+      "description": "Markdown→PDF 변환 (weasyprint). Noto Serif/Sans CJK KR 폰트 사용.",
+      "output": "PAPER_static_d2nn_limits_v2.pdf"
+    }
+  ],
+
+  "critical_insights": [
+    {
+      "id": "insight1_co_mismatch",
+      "problem": "기존 논문은 CO(HU_t, U_v,det) (혼합 지표)를 측정하면서 정리 1의 검증이라고 서술했을 가능성.",
+      "resolution": "정리 1이 보존하는 양은 CO(HU_t, HU_v)—두 필드 모두 D2NN 통과. 이를 직접 측정하여 |diff|<10⁻⁷ 확인.",
+      "source_review": "PAPER_REVIEW_GPT54.md (1순위), PAPER_REVIEW.md (2순위)",
+      "status": "resolved"
+    },
+    {
+      "id": "insight2_pib_wrong_plane",
+      "problem": "PIB 손실함수가 D2NN 출력 평면(렌즈 전)에서 계산됨. 실제 시스템은 focus lens(f=4.5mm) 뒤 초점면에 검출기가 있음.",
+      "evidence": {
+        "fig2_d2nn_output": {"pib_only": "83.4%", "vacuum": "~0.3%", "plane": "D2NN output (pre-lens)"},
+        "fig3_focal_plane": {"pib_only": "7.9%", "vacuum": "98.5%", "plane": "focal plane (post-lens)"}
+      },
+      "consequence": "PIB-only D2NN이 출력면에서 에너지를 집중시키려고 위상을 뒤틀어 오히려 초점면 PIB를 파괴. 83.4% 주장은 잘못된 평면의 값.",
+      "resolution": "lens_2f_forward를 training forward pass에 포함시켜 초점면 PIB로 재학습 필요.",
+      "key_function": "kim2026.optics.lens_2f.lens_2f_forward(field, dx_in_m=DX, wavelength_m=W, f_m=4.5e-3)",
+      "metric_plan": "CO/WF_RMS는 D2NN output plane에서 계산, PIB는 반드시 focal plane에서 계산",
+      "status": "TODO — 새 세션에서 재학습",
+      "discovered": "2026-03-29"
+    }
+  ]
+}

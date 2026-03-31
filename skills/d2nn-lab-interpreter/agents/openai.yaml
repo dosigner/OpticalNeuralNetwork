@@ -1,0 +1,4 @@
+interface:
+  display_name: "D2NN Lab Interpreter"
+  short_description: "Interpret D2NN run registries and next experiments"
+  default_prompt: "Use $d2nn-lab-interpreter to analyze /root/dj/D2NN/kim2026/runs and produce a Korean-first comparison."

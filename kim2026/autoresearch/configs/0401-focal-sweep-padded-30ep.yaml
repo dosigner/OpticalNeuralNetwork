@@ -1,0 +1,30 @@
+# 0401 Focal PIB Sweep — Padded propagation, 30 epochs
+# Grid: 1024 → 2048 (pad_factor=2, alias-free)
+# 4 loss strategies, batch=32, 30 epochs (99% convergence at ep20)
+
+training:
+  seed: 20260401
+  lr: 8.0e-3
+  epochs: 30
+  batch_size: 32
+  tv_weight: 0.05
+  warmup_epochs: 5
+
+architecture:
+  num_layers: 5
+  layer_spacing_m: 0.01
+  detector_distance_m: 0.01
+  propagation_pad_factor: 2
+
+physics:
+  wavelength_m: 1.55e-6
+  receiver_window_m: 0.002048
+  aperture_diameter_m: 0.002
+  focus_f_m: 4.5e-3
+  pib_bucket_radius_um: 10.0
+
+data:
+  path: data/kim2026/1km_cn2_5e-14_tel15cm_n1024_br75
+
+output:
+  dir: autoresearch/runs/0401-focal-pib-sweep-padded-4loss-cn2-5e14

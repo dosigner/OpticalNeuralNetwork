@@ -1,0 +1,88 @@
+experiment:
+  id: sweep_fd2nn
+  save_dir: runs/sweep_fd2nn
+
+optics:
+  lambda_m: 1.55e-6
+  half_angle_rad: 1.5e-4            # full divergence 0.3 mrad → half = 0.15 mrad
+  m2: 1.0
+  dual_2f:
+    enabled: true
+    f1_m: 25.0e-3                    # Thorlabs AC127-025-C
+    f2_m: 25.0e-3                    # f1 == f2 (unity magnification)
+    na1: 0.254                       # Ø12.7mm / (2×25mm)
+    na2: 0.254
+    apply_scaling: false
+
+grid:
+  n: 1024
+  source_window_m: 0.006578
+  receiver_window_m: 0.002048    # 2.048mm (beam reducer 후, dx=2um)
+
+channel:
+  path_length_m: 1000.0
+  cn2: 1.0e-15                   # SWEEP AXIS 1
+  outer_scale_m: 30.0
+  inner_scale_m: 5.0e-3
+  num_screens: 6
+  mode: "static"
+  num_realizations: 200
+
+receiver:
+  aperture_diameter_m: 0.002     # 2mm (beam reducer 출력)
+
+model:
+  type: "fd2nn"
+  num_layers: 5
+  layer_spacing_m: 5.0e-6        # SWEEP AXIS 2
+  phase_max: 3.14159265
+  phase_constraint: "symmetric_tanh"
+  phase_init: "uniform"
+  phase_init_scale: 0.1
+
+training:
+  epochs: 40
+  batch_size: 2
+  pair_generation_batch_size: 2
+  eval_batch_size: 2
+  learning_rate: 5.0e-4
+  loss:
+    mode: "complex"
+    complex_weights:
+      complex_overlap: 1.0
+      amplitude_mse: 0.5
+    weights:
+      overlap: 1.0
+      radius: 0.25
+      encircled: 0.25
+
+data:
+  cache_dir: data/kim2026/sweep_fd2nn/cache
+  split_manifest_path: data/kim2026/sweep_fd2nn/split_manifest.json
+  split_counts:
+    train: 160
+    val: 20
+    test: 20
+
+evaluation:
+  split: test
+  metrics: [complex_overlap, phase_rmse_rad, amplitude_rmse, intensity_overlap, strehl]
+  save_json: true
+
+visualization:
+  save_raw: false
+  save_plots: true
+  output_dir: runs/sweep_fd2nn/figures
+
+runtime:
+  seed: 20260323
+  strict_reproducibility: true
+  allow_tf32: false
+  deterministic_algorithms: true
+  cublas_workspace_config: ":4096:8"
+  device: cuda
+  num_workers: 0
+  pin_memory: true
+  persistent_workers: false
+  prefetch_factor: 2
+  fft_warmup_iters: 3

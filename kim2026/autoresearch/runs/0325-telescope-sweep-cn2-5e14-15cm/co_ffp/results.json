@@ -1,0 +1,27 @@
+{
+  "name": "co_ffp",
+  "description": "complex_overlap:1.0 + full_field_phase:1.0",
+  "model_type": "d2nn",
+  "loss_config": {
+    "weights": {
+      "complex_overlap": 1.0,
+      "full_field_phase": 1.0
+    }
+  },
+  "arch": {
+    "num_layers": 5,
+    "layer_spacing_m": 0.01,
+    "detector_distance_m": 0.01
+  },
+  "complex_overlap": 0.6406611204147339,
+  "phase_rmse_rad": 0.7598594427108765,
+  "full_field_phase_rmse_rad": 0.7645078897476196,
+  "amplitude_rmse": 0.37409472465515137,
+  "intensity_overlap": 0.7149373292922974,
+  "strehl": 6.471781253814697,
+  "encircled_energy": 0.7708996534347534,
+  "baseline_co": 0.6249489784240723,
+  "throughput": 0.9999975967684435,
+  "training_seconds": 2707.7353043556213,
+  "peak_vram_mb": 380.00732421875
+}

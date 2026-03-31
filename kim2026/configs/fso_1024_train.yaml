@@ -1,0 +1,78 @@
+experiment:
+  id: fso_1024_d2nn_5layer
+  save_dir: runs/1km_cn2e-14_w2m_n1024_dx2mm
+
+optics:
+  lambda_m: 1.55e-6
+  half_angle_rad: 3.0e-4   # theta_div/2 = 0.6mrad/2
+  m2: 1.0
+
+grid:
+  n: 1024
+  source_window_m: 0.006578   # D1 = 4*w0
+  receiver_window_m: 2.048    # 1024 * 2mm
+
+channel:
+  path_length_m: 1000.0
+  cn2: 1.0e-14
+  outer_scale_m: 30.0
+  inner_scale_m: 5.0e-3
+  num_screens: 6
+  frozen_flow:
+    wind_speed_mps: 10.0
+    wind_direction_mode: per_episode_random
+    dt_s: 5.0e-4
+    frames_per_episode: 1
+    screen_canvas_scale: 2.0
+
+receiver:
+  aperture_diameter_m: 0.6
+
+model:
+  num_layers: 5
+  layer_spacing_m: 50.0         # Large spacing for phase→amplitude conversion at 2mm/1550nm grid
+  detector_distance_m: 50.0
+
+training:
+  epochs: 40
+  batch_size: 2
+  pair_generation_batch_size: 2
+  eval_batch_size: 2
+  learning_rate: 5.0e-4
+  loss:
+    weights:
+      overlap: 1.0
+      radius: 0.25
+      encircled: 0.25
+
+data:
+  cache_dir: data/kim2026/1km_cn2e-14_w2m_n1024_dx2mm/cache
+  split_manifest_path: data/kim2026/1km_cn2e-14_w2m_n1024_dx2mm/split_manifest.json
+  episode_manifest_path: data/kim2026/1km_cn2e-14_w2m_n1024_dx2mm/episodes.json
+  split_episode_counts:
+    train: 160
+    val: 20
+    test: 20
+
+evaluation:
+  split: test
+  metrics: [overlap, strehl, beam_radius, encircled_energy]
+  save_json: true
+
+visualization:
+  save_raw: true
+  save_plots: true
+  output_dir: runs/1km_cn2e-14_w2m_n1024_dx2mm/figures
+
+runtime:
+  seed: 20260322
+  strict_reproducibility: true
+  allow_tf32: false
+  deterministic_algorithms: true
+  cublas_workspace_config: ":4096:8"
+  device: cuda
+  num_workers: 0
+  pin_memory: true
+  persistent_workers: false
+  prefetch_factor: 2
+  fft_warmup_iters: 3

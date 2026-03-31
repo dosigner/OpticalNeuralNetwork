@@ -1,0 +1,5 @@
+ep  0 loss=0.95110 lr=2.00e-04 710.1s
+  -> eval at epoch 0...
+  Epoch   0/99 | loss=0.95110 | co=0.2587 | strehl=0.0500 | fpib10=0.1650 | lr=2.00e-04 | 710.1s
+ep  1 loss=0.94435 lr=4.00e-04 698.9s
+ep  2 loss=0.80661 lr=6.00e-04 693.2s

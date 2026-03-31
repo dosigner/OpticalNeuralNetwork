@@ -1,0 +1,4 @@
+interface:
+  display_name: "FD2NN Codex Run Interpreter"
+  short_description: "Interpret kim2026 codex run narratives"
+  default_prompt: "Use $fd2nn-codex-run-interpreter to interpret kim2026 codex runs 02-05 and produce structured run and figure registries."

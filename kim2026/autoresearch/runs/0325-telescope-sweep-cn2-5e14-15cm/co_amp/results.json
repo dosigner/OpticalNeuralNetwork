@@ -1,0 +1,27 @@
+{
+  "name": "co_amp",
+  "description": "complex_overlap:1.0 + amplitude_mse:0.5",
+  "model_type": "d2nn",
+  "loss_config": {
+    "weights": {
+      "complex_overlap": 1.0,
+      "amplitude_mse": 0.5
+    }
+  },
+  "arch": {
+    "num_layers": 5,
+    "layer_spacing_m": 0.01,
+    "detector_distance_m": 0.01
+  },
+  "complex_overlap": 0.6455941200256348,
+  "phase_rmse_rad": 0.8250435590744019,
+  "full_field_phase_rmse_rad": 0.8357996940612793,
+  "amplitude_rmse": 0.32412850856781006,
+  "intensity_overlap": 0.7843828201293945,
+  "strehl": 4.85723876953125,
+  "encircled_energy": 0.8399615287780762,
+  "baseline_co": 0.6249489784240723,
+  "throughput": 0.9999975863196107,
+  "training_seconds": 2695.2104184627533,
+  "peak_vram_mb": 344.0009765625
+}

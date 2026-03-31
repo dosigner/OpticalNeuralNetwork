@@ -1,0 +1,79 @@
+experiment:
+  id: smoke_test
+  save_dir: runs/smoke_test
+
+optics:
+  lambda_m: 1.55e-6
+  half_angle_rad: 3.0e-4
+  m2: 1.0
+
+grid:
+  n: 32
+  source_window_m: 0.03
+  receiver_window_m: 0.2
+
+channel:
+  path_length_m: 100.0
+  cn2: 2.0e-14
+  outer_scale_m: 30.0
+  inner_scale_m: 5.0e-3
+  num_screens: 1
+  regrid_distance_m: 100.0
+  frozen_flow:
+    wind_speed_mps: 1.0
+    wind_direction_mode: per_episode_random
+    dt_s: 1.0e-3
+    frames_per_episode: 2
+    screen_canvas_scale: 2.0
+
+receiver:
+  aperture_diameter_m: 0.15
+
+model:
+  num_layers: 2
+  layer_spacing_m: 0.02
+  detector_distance_m: 0.03
+
+training:
+  epochs: 2
+  batch_size: 2
+  pair_generation_batch_size: 4
+  eval_batch_size: 2
+  learning_rate: 1.0e-2
+  loss:
+    weights:
+      overlap: 1.0
+      radius: 0.25
+      encircled: 0.25
+
+data:
+  cache_dir: data/kim2026/smoke/cache
+  split_manifest_path: data/kim2026/smoke/split_manifest.json
+  episode_manifest_path: data/kim2026/smoke/episodes.json
+  split_episode_counts:
+    train: 2
+    val: 1
+    test: 1
+
+evaluation:
+  split: test
+  metrics: [overlap, strehl, beam_radius, encircled_energy]
+  save_json: true
+
+visualization:
+  save_raw: true
+  save_plots: true
+  output_dir: runs/smoke_test/figures
+
+runtime:
+  seed: 20260316
+  strict_reproducibility: true
+  allow_tf32: false
+  deterministic_algorithms: true
+  cublas_workspace_config: ":4096:8"
+  device: cpu
+  num_workers: 0
+  pin_memory: false
+  persistent_workers: false
+  prefetch_factor: 2
+  fft_warmup_iters: 1

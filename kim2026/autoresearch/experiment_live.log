@@ -1,0 +1,53 @@
+Device: cuda
+GPU: NVIDIA A100-SXM4-40GB
+Params: 1,310,720
+Config: layers=5, spacing=1.0mm, constraint=unconstrained, lr=0.0005, epochs=30
+Epoch   0/29 | loss=0.80427 | co=0.2376 | pr=1.5880 | 37.3s
+Epoch   1/29 | loss=0.80313 | 37.3s
+Epoch   2/29 | loss=0.80219 | 37.6s
+Epoch   3/29 | loss=0.80133 | 38.3s
+Epoch   4/29 | loss=0.80054 | 36.9s
+Epoch   5/29 | loss=0.79983 | co=0.2414 | pr=1.5808 | 37.9s
+Epoch   6/29 | loss=0.79917 | 36.9s
+Epoch   7/29 | loss=0.79856 | 37.6s
+Epoch   8/29 | loss=0.79800 | 37.2s
+Epoch   9/29 | loss=0.79749 | 37.1s
+Epoch  10/29 | loss=0.79702 | co=0.2432 | pr=1.5787 | 37.1s
+Epoch  11/29 | loss=0.79660 | 36.7s
+Epoch  12/29 | loss=0.79620 | 37.4s
+Epoch  13/29 | loss=0.79585 | 37.9s
+Epoch  14/29 | loss=0.79552 | 36.8s
+Epoch  15/29 | loss=0.79523 | co=0.2439 | pr=1.5788 | 37.3s
+Epoch  16/29 | loss=0.79496 | 39.7s
+Epoch  17/29 | loss=0.79471 | 38.4s
+Epoch  18/29 | loss=0.79449 | 37.7s
+Epoch  19/29 | loss=0.79429 | 38.2s
+Epoch  20/29 | loss=0.79410 | co=0.2440 | pr=1.5796 | 38.9s
+Epoch  21/29 | loss=0.79393 | 37.0s
+Epoch  22/29 | loss=0.79378 | 34.8s
+Epoch  23/29 | loss=0.79364 | 35.9s
+Epoch  24/29 | loss=0.79351 | 36.4s
+Epoch  25/29 | loss=0.79339 | co=0.2438 | pr=1.5807 | 36.6s
+Epoch  26/29 | loss=0.79328 | 37.8s
+Epoch  27/29 | loss=0.79318 | 39.5s
+Epoch  28/29 | loss=0.79309 | 36.2s
+Epoch  29/29 | loss=0.79301 | co=0.2436 | pr=1.5817 | 36.9s
+
+---
+complex_overlap:   0.190920
+intensity_overlap: 0.936855
+strehl:            2.556546
+phase_rmse_rad:    1.652441
+full_field_phase_rmse_rad: 2.680999
+amplitude_rmse:    0.154450
+encircled_energy:  0.995981
+out_of_support_energy_fraction: 0.380713
+throughput:        0.759820
+training_seconds:  1154.3
+peak_vram_mb:      186.0
+num_params:        1310720
+num_layers:        5
+baseline_co:       0.191677
+
+WARN: throughput=0.7598 outside [0.95, 1.05] — energy conservation violated
+WARN: strehl=2.5565 > 1.05 — passive system cannot amplify

@@ -1,0 +1,27 @@
+{
+  "name": "co_phasor",
+  "description": "complex_overlap:1.0 + phasor_mse:1.0",
+  "model_type": "d2nn",
+  "loss_config": {
+    "weights": {
+      "complex_overlap": 1.0,
+      "phasor_mse": 1.0
+    }
+  },
+  "arch": {
+    "num_layers": 5,
+    "layer_spacing_m": 0.01,
+    "detector_distance_m": 0.01
+  },
+  "complex_overlap": 0.6295191049575806,
+  "phase_rmse_rad": 0.8566015958786011,
+  "full_field_phase_rmse_rad": 0.8738703727722168,
+  "amplitude_rmse": 0.34252631664276123,
+  "intensity_overlap": 0.7646507620811462,
+  "strehl": 4.702826976776123,
+  "encircled_energy": 0.8185942769050598,
+  "baseline_co": 0.6249489784240723,
+  "throughput": 0.9999975967684435,
+  "training_seconds": 2704.3640916347504,
+  "peak_vram_mb": 380.0009765625
+}

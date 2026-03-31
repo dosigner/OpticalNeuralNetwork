@@ -1,0 +1,26 @@
+{
+  "name": "baseline_co",
+  "description": "complex_overlap:1.0",
+  "model_type": "d2nn",
+  "loss_config": {
+    "weights": {
+      "complex_overlap": 1.0
+    }
+  },
+  "arch": {
+    "num_layers": 5,
+    "layer_spacing_m": 0.01,
+    "detector_distance_m": 0.01
+  },
+  "complex_overlap": 0.6455932259559631,
+  "phase_rmse_rad": 0.824981689453125,
+  "full_field_phase_rmse_rad": 0.8357399106025696,
+  "amplitude_rmse": 0.32419946789741516,
+  "intensity_overlap": 0.7843353748321533,
+  "strehl": 4.858197212219238,
+  "encircled_energy": 0.8398861885070801,
+  "baseline_co": 0.6249489784240723,
+  "throughput": 0.9999975758707778,
+  "training_seconds": 3211.508148431778,
+  "peak_vram_mb": 344.0009765625
+}

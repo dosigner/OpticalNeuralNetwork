@@ -1,0 +1,112 @@
+Device: cuda
+GPU: NVIDIA A100-SXM4-40GB, VRAM: 42.4 GB
+N=4096, n_scr=18, delta1=2631.4μm, delta_n=150.0μm
+r₀=3.0cm, D/r₀=5.02
+VRAM per realization: ~3.2 GB
+Target: 10000 realizations (8000/1000/1000 split)
+
+Vacuum propagation...
+Vacuum 1/e² radius: 1000px = 150.0mm
+
+Generating 10000 realizations...
+  [50/10000] generated=50, skipped=0 | 0.5 real/s | ETA 21311s | VRAM 3.5GB
+  [100/10000] generated=100, skipped=0 | 0.5 real/s | ETA 21227s | VRAM 3.5GB
+  [150/10000] generated=150, skipped=0 | 0.5 real/s | ETA 21111s | VRAM 3.5GB
+  [200/10000] generated=200, skipped=0 | 0.5 real/s | ETA 20991s | VRAM 3.5GB
+  [250/10000] generated=250, skipped=0 | 0.5 real/s | ETA 20873s | VRAM 3.5GB
+  [300/10000] generated=300, skipped=0 | 0.5 real/s | ETA 20748s | VRAM 3.5GB
+  [350/10000] generated=350, skipped=0 | 0.5 real/s | ETA 20625s | VRAM 3.5GB
+  [400/10000] generated=400, skipped=0 | 0.5 real/s | ETA 20508s | VRAM 3.5GB
+  [450/10000] generated=450, skipped=0 | 0.5 real/s | ETA 20394s | VRAM 3.5GB
+  [500/10000] generated=500, skipped=0 | 0.5 real/s | ETA 20282s | VRAM 3.5GB
+  [550/10000] generated=550, skipped=0 | 0.5 real/s | ETA 20171s | VRAM 3.5GB
+  [600/10000] generated=600, skipped=0 | 0.5 real/s | ETA 20061s | VRAM 3.5GB
+  [650/10000] generated=650, skipped=0 | 0.5 real/s | ETA 19953s | VRAM 3.5GB
+  [700/10000] generated=700, skipped=0 | 0.5 real/s | ETA 19845s | VRAM 3.5GB
+  [750/10000] generated=750, skipped=0 | 0.5 real/s | ETA 19736s | VRAM 3.5GB
+  [800/10000] generated=800, skipped=0 | 0.5 real/s | ETA 19629s | VRAM 3.5GB
+  [850/10000] generated=850, skipped=0 | 0.5 real/s | ETA 19521s | VRAM 3.5GB
+  [900/10000] generated=900, skipped=0 | 0.5 real/s | ETA 19412s | VRAM 3.5GB
+  [950/10000] generated=950, skipped=0 | 0.5 real/s | ETA 19304s | VRAM 3.5GB
+  [1000/10000] generated=1000, skipped=0 | 0.5 real/s | ETA 19195s | VRAM 3.5GB
+  [1050/10000] generated=1050, skipped=0 | 0.5 real/s | ETA 19093s | VRAM 3.5GB
+  [1100/10000] generated=1100, skipped=0 | 0.5 real/s | ETA 18990s | VRAM 3.5GB
+  [1150/10000] generated=1150, skipped=0 | 0.5 real/s | ETA 18887s | VRAM 3.5GB
+  [1200/10000] generated=1200, skipped=0 | 0.5 real/s | ETA 18783s | VRAM 3.5GB
+  [1250/10000] generated=1250, skipped=0 | 0.5 real/s | ETA 18676s | VRAM 3.5GB
+  [1300/10000] generated=1300, skipped=0 | 0.5 real/s | ETA 18568s | VRAM 3.5GB
+  [1350/10000] generated=1350, skipped=0 | 0.5 real/s | ETA 18459s | VRAM 3.5GB
+  [1400/10000] generated=1400, skipped=0 | 0.5 real/s | ETA 18351s | VRAM 3.5GB
+  [1450/10000] generated=1450, skipped=0 | 0.5 real/s | ETA 18243s | VRAM 3.5GB
+  [1500/10000] generated=1500, skipped=0 | 0.5 real/s | ETA 18136s | VRAM 3.5GB
+  [1550/10000] generated=1550, skipped=0 | 0.5 real/s | ETA 18028s | VRAM 3.5GB
+  [1600/10000] generated=1600, skipped=0 | 0.5 real/s | ETA 17920s | VRAM 3.5GB
+  [1650/10000] generated=1650, skipped=0 | 0.5 real/s | ETA 17812s | VRAM 3.5GB
+  [1700/10000] generated=1700, skipped=0 | 0.5 real/s | ETA 17704s | VRAM 3.5GB
+  [1750/10000] generated=1750, skipped=0 | 0.5 real/s | ETA 17596s | VRAM 3.5GB
+  [1800/10000] generated=1800, skipped=0 | 0.5 real/s | ETA 17488s | VRAM 3.5GB
+  [1850/10000] generated=1850, skipped=0 | 0.5 real/s | ETA 17381s | VRAM 3.5GB
+  [1900/10000] generated=1900, skipped=0 | 0.5 real/s | ETA 17273s | VRAM 3.5GB
+  [1950/10000] generated=1950, skipped=0 | 0.5 real/s | ETA 17165s | VRAM 3.5GB
+  [2000/10000] generated=2000, skipped=0 | 0.5 real/s | ETA 17058s | VRAM 3.5GB
+  [2050/10000] generated=2050, skipped=0 | 0.5 real/s | ETA 16950s | VRAM 3.5GB
+  [2100/10000] generated=2100, skipped=0 | 0.5 real/s | ETA 16842s | VRAM 3.5GB
+  [2150/10000] generated=2150, skipped=0 | 0.5 real/s | ETA 16736s | VRAM 3.5GB
+  [2200/10000] generated=2200, skipped=0 | 0.5 real/s | ETA 16631s | VRAM 3.5GB
+  [2250/10000] generated=2250, skipped=0 | 0.5 real/s | ETA 16526s | VRAM 3.5GB
+  [2300/10000] generated=2300, skipped=0 | 0.5 real/s | ETA 16420s | VRAM 3.5GB
+  [2350/10000] generated=2350, skipped=0 | 0.5 real/s | ETA 16315s | VRAM 3.5GB
+  [2400/10000] generated=2400, skipped=0 | 0.5 real/s | ETA 16209s | VRAM 3.5GB
+  [2450/10000] generated=2450, skipped=0 | 0.5 real/s | ETA 16104s | VRAM 3.5GB
+  [2500/10000] generated=2500, skipped=0 | 0.5 real/s | ETA 15998s | VRAM 3.5GB
+  [2550/10000] generated=2550, skipped=0 | 0.5 real/s | ETA 15892s | VRAM 3.5GB
+  [2600/10000] generated=2600, skipped=0 | 0.5 real/s | ETA 15788s | VRAM 3.5GB
+  [2650/10000] generated=2650, skipped=0 | 0.5 real/s | ETA 15683s | VRAM 3.5GB
+  [2700/10000] generated=2700, skipped=0 | 0.5 real/s | ETA 15578s | VRAM 3.5GB
+  [2750/10000] generated=2750, skipped=0 | 0.5 real/s | ETA 15473s | VRAM 3.5GB
+  [2800/10000] generated=2800, skipped=0 | 0.5 real/s | ETA 15367s | VRAM 3.5GB
+  [2850/10000] generated=2850, skipped=0 | 0.5 real/s | ETA 15261s | VRAM 3.5GB
+  [2900/10000] generated=2900, skipped=0 | 0.5 real/s | ETA 15153s | VRAM 3.5GB
+  [2950/10000] generated=2950, skipped=0 | 0.5 real/s | ETA 15045s | VRAM 3.5GB
+  [3000/10000] generated=3000, skipped=0 | 0.5 real/s | ETA 14938s | VRAM 3.5GB
+  [3050/10000] generated=3050, skipped=0 | 0.5 real/s | ETA 14831s | VRAM 3.5GB
+  [3100/10000] generated=3100, skipped=0 | 0.5 real/s | ETA 14725s | VRAM 3.5GB
+  [3150/10000] generated=3150, skipped=0 | 0.5 real/s | ETA 14620s | VRAM 3.5GB
+  [3200/10000] generated=3200, skipped=0 | 0.5 real/s | ETA 14514s | VRAM 3.5GB
+  [3250/10000] generated=3250, skipped=0 | 0.5 real/s | ETA 14409s | VRAM 3.5GB
+  [3300/10000] generated=3300, skipped=0 | 0.5 real/s | ETA 14303s | VRAM 3.5GB
+  [3350/10000] generated=3350, skipped=0 | 0.5 real/s | ETA 14196s | VRAM 3.5GB
+  [3400/10000] generated=3400, skipped=0 | 0.5 real/s | ETA 14089s | VRAM 3.5GB
+  [3450/10000] generated=3450, skipped=0 | 0.5 real/s | ETA 13982s | VRAM 3.5GB
+  [3500/10000] generated=3500, skipped=0 | 0.5 real/s | ETA 13875s | VRAM 3.5GB
+  [3550/10000] generated=3550, skipped=0 | 0.5 real/s | ETA 13769s | VRAM 3.5GB
+  [3600/10000] generated=3600, skipped=0 | 0.5 real/s | ETA 13662s | VRAM 3.5GB
+  [3650/10000] generated=3650, skipped=0 | 0.5 real/s | ETA 13555s | VRAM 3.5GB
+  [3700/10000] generated=3700, skipped=0 | 0.5 real/s | ETA 13447s | VRAM 3.5GB
+  [3750/10000] generated=3750, skipped=0 | 0.5 real/s | ETA 13339s | VRAM 3.5GB
+  [3800/10000] generated=3800, skipped=0 | 0.5 real/s | ETA 13233s | VRAM 3.5GB
+  [3850/10000] generated=3850, skipped=0 | 0.5 real/s | ETA 13126s | VRAM 3.5GB
+  [3900/10000] generated=3900, skipped=0 | 0.5 real/s | ETA 13018s | VRAM 3.5GB
+  [3950/10000] generated=3950, skipped=0 | 0.5 real/s | ETA 12911s | VRAM 3.5GB
+  [4000/10000] generated=4000, skipped=0 | 0.5 real/s | ETA 12804s | VRAM 3.5GB
+  [4050/10000] generated=4050, skipped=0 | 0.5 real/s | ETA 12696s | VRAM 3.5GB
+  [4100/10000] generated=4100, skipped=0 | 0.5 real/s | ETA 12589s | VRAM 3.5GB
+  [4150/10000] generated=4150, skipped=0 | 0.5 real/s | ETA 12481s | VRAM 3.5GB
+  [4200/10000] generated=4200, skipped=0 | 0.5 real/s | ETA 12375s | VRAM 3.5GB
+  [4250/10000] generated=4250, skipped=0 | 0.5 real/s | ETA 12268s | VRAM 3.5GB
+  [4300/10000] generated=4300, skipped=0 | 0.5 real/s | ETA 12161s | VRAM 3.5GB
+  [4350/10000] generated=4350, skipped=0 | 0.5 real/s | ETA 12054s | VRAM 3.5GB
+  [4400/10000] generated=4400, skipped=0 | 0.5 real/s | ETA 11947s | VRAM 3.5GB
+  [4450/10000] generated=4450, skipped=0 | 0.5 real/s | ETA 11839s | VRAM 3.5GB
+  [4500/10000] generated=4500, skipped=0 | 0.5 real/s | ETA 11732s | VRAM 3.5GB
+  [4550/10000] generated=4550, skipped=0 | 0.5 real/s | ETA 11624s | VRAM 3.5GB
+  [4600/10000] generated=4600, skipped=0 | 0.5 real/s | ETA 11517s | VRAM 3.5GB
+  [4650/10000] generated=4650, skipped=0 | 0.5 real/s | ETA 11410s | VRAM 3.5GB
+  [4700/10000] generated=4700, skipped=0 | 0.5 real/s | ETA 11303s | VRAM 3.5GB
+  [4750/10000] generated=4750, skipped=0 | 0.5 real/s | ETA 11196s | VRAM 3.5GB
+  [4800/10000] generated=4800, skipped=0 | 0.5 real/s | ETA 11089s | VRAM 3.5GB
+  [4850/10000] generated=4850, skipped=0 | 0.5 real/s | ETA 10981s | VRAM 3.5GB
+  [4900/10000] generated=4900, skipped=0 | 0.5 real/s | ETA 10874s | VRAM 3.5GB
+  [4950/10000] generated=4950, skipped=0 | 0.5 real/s | ETA 10767s | VRAM 3.5GB
+  [5000/10000] generated=5000, skipped=0 | 0.5 real/s | ETA 10660s | VRAM 3.5GB
+Stopped at 5000 files (Sun Mar 29 10:10:42 PM UTC 2026)

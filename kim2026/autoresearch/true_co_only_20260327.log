@@ -1,0 +1,21 @@
+Device: cuda
+GPU: NVIDIA A100-SXM4-40GB
+
+======================================================================
+  [baseline_co] complex_overlap:1.0
+  + phasor_smoothness: 0.01
+======================================================================
+  Epoch   0/99 | loss=0.96331 | co=0.0575 | io=0.9564 | sr=2.0792 | 16.5s
+  Epoch  10/99 | loss=0.68489 | co=0.3527 | io=0.7485 | sr=5.8267 | 15.9s
+  Epoch  20/99 | loss=0.52324 | co=0.5242 | io=0.7199 | sr=5.8645 | 28.2s
+  Epoch  30/99 | loss=0.43726 | co=0.6146 | io=0.7322 | sr=5.6890 | 26.9s
+  Epoch  40/99 | loss=0.39723 | co=0.6564 | io=0.7445 | sr=5.7028 | 28.0s
+  Epoch  50/99 | loss=0.37840 | co=0.6759 | io=0.7525 | sr=5.5422 | 36.6s
+  Epoch  60/99 | loss=0.36894 | co=0.6855 | io=0.7573 | sr=5.3321 | 38.0s
+  Epoch  70/99 | loss=0.36390 | co=0.6906 | io=0.7600 | sr=5.1541 | 36.7s
+  Epoch  80/99 | loss=0.36110 | co=0.6933 | io=0.7616 | sr=5.0386 | 36.1s
+  Epoch  90/99 | loss=0.35949 | co=0.6949 | io=0.7625 | sr=4.9834 | 37.1s
+  Epoch  99/99 | loss=0.35861 | co=0.6957 | io=0.7631 | sr=4.9513 | 36.3s
+  ⚠ WARN: strehl=5.2006 > 1.05
+  TEST: co=0.6437 | io=0.7489 | sr=5.2006 | tp=1.0000 | 3049s
+{'name': 'baseline_co', 'description': 'complex_overlap:1.0', 'loss_config': {'weights': {'complex_overlap': 1.0}}, 'complex_overlap': 0.6437192559242249, 'phase_rmse_rad': 0.8585627675056458, 'full_field_phase_rmse_rad': 0.8986541628837585, 'amplitude_rmse': 0.39174774289131165, 'intensity_overlap': 0.7489229440689087, 'strehl': 5.200568675994873, 'encircled_energy': 0.8140550851821899, 'baseline_co': 0.6249489784240723, 'throughput': 0.9999930515261518, 'training_seconds': 3048.70134806633, 'peak_vram_mb': 452.0009765625}

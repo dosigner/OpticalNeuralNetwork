@@ -1,7 +1,8 @@
 miniconda3/
-__pycache__/
+**/__pycache__/
 *.pyc
-.pytest_cache/
+**/.pytest_cache/
+**/.mypy_cache/
 
 # Datasets
 **/data/MNIST/
@@ -9,8 +10,28 @@ __pycache__/
 **/data/cifar10/
 **/data/mnist/
 
-# Experiment runs (checkpoints, logs, results)
-**/runs/
+# Shared Claude / agent tooling
+.claude/settings.local.json
+kim2026/.claude/settings.local.json
+
+# Shared bkit structure, exclude machine-local execution state
+.bkit/runtime/
+.bkit/state/
+.bkit/audit/
+.bkit/snapshots/
+.bkit/btw-suggestions.json
+kim2026/.bkit/
+
+# Experiment runs (keep summaries/figures, exclude heavy binaries)
+/luo2022_random_diffusers_d2nn/runs*/
+/lin2018_all_optical_d2nn/runs*/
+/tao2019_fourier_space_d2nn/runs*/
+/kim2026/data/
+/kim2026/autoresearch/runs/**/*.pt
+/kim2026/autoresearch/runs/**/*.npy
+/kim2026/autoresearch/runs/**/*.npz
+/kim2026/autoresearch/runs/**/*.pkl
+/kim2026/autoresearch/runs/**/*.ckpt
 
 # Wandb
 wandb/
@@ -19,8 +40,16 @@ wandb/
 .vscode/
 *.egg-info/
 
-# Claude
-.claude/
+# Generated LaTeX build outputs
+/docs/latex/*.aux
+/docs/latex/*.log
+/docs/latex/*.out
+/docs/latex/*.toc
+
+# Local archive bundles
+/d2nn_reproduction_vault.zip
+/fd2nn_claude_files.tar.gz
 
 # Local git worktrees
+/.worktrees/
 /worktrees/

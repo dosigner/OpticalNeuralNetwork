@@ -1,0 +1,60 @@
+Device: cuda
+GPU: NVIDIA A100-SXM4-40GB
+
+D2NN Focal-Plane PIB Sweep
+  Arch: 5 layers, 10mm spacing
+  Focus lens: f=4.5mm
+  dx_in=2.0μm → dx_focal=3.406μm
+  Focal window: 3488μm
+  PIB bucket: 10μm = 2.9 pixels
+  4 loss strategies × TV reg + cosine LR
+  Data: train=4000, val=500, test=500
+
+======================================================================
+  [focal_pib_only] Focal-plane PIB@10μm loss
+  TV=0.05, LR=0.008→cosine, epochs=100
+  Focus lens f=4.5mm, PIB bucket=10μm
+======================================================================
+  Epoch   0/99 | loss=0.79389 | co=0.2249 | fpib10=0.2519 | fpib50=0.9772 | fstrehl=4.1856 | lr=8.00e-04 | 370.2s
+  Epoch  50/99 | loss=0.19264 | co=0.1010 | fpib10=0.8049 | fpib50=0.9780 | fstrehl=28.7191 | lr=4.56e-03 | 356.6s
+  Epoch  99/99 | loss=0.19168 | co=0.1015 | fpib10=0.8055 | fpib50=0.9785 | fstrehl=28.7048 | lr=1.00e-05 | 355.6s
+
+  TEST RESULTS (metric plane separation):
+    === D2NN Output Plane ===
+    CO:     0.2799 → 0.0979 (-0.1820)
+    IO:     0.7811
+    WF RMS: 435.1 → 447.3 nm (-2.8%)
+    === Focal Plane (f=4.5mm) ===
+    PIB@10μm: 0.1722 → 0.8125 (Δ=+0.6403, 491.9% of vacuum=0.1652)
+    PIB@50μm: 0.9781 → 0.9784 (vacuum=0.9847)
+    Strehl:   28.7801
+    dx_focal: 3.406 μm
+    TP:       1.0000
+
+======================================================================
+  [focal_strehl_only] Focal-plane Strehl ratio loss
+  TV=0.05, LR=0.008→cosine, epochs=100
+  Focus lens f=4.5mm, PIB bucket=10μm
+======================================================================
+  Epoch   0/99 | loss=-1.79497 | co=0.2598 | fpib10=0.1590 | fpib50=0.9776 | fstrehl=3.0389 | lr=8.00e-04 | 424.6s
+  Epoch  50/99 | loss=-28.84147 | co=0.0857 | fpib10=0.3155 | fpib50=0.9597 | fstrehl=29.5050 | lr=4.56e-03 | 385.2s
+  Epoch  99/99 | loss=-28.97270 | co=0.0860 | fpib10=0.3188 | fpib50=0.9604 | fstrehl=29.5863 | lr=1.00e-05 | 427.8s
+
+  TEST RESULTS (metric plane separation):
+    === D2NN Output Plane ===
+    CO:     0.2799 → 0.0865 (-0.1934)
+    IO:     0.7363
+    WF RMS: 435.1 → 447.0 nm (-2.7%)
+    === Focal Plane (f=4.5mm) ===
+    PIB@10μm: 0.1722 → 0.2930 (Δ=+0.1208, 177.4% of vacuum=0.1652)
+    PIB@50μm: 0.9781 → 0.9600 (vacuum=0.9847)
+    Strehl:   28.5265
+    dx_focal: 3.406 μm
+    TP:       1.0000
+
+======================================================================
+  [focal_intensity_overlap] Focal-plane intensity overlap loss
+  TV=0.05, LR=0.008→cosine, epochs=100
+  Focus lens f=4.5mm, PIB bucket=10μm
+======================================================================
+  Epoch   0/99 | loss=0.29965 | co=0.2617 | fpib10=0.1634 | fpib50=0.9776 | fstrehl=2.6568 | lr=8.00e-04 | 459.4s

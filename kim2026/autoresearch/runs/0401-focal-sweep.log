@@ -1,0 +1,39 @@
+Device: cuda
+GPU: NVIDIA A100-SXM4-40GB
+
+D2NN Focal-Plane PIB Sweep
+  Config: autoresearch/configs/0401-focal-sweep-padded-30ep.yaml
+  Resolved parameters:
+    wavelength_m=1.550000e-06
+    receiver_window_m=2.048000e-03
+    aperture_diameter_m=2.000000e-03
+    focus_f_m=4.500000e-03
+    pib_bucket_radius_um=10.000
+    arch={'num_layers': 5, 'layer_spacing_m': 0.01, 'detector_distance_m': 0.01, 'propagation_pad_factor': 2}
+    train={'lr': 0.008, 'epochs': 30, 'batch_size': 32, 'tv_weight': 0.05, 'warmup_epochs': 5}
+    strehl_pad_factor=4
+    alias_safe_distance_guard_m=0.050
+    data_dir=/root/dj/D2NN/kim2026/data/kim2026/1km_cn2_5e-14_tel15cm_n1024_br75/cache
+    manifest=/root/dj/D2NN/kim2026/data/kim2026/1km_cn2_5e-14_tel15cm_n1024_br75/split_manifest.json
+    out_root=/root/dj/D2NN/kim2026/autoresearch/runs/0401-focal-pib-sweep-padded-4loss-cn2-5e14
+  dx_in=2.0μm → dx_focal=3.406μm
+  Focal window: 3488μm
+  PIB bucket: 10μm = 2.9 pixels
+  4 loss strategies × TV reg + cosine LR
+  Data: train=4000, val=500, test=500
+
+============================================================
+  PHYSICS SANITY CHECKS
+============================================================
+  [PASS] Vacuum Strehl: 0.028946 ([0.0, 1.05])
+
+  Result: ALL PASSED
+============================================================
+
+
+======================================================================
+  [focal_pib_only] Focal-plane PIB@10μm loss
+  TV=0.05, LR=0.008→cosine, epochs=30
+  Focus lens f=4.5mm, PIB bucket=10μm
+======================================================================
+  Epoch   0/29 | loss=0.68672 | co=0.1945 | fpib10=0.4636 | fpib50=0.9830 | fstrehl=0.2213 | lr=1.60e-03 | 391.6s

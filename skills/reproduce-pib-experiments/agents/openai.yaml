@@ -1,0 +1,3 @@
+display_name: Reproduce PIB Experiments
+short_description: Reproduce D2NN focal-plane PIB experiment checkpoints and run Train→Eval→Analyze pipeline
+default_prompt: Reproduce the focal PIB experiments and generate all figures
