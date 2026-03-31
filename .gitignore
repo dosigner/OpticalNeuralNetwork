@@ -1,0 +1,27 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Distribution / packaging
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Pytest cache
+.pytest_cache/
+
+# Data & results (large, generated)
+data/
+results/
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store
