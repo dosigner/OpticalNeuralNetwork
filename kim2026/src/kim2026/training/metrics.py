@@ -36,24 +36,24 @@ def strehl_ratio(pred_intensity: torch.Tensor, target_intensity: torch.Tensor) -
 
 def strehl_ratio_correct(
     pred_field: torch.Tensor,
-    ref_amplitude: torch.Tensor,
     pad_factor: int = 4,
 ) -> torch.Tensor:
-    """Correct Strehl ratio with zero-padding and flat-phase reference.
+    """Correct Strehl ratio: compare a field to its own flat-phase version.
 
-    The diffraction-limited reference is constructed from ``ref_amplitude``
-    with zero phase (flat wavefront).  Both fields are zero-padded by
-    ``pad_factor`` before FFT so that the Airy disk is properly sampled
-    (Nyquist-compliant).  Energy is normalized to unit total before peak
-    comparison, guaranteeing S <= 1 for passive systems (Cauchy--Schwarz).
+    S = max|FT[A·exp(jφ)]|² / max|FT[A]|²
+
+    where A = |pred_field| (amplitude) and φ = angle(pred_field) (phase).
+    The reference is the same amplitude with zero phase (flat wavefront).
+    This guarantees S <= 1 by Cauchy--Schwarz, regardless of the
+    amplitude distribution.
+
+    Both fields are zero-padded by ``pad_factor`` before FFT so that
+    the PSF peak is properly sampled (Nyquist-compliant).
 
     Parameters
     ----------
     pred_field : Tensor [B, H, W], complex
-        Aberrated (or D2NN-processed) pupil-plane field.
-    ref_amplitude : Tensor [B, H, W], real or complex
-        Vacuum amplitude ``|U_vac|``.  Phase is discarded; a flat-phase
-        reference is built internally.
+        Pupil-plane field with aberration/phase structure.
     pad_factor : int
         Zero-padding multiplier (default 4 → Airy ≈ 5 px).
 
@@ -67,16 +67,16 @@ def strehl_ratio_correct(
     n_pad = n * pad_factor
     pad = (n_pad - n) // 2
 
-    # Flat-phase reference: same amplitude, zero phase
-    ref_field = ref_amplitude.abs().to(pred_field.dtype)
+    # Reference: same amplitude, flat phase
+    ref_field = pred_field.abs().to(torch.complex64)
 
     # Zero-pad
-    pred_pad = torch.nn.functional.pad(pred_field, [pad, pad, pad, pad])
+    pred_pad = torch.nn.functional.pad(pred_field.to(torch.complex64), [pad, pad, pad, pad])
     ref_pad = torch.nn.functional.pad(ref_field, [pad, pad, pad, pad])
 
     # FFT to focal plane
-    focal_pred = fft2c(pred_pad.to(torch.complex64))
-    focal_ref = fft2c(ref_pad.to(torch.complex64))
+    focal_pred = fft2c(pred_pad)
+    focal_ref = fft2c(ref_pad)
 
     # Energy-normalized intensities
     pred_i = focal_pred.abs().square()
@@ -84,7 +84,7 @@ def strehl_ratio_correct(
     pred_n = pred_i / pred_i.sum(dim=(-2, -1), keepdim=True).clamp_min(1e-12)
     ref_n = ref_i / ref_i.sum(dim=(-2, -1), keepdim=True).clamp_min(1e-12)
 
-    # Peak comparison (amax, not on-axis — reference peak IS at center for flat-phase)
+    # Peak comparison — guaranteed S <= 1 by Cauchy-Schwarz
     return pred_n.amax(dim=(-2, -1)) / ref_n.amax(dim=(-2, -1)).clamp_min(1e-12)
 
 

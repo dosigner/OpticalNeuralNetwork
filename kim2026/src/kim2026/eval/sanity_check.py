@@ -96,7 +96,6 @@ def check_vacuum_strehl(
         pred = d0(target)
         sr = strehl_ratio_correct(
             pred,
-            target.abs(),
             pad_factor=STREHL_PAD_FACTOR,
         )
         all_strehl.append(sr.cpu())
@@ -206,7 +205,6 @@ def check_strehl_bound(
         pred = model(inp)
         sr = strehl_ratio_correct(
             pred,
-            target.abs(),
             pad_factor=STREHL_PAD_FACTOR,
         )
         all_strehl.append(sr.cpu())

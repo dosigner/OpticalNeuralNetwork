@@ -1,0 +1,76 @@
+{
+  "name": "focal_pib_only",
+  "description": "Focal-plane PIB@10\u03bcm loss",
+  "arch": {
+    "num_layers": 5,
+    "layer_spacing_m": 0.01,
+    "detector_distance_m": 0.01,
+    "propagation_pad_factor": 2
+  },
+  "focus_f_mm": 4.5,
+  "pib_bucket_radius_um": 10.0,
+  "propagation_pad_factor": 2,
+  "strehl_pad_factor": 4,
+  "co_output": 0.10957025736570358,
+  "io_output": 0.8049267530441284,
+  "co_baseline": 0.2799460291862488,
+  "focal_pib_10um": 0.9001209139823914,
+  "focal_pib_50um": 0.9856704473495483,
+  "focal_pib_10um_baseline": 0.17219534516334534,
+  "focal_pib_50um_baseline": 0.9780635833740234,
+  "focal_pib_10um_vacuum": 0.16515542566776276,
+  "focal_pib_50um_vacuum": 0.9846898913383484,
+  "focal_strehl": 0.6383525729179382,
+  "dx_focal_um": 3.40576171875,
+  "throughput": 0.4381256855170484,
+  "wf_rms_rad": 1.8118674762248992,
+  "wf_rms_baseline_rad": 1.758782311320305,
+  "wf_rms_nm": 446.9698808563763,
+  "wf_rms_baseline_nm": 433.8742929372837,
+  "training_seconds": 11792.659537315369,
+  "sanity_checks": [
+    {
+      "name": "Energy Throughput",
+      "passed": false,
+      "value": 0.42821125970682294,
+      "threshold": "[0.9, 1.1]",
+      "message": "Throughput=0.4282, energy lost"
+    },
+    {
+      "name": "Unitary CO Preservation",
+      "passed": false,
+      "value": 0.08962585777044296,
+      "threshold": "|delta| < 0.01",
+      "message": "CO delta=0.089626, D2NN may not be unitary"
+    },
+    {
+      "name": "Strehl Upper Bound",
+      "passed": true,
+      "value": 0.6257479190826416,
+      "threshold": "<= 1.05",
+      "message": "Strehl=0.6257 exceeds passive limit"
+    }
+  ],
+  "history": {
+    "epoch": [
+      0,
+      29
+    ],
+    "loss": [
+      0.6867182035446167,
+      0.11062506806850433
+    ],
+    "val_co": [
+      0.19448614120483398,
+      0.11061032861471176
+    ],
+    "val_focal_pib_10": [
+      0.46356305480003357,
+      0.8945419192314148
+    ],
+    "lr": [
+      0.0016,
+      1e-05
+    ]
+  }
+}
