@@ -85,9 +85,8 @@ def total_variation(model: BeamCleanupD2NN) -> torch.Tensor:
 
 
 def focal_strehl_loss_correct(d2nn_pred: torch.Tensor, target: torch.Tensor) -> torch.Tensor:
-    """1 - correct Strehl. Uses flat-phase reference + 4x zero-padded FFT."""
-    ref_amp = target.abs()  # vacuum amplitude, flat phase applied inside
-    sr = strehl_ratio_correct(d2nn_pred, ref_amp, pad_factor=STREHL_PAD_FACTOR)
+    """1 - correct Strehl using the field's own flat-phase reference."""
+    sr = strehl_ratio_correct(d2nn_pred, pad_factor=STREHL_PAD_FACTOR)
     return 1.0 - sr.mean()
 
 
@@ -123,7 +122,7 @@ def evaluate(model, loader, device):
         all_co_bl.append(complex_overlap(inp, target).cpu())
 
         # Correct Strehl (4x padded, flat-phase ref)
-        sr = strehl_ratio_correct(d2nn_pred, target.abs(), pad_factor=STREHL_PAD_FACTOR)
+        sr = strehl_ratio_correct(d2nn_pred, pad_factor=STREHL_PAD_FACTOR)
         all_strehl.append(sr.cpu())
 
         # Focal PIB

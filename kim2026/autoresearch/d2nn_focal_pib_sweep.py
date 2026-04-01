@@ -92,21 +92,17 @@ def make_model() -> BeamCleanupD2NN:
 
 def corrected_strehl_batch(
     pred_field: torch.Tensor,
-    ref_amplitude: torch.Tensor,
     *,
     pad_factor: int = STREHL_PAD_FACTOR,
     chunk_size: int = STREHL_BATCH_CHUNK,
 ) -> torch.Tensor:
     """Compute corrected Strehl in memory-safe chunks."""
-    if pred_field.shape[0] != ref_amplitude.shape[0]:
-        raise ValueError("pred_field and ref_amplitude batch dimensions must match")
     outputs = []
     for start in range(0, pred_field.shape[0], chunk_size):
         stop = start + chunk_size
         outputs.append(
             strehl_ratio_correct(
                 pred_field[start:stop],
-                ref_amplitude[start:stop],
                 pad_factor=pad_factor,
             )
         )
@@ -240,7 +236,7 @@ def focal_pib_loss(focal_pred: torch.Tensor, focal_target: torch.Tensor,
 
 def focal_strehl_loss(d2nn_pred: torch.Tensor, target: torch.Tensor) -> torch.Tensor:
     """1 - corrected Strehl with a flat-phase raw-vacuum reference."""
-    sr = corrected_strehl_batch(d2nn_pred, target.abs())
+    sr = corrected_strehl_batch(d2nn_pred)
     return 1.0 - sr.mean()
 
 
@@ -340,7 +336,7 @@ def evaluate(model: nn.Module, loader: DataLoader, device: torch.device) -> dict
         focal_target, _ = to_focal_plane(target)
         all_pib_10_vac.append(compute_focal_pib(focal_target, dx_focal, 10.0).cpu())
         all_pib_50_vac.append(compute_focal_pib(focal_target, dx_focal, 50.0).cpu())
-        all_strehl_focal.append(corrected_strehl_batch(d2nn_pred, target.abs()).cpu())
+        all_strehl_focal.append(corrected_strehl_batch(d2nn_pred).cpu())
         del focal_target
 
         focal_inp, _ = to_focal_plane(inp)
