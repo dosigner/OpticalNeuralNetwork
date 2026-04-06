@@ -1,0 +1,36 @@
+# 0402 Focal Sweep — New loss functions (F, B, C) with pitch_rescale data
+# Goal: maximize absolute bucket power, not just normalized PIB
+# Data: pitch_rescale (artifact-free afocal telescope rescaling)
+
+training:
+  seed: 20260402
+  lr: 8.0e-3
+  epochs: 30
+  batch_size: 32
+  tv_weight: 0.05
+  warmup_epochs: 5
+
+architecture:
+  num_layers: 5
+  layer_spacing_m: 0.01
+  detector_distance_m: 0.01
+  propagation_pad_factor: 2
+
+physics:
+  wavelength_m: 1.55e-6
+  receiver_window_m: 0.002048
+  aperture_diameter_m: 0.002
+  focus_f_m: 4.5e-3
+  pib_bucket_radius_um: 10.0
+
+data:
+  path: data/kim2026/1km_cn2_5e-14_tel15cm_pitch_rescale
+  plane_selector: stored
+
+output:
+  dir: autoresearch/runs/0402-focal-new-losses-pitchrescale-3strat-cn2-5e14
+
+strategies:
+  - focal_absolute_bucket
+  - focal_tp_penalized_pib
+  - focal_multiplane_co_pib_amp

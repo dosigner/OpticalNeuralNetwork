@@ -71,7 +71,7 @@ def get_focal_dirs() -> dict[str, Path]:
     """Return standard directories for focal PIB experiments."""
     root = get_kim2026_root()
     return {
-        "data": root / "data" / "kim2026" / "1km_cn2_5e-14_tel15cm_n1024_br75",
+        "data": root / "data" / "kim2026" / "1km_cn2_5e-14_tel15cm_pupil1024_v1",
         "focal_sweep": root / "autoresearch" / "runs" / "d2nn_focal_pib_sweep",
         "old_sweep": root / "autoresearch" / "runs" / "d2nn_loss_strategy",
     }
@@ -252,6 +252,7 @@ def load_test_dataset(
         cache_dir=str(data_dir / "cache"),
         manifest_path=str(data_dir / "split_manifest.json"),
         split=split,
+        plane_selector="reduced_ideal",
     )
     loader = DataLoader(ds, batch_size=batch_size, num_workers=num_workers)
     return ds, loader

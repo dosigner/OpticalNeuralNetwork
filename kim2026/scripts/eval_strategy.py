@@ -63,7 +63,16 @@ def main():
     parser.add_argument("--sweep", required=True)
     parser.add_argument("--strategy", required=True)
     parser.add_argument("--arch-pad", type=int, default=2, help="propagation_pad_factor")
+    parser.add_argument("--focus-f", type=float, default=None, help="focal length override (m)")
+    parser.add_argument("--data", type=str, default=None, help="data directory override")
     args = parser.parse_args()
+    if args.data:
+        args.data_dir = args.data
+
+    if args.focus_f is not None:
+        global F
+        F = args.focus_f
+        print(f"  Focal length override: f={F*1e3:.1f}mm")
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     ARCH = dict(num_layers=5, layer_spacing_m=10e-3, detector_distance_m=10e-3, propagation_pad_factor=args.arch_pad)
@@ -78,8 +87,9 @@ def main():
     m = m.to(device); m.eval()
     d0 = BeamCleanupD2NN(n=N, wavelength_m=W, window_m=WIN, **ARCH).to(device); d0.eval()
 
-    ds = CachedFieldDataset(cache_dir="data/kim2026/1km_cn2_5e-14_tel15cm_n1024_br75/cache",
-                             manifest_path="data/kim2026/1km_cn2_5e-14_tel15cm_n1024_br75/split_manifest.json", split="test")
+    data_dir = getattr(args, 'data_dir', None) or "data/kim2026/1km_cn2_5e-14_tel15cm_dn100um_lanczos50"
+    ds = CachedFieldDataset(cache_dir=f"{data_dir}/cache",
+                             manifest_path=f"{data_dir}/split_manifest.json", split="test")
     loader = DataLoader(ds, batch_size=8, num_workers=0)
     print(f"Test: {len(ds)} samples")
 

@@ -1,0 +1,76 @@
+{
+  "name": "focal_raw_received_power",
+  "description": "Maximize absolute focal bucket power (no vacuum ref)",
+  "arch": {
+    "num_layers": 5,
+    "layer_spacing_m": 0.01,
+    "detector_distance_m": 0.01,
+    "propagation_pad_factor": 2
+  },
+  "focus_f_mm": 6.5,
+  "pib_bucket_radius_um": 10.0,
+  "propagation_pad_factor": 2,
+  "strehl_pad_factor": 4,
+  "co_output": 0.6514168381690979,
+  "io_output": 0.640728771686554,
+  "co_baseline": 0.9752197265625,
+  "focal_pib_10um": 0.9679357409477234,
+  "focal_pib_50um": 0.9894139766693115,
+  "focal_pib_10um_baseline": 0.5058984160423279,
+  "focal_pib_50um_baseline": 0.9983804821968079,
+  "focal_pib_10um_vacuum": 0.5370053648948669,
+  "focal_pib_50um_vacuum": 1.0,
+  "focal_strehl": 0.8709787130355835,
+  "dx_focal_um": 4.919433593749999,
+  "throughput": 0.9963363152635379,
+  "wf_rms_rad": 1.511467036306858,
+  "wf_rms_baseline_rad": 1.4649593237042426,
+  "wf_rms_nm": 372.8640477304752,
+  "wf_rms_baseline_nm": 361.3910525839398,
+  "training_seconds": 4263.295449733734,
+  "sanity_checks": [
+    {
+      "name": "Energy Throughput",
+      "passed": true,
+      "value": 0.9963036092618742,
+      "threshold": "[0.9, 1.1]",
+      "message": "Throughput=0.9963, energy lost"
+    },
+    {
+      "name": "Unitary CO Preservation",
+      "passed": true,
+      "value": 0.0009128525853157043,
+      "threshold": "|delta| < 0.01",
+      "message": "CO delta=0.000913, D2NN may not be unitary"
+    },
+    {
+      "name": "Strehl Upper Bound",
+      "passed": true,
+      "value": 0.8699381947517395,
+      "threshold": "<= 1.05",
+      "message": "Strehl=0.8699 exceeds passive limit"
+    }
+  ],
+  "history": {
+    "epoch": [
+      0,
+      29
+    ],
+    "loss": [
+      0.6161118793487549,
+      0.04623326890170574
+    ],
+    "val_co": [
+      0.960506796836853,
+      0.6507072448730469
+    ],
+    "val_focal_pib_10": [
+      0.5634035468101501,
+      0.967522144317627
+    ],
+    "lr": [
+      0.0016,
+      1e-05
+    ]
+  }
+}

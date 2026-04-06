@@ -1,0 +1,64 @@
+\chapter{Optics Crisis: The $f=1$\,mm Design}
+
+\section{Why the Crisis Happened}
+
+The first FD2NN branch inherited an aggressive dual-2f optical layout with
+$f=1$\,mm relay lenses. The early numbers looked promising enough to continue,
+but the geometry itself was later found to be physically untrustworthy for a
+deployable receiver. The issue was not a single failed training run; it was the
+sampling and optical scale of the entire design.
+
+\section{Fourier-Plane Sampling Diagnosis}
+
+The key scaling relation is
+\begin{equation}
+\Delta x_f = \frac{\lambda f}{N \Delta x},
+\end{equation}
+so the Fourier-plane window width is
+\begin{equation}
+W_f = N \Delta x_f = \frac{\lambda f}{\Delta x}.
+\end{equation}
+Shrinking $f$ compresses the Fourier plane and drives the required feature size
+into an impractical regime. A complementary aperture argument uses
+\begin{equation}
+\mathrm{NA} \approx \frac{D}{2f},
+\end{equation}
+which shows that very small focal lengths raise numerical aperture, clipping
+pressure, and fabrication difficulty simultaneously.
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{lccc}
+    \toprule
+    \smalltablehead{Parameter} & \smalltablehead{$f=1$\,mm} & \smalltablehead{$f=10$\,mm} & \smalltablehead{$f=25$\,mm} \\
+    \midrule
+    $\Delta x_f$ & $\approx 1.5\,\mu$m & $\approx 7.6\,\mu$m & $\approx 18.9$--$37.8\,\mu$m \\
+    Approx.\ NA & high ($\sim 0.16$) & moderate ($\sim 0.10$) & lower ($\sim 0.04$) \\
+    Diagnostic throughput & $\sim 0.02$ & intermediate & $\sim 0.76$--$1.00$ \\
+    Fabrication posture & e-beam scale & difficult & photolithography-friendly \\
+    Receiver interpretation & untrustworthy & transitional & physically credible \\
+    \bottomrule
+  \end{tabular}
+  \caption{Conservative scaling comparison for the FD2NN optics crisis. The
+  exact NA depends on aperture assumptions, but the trend is robust: $f=1$\,mm
+  compresses the Fourier plane too aggressively.}
+\end{table}
+
+\section{What the Reinterpretation Means}
+
+The strongest safe conclusion is not that every early FD2NN result became
+numerically useless. It is narrower: the $f=1$\,mm family is not a credible
+design basis for a deployable optical receiver, because the Fourier-plane
+sampling and clipping burden are too severe. This reframing matters because the
+later $f=25$\,mm 4f sweep should be read as a corrected design study, not as a
+simple continuation of the original branch.
+
+\begin{keyinsight}
+The optics crisis corrected the geometry, not the underlying hypothesis. Even
+after moving to more credible focal lengths, the campaign still had to answer a
+deeper question: can any static phase-only mask improve field-level similarity
+for random turbulence?
+\end{keyinsight}
+
+That deeper question leads directly to the static-limit analysis in the next
+chapter.

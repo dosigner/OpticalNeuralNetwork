@@ -1,0 +1,365 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2cm]{geometry}
+\usepackage{fontspec}
+\usepackage{kotex}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\definecolor{accent}{HTML}{1B98E0}
+\definecolor{darkbg}{HTML}{0B1D33}
+\definecolor{redwarn}{HTML}{E74C3C}
+\definecolor{greengood}{HTML}{27AE60}
+\definecolor{orange}{HTML}{E67E22}
+\definecolor{muted}{HTML}{7B8794}
+\definecolor{tableheader}{HTML}{1B4F72}
+\definecolor{tablealt}{HTML}{EBF5FB}
+
+\setmainfont{Noto Serif CJK KR}
+\setsansfont{NanumSquareRound}
+
+\titleformat{\section}{\Large\bfseries\sffamily\color{darkbg}}{}{0em}{}[\vspace{-0.5em}\textcolor{accent}{\rule{\textwidth}{1.5pt}}]
+\titleformat{\subsection}{\large\bfseries\sffamily\color{tableheader}}{}{0em}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily\textcolor{muted}{D2NN Comprehensive Report}}
+\fancyhead[R]{\small\sffamily\textcolor{muted}{2026-04-05}}
+\fancyfoot[C]{\small\sffamily\textcolor{muted}{\thepage}}
+\renewcommand{\headrulewidth}{0.5pt}
+
+\newcommand{\good}[1]{\textcolor{greengood}{\textbf{#1}}}
+\newcommand{\bad}[1]{\textcolor{redwarn}{\textbf{#1}}}
+\newcommand{\warn}[1]{\textcolor{orange}{\textbf{#1}}}
+
+% Short paths
+\newcommand{\runs}{/root/dj/D2NN/kim2026/autoresearch/runs}
+
+\begin{document}
+
+% ── Title ──
+\begin{center}
+{\Huge\bfseries\sffamily\textcolor{darkbg}{Static D2NN for FSO Beam Cleanup}}\\[0.5em]
+{\LARGE\sffamily\textcolor{accent}{Loss Function Sweep \& Distance Analysis}}\\[1.5em]
+{\large\sffamily D2NN Lab \quad|\quad 2026-04-05}\\[0.3em]
+{\small\textcolor{muted}{Cn$^2$=5$\times$10$^{-14}$, $\lambda$=1.55$\mu$m, Tel=15cm, 5-layer D2NN}}
+\end{center}
+\vspace{1em}
+
+% ════════════════════════════════════════════════════
+\section{Simulation Setup}
+
+\begin{itemize}
+\item \textbf{D2NN}: 5 phase-only layers, spacing 10mm, detector 10mm, pad factor 2
+\item \textbf{Optics}: $\lambda$=1.55$\mu$m, receiver window=2.048mm, aperture=2mm
+\item \textbf{Focusing}: f=6.5mm (SMF-28 optimal), bucket=10$\mu$m
+\item \textbf{Atmosphere}: Cn$^2$=5$\times$10$^{-14}$ m$^{-2/3}$, distances 100m--3km
+\item \textbf{Data}: pitch\_rescale (afocal telescope, no interpolation), 2000 pairs/distance
+\item \textbf{Training}: 30 epochs, batch=32, LR=8$\times$10$^{-3}$$\rightarrow$cosine, TV=0.05, A100
+\end{itemize}
+
+
+% ════════════════════════════════════════════════════
+\section{Loss Function Sweep (Sweeps 0401--0403)}
+
+10개 손실 전략을 비교한 결과, \textbf{normalized PIB와 절대 수신전력은 상관관계가 낮다}.
+
+\begin{table}[H]
+\centering\small
+\begin{tabular}{l c c c c}
+\toprule
+\rowcolor{tableheader}\textcolor{white}{\textbf{Strategy}} & \textcolor{white}{\textbf{PIB@10$\mu$m}} & \textcolor{white}{\textbf{TP}} & \textcolor{white}{\textbf{RP@10$\mu$m}} & \textcolor{white}{\textbf{vs Turb}} \\
+\midrule
+PIB Only (0401) & \good{90.1\%} & \bad{50.7\%} & 455 mW & \bad{$-$41\%} \\
+\rowcolor{tablealt}Strehl Only (0401) & 81.8\% & \bad{57.5\%} & 468 mW & \bad{$-$40\%} \\
+Abs Bucket (0402) & 81.4\% & \good{98.6\%} & 796 mW & \good{+5.8\%} \\
+\rowcolor{tablealt}TP+PIB (0402) & 81.6\% & \good{98.4\%} & 796 mW & \good{+5.8\%} \\
+Raw RP (0403) & 81.5\% & \good{98.6\%} & \good{797 mW} & \good{+6.4\%} \\
+\rowcolor{tablealt}Multiplane (0402) & 84.2\% & \bad{39.5\%} & 333 mW & \bad{$-$56\%} \\
+CO+hardTP (0403) & 74.0\% & \good{99.3\%} & 730 mW & $-$3\% \\
+\bottomrule
+\end{tabular}
+\caption{주요 전략 비교 (1W vacuum 기준). PIB 90.1\%여도 절대 수신전력은 turbulent의 59\%.}
+\end{table}
+
+\noindent\fcolorbox{orange}{tablealt}{\parbox{0.95\textwidth}{
+\textbf{핵심 발견}: Throughput을 유지하는 전략(Abs Bucket, TP+PIB, Raw RP)만이 절대 수신전력을 개선. \textbf{Raw RP loss}($-\log(\text{bucket}/\text{input})$)가 가장 우수 (+6.4\%).
+}}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{\runs/0402-focal-new-losses-pitchrescale-3strat-cn2-5e14/16_abs_power_histogram_per_strategy.png}
+\caption{전략별 절대 수신전력 분포. F/B만 turbulent 대비 개선, Multiplane은 대폭 악화.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{\runs/0402-focal-new-losses-pitchrescale-3strat-cn2-5e14/20_encircled_energy_per_strategy.png}
+\caption{Encircled energy vs radius. Vacuum과 turbulent의 총 에너지는 비슷하지만 집속 패턴이 다름.}
+\end{figure}
+
+
+% ════════════════════════════════════════════════════
+\section{Received Power Gap Decomposition}
+
+\begin{align*}
+\text{Bucket Power} &\approx \underbrace{\text{TP}}_{\text{에너지 보존}} \times \underbrace{\exp(-\sigma^2_{\text{WFE}})}_{\text{Strehl}} \times P_{\text{diffraction-limited}} \\[0.5em]
+\text{WFE} &= 442.9\text{nm} = 1.80\text{ rad} \quad \Rightarrow \quad \text{Strehl} = e^{-\sigma^2} = 0.04
+\end{align*}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lccc}
+\toprule
+\rowcolor{tableheader}\textcolor{white}{} & \textcolor{white}{\textbf{Total}} & \textcolor{white}{\textbf{Bucket@10$\mu$m}} & \textcolor{white}{\textbf{PIB}} \\
+\midrule
+Vacuum & 290 & 277 & 95.5\% \\
+\rowcolor{tablealt}Turbulent & 279 & 218 & 78.1\% \\
+\textbf{Gap} & 11 (4\%) & \textbf{59 (21.4\%)} & 17.4\%p \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent Gap 원인: \textbf{Wavefront error (PIB spreading) 81.8\%}, Throughput loss 18.6\%.
+\\[0.5em]
+\noindent Static D2NN 한계: 각 샘플의 WFE가 random $\rightarrow$ 고정 마스크로 보정 불가.
+
+
+% ════════════════════════════════════════════════════
+\section{Phase Mask Comparison}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{\runs/0401-focal-pib-sweep-clean-4loss-cn2-5e14/focal_pib_only/15_phase_masks_5layers.png}
+\caption{PIB Only --- 고주파 격자 패턴. Spatial filtering으로 에너지를 scatter하여 PIB 상승, TP 50\%.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{\runs/0402-focal-new-losses-pitchrescale-3strat-cn2-5e14/focal_absolute_bucket/15_phase_masks_5layers.png}
+\caption{Abs Bucket (F) --- 거의 flat. Throughput 98.6\% 유지, 미세한 beam shaping만.}
+\end{figure}
+
+
+% ════════════════════════════════════════════════════
+\section{Distance Sweep (0405) --- 핵심 결과}
+
+\textbf{Cn$^2$=5$\times$10$^{-14}$ 고정, L=100m--3km, f=6.5mm, Raw RP loss.}
+
+\begin{table}[H]
+\centering\small
+\begin{tabular}{l c c c c c c c}
+\toprule
+\rowcolor{tableheader}\textcolor{white}{\textbf{L}} & \textcolor{white}{\textbf{D/r$_0$}} & \textcolor{white}{\textbf{$\sigma^2_R$}} & \textcolor{white}{\textbf{Turb/Vac}} & \textcolor{white}{\textbf{D2NN/Vac}} & \textcolor{white}{\textbf{$\Delta$ dB}} & \textcolor{white}{\textbf{TP}} & \textcolor{white}{\textbf{Std $\downarrow$}} \\
+\midrule
+100m & 1.3 & 0.01 & 94.2\% & 179.6\% & \good{+2.80} & 99.8\% & 60\% \\
+\rowcolor{tablealt}500m & 3.3 & 0.28 & 79.5\% & 84.4\% & +0.26 & 99.5\% & 15\% \\
+1km & 5.0 & 1.00 & 60.3\% & 65.8\% & +0.37 & 98.9\% & 16\% \\
+\rowcolor{tablealt}2km & 7.6 & 3.55 & 27.4\% & 48.3\% & \good{+2.47} & 98.1\% & 21\% \\
+3km & 9.7 & 7.46 & 13.9\% & 44.8\% & \good{+5.09} & 96.6\% & 28\% \\
+\bottomrule
+\end{tabular}
+\caption{거리별 D2NN 성능. 장거리에서 dB 단위 개선, scintillation(std) 감소.}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{\runs/0405-distance-sweep-rawrp-f6p5mm/21_distance_sweep_summary_6panel.png}
+\caption{Distance sweep 6-panel summary. D/r$_0$ > 7에서 D2NN 이득 급증.}
+\end{figure}
+
+\subsection{Focal Plane: L=100m vs L=3km}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{\runs/0405-distance-sweep-rawrp-f6p5mm/L100m/focal_raw_received_power/06_fig1_focal_plane_vacuum_vs_turbulent_vs_d2nn.png}
+\caption{L=100m: 약한 난류. D2NN이 peak를 vacuum의 5배로 집중 (beam shaping).}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{\runs/0405-distance-sweep-rawrp-f6p5mm/L3000m/focal_raw_received_power/06_fig1_focal_plane_vacuum_vs_turbulent_vs_d2nn.png}
+\caption{L=3km: 강한 난류. Turbulent speckle이 심하지만 D2NN이 부분적으로 집중.}
+\end{figure}
+
+\subsection{Phase Masks: L=100m vs L=3km}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{\runs/0405-distance-sweep-rawrp-f6p5mm/L100m/focal_raw_received_power/15_phase_masks_5layers.png}
+\caption{L=100m: 동심원 링 패턴 --- 전형적인 diffractive lens/beam shaper.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{\runs/0405-distance-sweep-rawrp-f6p5mm/L3000m/focal_raw_received_power/15_phase_masks_5layers.png}
+\caption{L=3km: 더 복잡한 패턴 --- beam shaping + 통계적 난류 보정 혼합.}
+\end{figure}
+
+\subsection{Zernike Mode Analysis}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.48\textwidth}
+\includegraphics[width=\textwidth]{\runs/0405-distance-sweep-rawrp-f6p5mm/L100m/focal_raw_received_power/14_zernike_delta_per_mode.png}
+\caption{L=100m: 고차 $-$136nm}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.48\textwidth}
+\includegraphics[width=\textwidth]{\runs/0405-distance-sweep-rawrp-f6p5mm/L3000m/focal_raw_received_power/14_zernike_delta_per_mode.png}
+\caption{L=3km: 고차 $-$94nm}
+\end{subfigure}
+\caption{Zernike mode delta. 100m에서는 beam shaping이 WFE를 ``추가''하고, 3km에서는 전 모드에 걸쳐 보정.}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lccc}
+\toprule
+\rowcolor{tableheader}\textcolor{white}{\textbf{L}} & \textcolor{white}{\textbf{Higher-order $\Delta$}} & \textcolor{white}{\textbf{WFE turb}} & \textcolor{white}{\textbf{WFE D2NN}} \\
+\midrule
+100m & $-$136 nm & 39 nm & \bad{116 nm (악화)} \\
+\rowcolor{tablealt}500m & +4 nm & 275 nm & 283 nm \\
+1km & +2 nm & 369 nm & 371 nm \\
+\rowcolor{tablealt}2km & $-$63 nm & 404 nm & 412 nm \\
+3km & \good{$-$94 nm} & 402 nm & 412 nm \\
+\bottomrule
+\end{tabular}
+\caption{100m에서 D2NN이 WFE를 악화시키면서도 PIB 상승 --- beam shaping 효과.}
+\end{table}
+
+
+% ════════════════════════════════════════════════════
+\section{Beam Shaping vs Turbulence Correction}
+
+D2NN 효과를 분리하기 위해 \textbf{vacuum beam에도 D2NN을 적용}하여 비교.
+
+\begin{table}[H]
+\centering\small
+\begin{tabular}{l c c c}
+\toprule
+\rowcolor{tableheader}\textcolor{white}{\textbf{L}} & \textcolor{white}{\textbf{Beam Shaping}} & \textcolor{white}{\textbf{Turb Correction}} & \textcolor{white}{\textbf{합계}} \\
+& \textcolor{white}{(vacuum에도 적용)} & \textcolor{white}{(추가 효과)} & \\
+\midrule
+100m & \warn{+84.7\%} & +5.9\% & +90.6\% \\
+\rowcolor{tablealt}500m & +2.4\% & +3.8\% & +6.2\% \\
+1km & +4.5\% & +4.5\% & +9.0\% \\
+\rowcolor{tablealt}2km & +39.2\% & +37.3\% & +76.5\% \\
+3km & +93.2\% & \good{+129.8\%} & +223\% \\
+\bottomrule
+\end{tabular}
+\caption{D2NN 효과 분해. 100m에서는 beam shaping 지배적, 3km에서는 turbulence correction도 큼.}
+\end{table}
+
+\noindent\fcolorbox{accent}{tablealt}{\parbox{0.95\textwidth}{
+\textbf{D2NN은 ``난류 보정기''가 아니라 ``beam shaper + 통계적 보정기''}.
+Vacuum에도 효과가 있으며, 강한 난류에서 통계적 보정 효과가 추가로 발생.
+}}
+
+
+% ════════════════════════════════════════════════════
+\section{Cross-Distance Generalization}
+
+3km에서 학습한 D2NN을 다른 거리의 데이터에 적용하면?
+
+\begin{table}[H]
+\centering\small
+\begin{tabular}{l c c c}
+\toprule
+\rowcolor{tableheader}\textcolor{white}{\textbf{L}} & \textcolor{white}{\textbf{No D2NN}} & \textcolor{white}{\textbf{D2NN(3km)}} & \textcolor{white}{\textbf{D2NN(local)}} \\
+\midrule
+100m & 기준 & \bad{$-$3.2\%} & \good{+90.6\%} \\
+\rowcolor{tablealt}500m & 기준 & \bad{$-$60.5\%} & +6.2\% \\
+1km & 기준 & \bad{$-$70.5\%} & +9.0\% \\
+\rowcolor{tablealt}2km & 기준 & \bad{$-$8.7\%} & +76.5\% \\
+3km & 기준 & \good{+223\%} & \good{+223\%} \\
+\bottomrule
+\end{tabular}
+\caption{3km 모델은 다른 거리에서 역효과 --- static D2NN은 operating condition 전용.}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{\runs/0405-distance-sweep-rawrp-f6p5mm/22_cross_distance_3km_model/focal_L100m_3km_vs_local.png}
+\caption{L=100m: 3km 모델 적용 시 focal spot이 왜곡됨 (왼쪽에서 3번째).}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{\runs/0405-distance-sweep-rawrp-f6p5mm/22_cross_distance_3km_model/focal_L1000m_3km_vs_local.png}
+\caption{L=1km: 3km 모델이 에너지를 분산시켜 1D cross-section에서 peak 감소.}
+\end{figure}
+
+
+% ════════════════════════════════════════════════════
+\section{Deep Fade / Scintillation Analysis}
+
+\begin{table}[H]
+\centering\small
+\begin{tabular}{l c c c c c c}
+\toprule
+\rowcolor{tableheader}\textcolor{white}{\textbf{L}} & \textcolor{white}{\textbf{Turb mean}} & \textcolor{white}{\textbf{D2NN mean}} & \textcolor{white}{\textbf{Turb std}} & \textcolor{white}{\textbf{D2NN std}} & \textcolor{white}{\textbf{Turb min}} & \textcolor{white}{\textbf{D2NN min}} \\
+\midrule
+100m & $-$0.3 dB & +2.6 dB & 0.20 dB & 0.08 dB & $-$1.0 dB & +2.3 dB \\
+\rowcolor{tablealt}500m & $-$1.1 dB & $-$0.8 dB & 1.05 dB & 0.89 dB & $-$9.1 dB & $-$7.7 dB \\
+1km & $-$2.2 dB & $-$1.8 dB & 1.96 dB & 1.65 dB & $-$13.4 dB & $-$11.1 dB \\
+\rowcolor{tablealt}2km & $-$5.6 dB & $-$3.2 dB & 3.68 dB & 2.90 dB & $-$20.6 dB & $-$13.6 dB \\
+3km & $-$8.6 dB & $-$3.5 dB & 5.00 dB & 3.61 dB & $-$23.7 dB & \good{$-$15.6 dB} \\
+\bottomrule
+\end{tabular}
+\caption{거리별 dB 통계. 3km에서 deep fade 최악 $-$23.7$\rightarrow$$-$15.6 dB (\good{+8.1 dB} 개선).}
+\end{table}
+
+
+% ════════════════════════════════════════════════════
+\section{Conclusions}
+
+\begin{enumerate}
+\item \textbf{Normalized PIB $\neq$ 수신전력.} PIB 90.1\%여도 절대 전력은 turbulent의 59\%.
+    Throughput을 유지하는 손실함수만 실전 유효.
+
+\item \textbf{Raw RP loss가 최적}: $\mathcal{L} = -\log(\text{bucket}/\text{input})$.
+    Vacuum reference 없이 절대 수신전력을 직접 최대화.
+
+\item \textbf{D2NN = beam shaper + statistical corrector.}
+    Vacuum에도 효과 있음 (Airy sidelobe redistribution).
+    강한 난류에서 통계적 보정 효과 추가.
+
+\item \textbf{거리가 길수록 D2NN 이득 증가}: 3km에서 +5.1 dB, deep fade +8.1 dB 개선.
+    D/r$_0$ > 7에서 급증.
+
+\item \textbf{Static D2NN은 operating condition 전용}: 3km 모델을 500m에 적용하면 $-$60\%.
+    배치 환경에 맞춤 설계 필수.
+
+\item \textbf{최적 초점거리}: f=6.5mm (SMF-28 MFD=10.4$\mu$m 매칭).
+    f=4.5mm에서 13\% 커플링 손실.
+
+\item \textbf{Absolute bucket loss 수식}:
+    \[
+    \mathcal{L}_{\text{raw-RP}} = -\log\!\left(\frac{\sum_{r \leq 10\mu\text{m}} |E_{\text{pred}}^{\text{focal}}|^2}
+    {\sum |E_{\text{input}}|^2} + \epsilon\right)
+    \]
+\end{enumerate}
+
+
+% ════════════════════════════════════════════════════
+\section{Future Directions}
+
+\begin{itemize}
+\item Cn$^2$ sweep --- 난류 세기별 D2NN 최적 조건 탐색
+\item Switchable static masks --- 거리/난류별 2--3세트 전환
+\item Layer 수 sweep (3, 5, 7, 10) --- 자유도 vs 성능
+\item Dynamic D2NN --- Zernike 기반 소형 적응형 (100 parameters)
+\item Hybrid AO(저차) + D2NN(고차) --- 상보적 구조
+\end{itemize}
+
+\end{document}

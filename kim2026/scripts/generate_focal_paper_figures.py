@@ -38,7 +38,7 @@ FOCUS_F = 4.5e-3
 DX_FOCAL = W * FOCUS_F / (N * DX)
 ARCH = dict(num_layers=5, layer_spacing_m=10e-3, detector_distance_m=10e-3)
 
-DATA_DIR = Path(__file__).resolve().parent.parent / "data" / "kim2026" / "1km_cn2_5e-14_tel15cm_n1024_br75"
+DATA_DIR = Path(__file__).resolve().parent.parent / "data" / "kim2026" / "1km_cn2_5e-14_tel15cm_pupil1024_v1"
 FOCAL_DIR = Path(__file__).resolve().parent.parent / "autoresearch" / "runs" / "d2nn_focal_pib_sweep"
 OLD_DIR = Path(__file__).resolve().parent.parent / "autoresearch" / "runs" / "d2nn_loss_strategy"
 OUT = FOCAL_DIR / "paper_figures"
@@ -279,7 +279,7 @@ def figP3_energy_redistribution():
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     ds = CachedFieldDataset(cache_dir=str(DATA_DIR / "cache"),
-                             manifest_path=str(DATA_DIR / "split_manifest.json"), split="test")
+                             manifest_path=str(DATA_DIR / "split_manifest.json"), split="test", plane_selector="reduced_ideal")
     s = ds[0]
     u_turb = prepare(s["u_turb"].unsqueeze(0).to(device))
     u_vac = prepare(s["u_vacuum"].unsqueeze(0).to(device))

@@ -85,6 +85,8 @@ def test_apply_config_overrides_updates_runtime_globals(tmp_path: Path) -> None:
         },
         "data": {
             "path": str(dataset_root),
+            "plane_selector": "reduced_ideal",
+            "reducer_validation_summary_path": str(dataset_root / "reducer_val_cache" / "summary.json"),
         },
     }
 
@@ -108,6 +110,8 @@ def test_apply_config_overrides_updates_runtime_globals(tmp_path: Path) -> None:
     assert sweep.TRAIN["tv_weight"] == pytest.approx(0.0)
     assert sweep.DATA_DIR == dataset_root / "cache"
     assert sweep.MANIFEST == dataset_root / "split_manifest.json"
+    assert sweep.DATA_PLANE_SELECTOR == "reduced_ideal"
+    assert sweep.REDUCER_VALIDATION_SUMMARY_PATH == dataset_root / "reducer_val_cache" / "summary.json"
 
 
 def test_train_one_runs_post_training_checks(
@@ -177,7 +181,7 @@ def test_focal_strehl_loss_uses_correct_strehl(monkeypatch: pytest.MonkeyPatch) 
     monkeypatch.setattr(
         sweep,
         "strehl_ratio_correct",
-        lambda pred_field, ref_amplitude, pad_factor=4: torch.tensor([0.75]),
+        lambda pred_field, pad_factor=4: torch.tensor([0.75]),
         raising=False,
     )
 
@@ -197,7 +201,7 @@ def test_check_strehl_bound_uses_correct_strehl(monkeypatch: pytest.MonkeyPatch)
     monkeypatch.setattr(
         sanity_check,
         "strehl_ratio_correct",
-        lambda pred_field, ref_amplitude, pad_factor=4: torch.tensor([0.8]),
+        lambda pred_field, pad_factor=4: torch.tensor([0.8]),
         raising=False,
     )
 

@@ -1,0 +1,154 @@
+Thu Apr  2 03:17:15 AM UTC 2026 Watching for training completion...
+Thu Apr  2 03:27:15 AM UTC 2026 Evaluating focal_pib_only...
+Strategy: focal_pib_only
+Test: 500 samples
+  batch 0/63
+  batch 10/63
+  batch 20/63
+  batch 30/63
+  batch 40/63
+  batch 50/63
+  batch 60/63
+WF RMS...
+
+============================================================
+focal_pib_only — TEST RESULTS
+============================================================
+  WF RMS (output plane, vs vacuum):
+    Turbulent: 345.8 +/- 79.7 nm
+    D2NN:      398.6 +/- 27.3 nm
+  CO (output plane):
+    Turbulent: 0.2814
+    D2NN:      0.1955
+  PIB (focal plane):
+    @5um: 0.0782 -> 0.1794 (2.29x)
+    @10um: 0.2142 -> 0.4514 (2.11x)
+    @25um: 0.8892 -> 0.8257 (0.93x)
+    @50um: 0.9826 -> 0.8867 (0.90x)
+Figures...
+  fig1
+  fig2
+  fig3
+  fig4
+Done!
+Thu Apr  2 03:29:09 AM UTC 2026 Done: focal_pib_only
+Thu Apr  2 03:59:09 AM UTC 2026 Evaluating focal_pib_only...
+Strategy: focal_pib_only
+Test: 500 samples
+  batch 0/63
+  batch 10/63
+  batch 20/63
+  batch 30/63
+  batch 40/63
+  batch 50/63
+  batch 60/63
+WF RMS...
+
+============================================================
+focal_pib_only — TEST RESULTS
+============================================================
+  WF RMS (output plane, vs vacuum):
+    Turbulent: 368.9 +/- 62.7 nm
+    D2NN:      358.5 +/- 70.7 nm
+  CO (output plane):
+    Turbulent: 0.2925
+    D2NN:      0.3361
+  PIB (focal plane):
+    @5um: 0.5200 -> 0.6664 (1.28x)
+    @10um: 0.8020 -> 0.9011 (1.12x)
+    @25um: 0.9753 -> 0.9745 (1.00x)
+    @50um: 0.9924 -> 0.9840 (0.99x)
+Figures...
+  fig1
+  fig2
+  fig3
+  fig4
+Done!
+Thu Apr  2 04:01:13 AM UTC 2026 Done: focal_pib_only
+Thu Apr  2 07:19:13 AM UTC 2026 Evaluating focal_strehl_only...
+Strategy: focal_strehl_only
+Test: 500 samples
+  batch 0/63
+  batch 10/63
+  batch 20/63
+  batch 30/63
+  batch 40/63
+  batch 50/63
+  batch 60/63
+WF RMS...
+
+============================================================
+focal_strehl_only — TEST RESULTS
+============================================================
+  WF RMS (output plane, vs vacuum):
+    Turbulent: 368.9 +/- 62.7 nm
+    D2NN:      356.3 +/- 73.7 nm
+  CO (output plane):
+    Turbulent: 0.2925
+    D2NN:      0.3205
+  PIB (focal plane):
+    @5um: 0.5200 -> 0.5413 (1.04x)
+    @10um: 0.8020 -> 0.8179 (1.02x)
+    @25um: 0.9753 -> 0.9777 (1.00x)
+    @50um: 0.9924 -> 0.9923 (1.00x)
+Figures...
+  fig1
+  fig2
+  fig3
+  fig4
+Done!
+Thu Apr  2 07:20:54 AM UTC 2026 Done: focal_strehl_only
+Thu Apr  2 10:40:54 AM UTC 2026 Evaluating focal_intensity_overlap...
+Strategy: focal_intensity_overlap
+Test: 500 samples
+  batch 0/63
+  batch 10/63
+  batch 20/63
+  batch 30/63
+  batch 40/63
+  batch 50/63
+  batch 60/63
+WF RMS...
+
+============================================================
+focal_intensity_overlap — TEST RESULTS
+============================================================
+  WF RMS (output plane, vs vacuum):
+    Turbulent: 368.9 +/- 62.7 nm
+    D2NN:      293.9 +/- 31.9 nm
+  CO (output plane):
+    Turbulent: 0.2925
+    D2NN:      0.4716
+  PIB (focal plane):
+    @5um: 0.5200 -> 0.2499 (0.48x)
+    @10um: 0.8020 -> 0.2563 (0.32x)
+    @25um: 0.9753 -> 0.2864 (0.29x)
+    @50um: 0.9924 -> 0.3544 (0.36x)
+Figures...
+  fig1
+  fig2
+  fig3
+  fig4
+Done!
+Thu Apr  2 10:42:39 AM UTC 2026 Done: focal_intensity_overlap
+Thu Apr  2 02:06:39 PM UTC 2026 All 4 strategies complete! Starting visualization...
+Thu Apr  2 02:06:39 PM UTC 2026 Generating cross-strategy comparison...
+Loading models...
+  Loaded focal_pib_only
+  Loaded focal_strehl_only
+  Loaded focal_intensity_overlap
+  Loaded focal_co_pib_hybrid
+Test: 500 samples
+  batch 0/63
+  batch 10/63
+  batch 20/63
+  batch 30/63
+  batch 40/63
+  batch 50/63
+  batch 60/63
+Fig A: strategy comparison...
+Fig B: training curves...
+Fig C: focal comparison...
+Fig D: WF RMS...
+All cross-strategy figures done!
+Thu Apr  2 02:08:34 PM UTC 2026 ALL VISUALIZATION COMPLETE!

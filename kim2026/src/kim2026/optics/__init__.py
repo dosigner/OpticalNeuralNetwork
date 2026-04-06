@@ -2,6 +2,12 @@
 
 from kim2026.optics.angular_spectrum import propagate_same_window
 from kim2026.optics.aperture import circular_aperture
+from kim2026.optics.beam_reducer import (
+    BeamReducerPlane,
+    apply_beam_reducer,
+    apply_beam_reducer_bilinear_legacy,
+    apply_physical_beam_reducer_reference,
+)
 from kim2026.optics.gaussian_beam import (
     gaussian_radius_at_distance,
     gaussian_waist_from_half_angle,
@@ -31,12 +37,16 @@ from kim2026.optics.zoom_propagate import zoom_propagate
 
 __all__ = [
     "AdaptiveSchedule",
+    "BeamReducerPlane",
     "MAX_ALIAS_SAFE_DISTANCE_M",
     "MIN_PAD_FACTOR",
     "PropagationInterval",
     "ScreenCell",
     "build_adaptive_schedule",
     "build_screen_cells",
+    "apply_beam_reducer",
+    "apply_beam_reducer_bilinear_legacy",
+    "apply_physical_beam_reducer_reference",
     "fft2c",
     "ifft2c",
     "fourier_plane_pitch",

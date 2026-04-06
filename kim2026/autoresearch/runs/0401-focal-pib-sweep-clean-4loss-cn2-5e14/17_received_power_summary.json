@@ -1,0 +1,74 @@
+{
+  "Vacuum": {
+    "input_energy_norm": 1.0,
+    "output_energy_norm": 0.9780748892196106,
+    "received_power_5um_norm": 0.9017677365037914,
+    "received_power_10um_norm": 0.9327038238093552,
+    "received_power_25um_norm": 0.9674018188038264,
+    "received_power_50um_norm": 0.9732303232483909,
+    "received_power_5um_raw": 1452404.25,
+    "received_power_10um_raw": 1502230.5,
+    "received_power_25um_raw": 1558115.75,
+    "received_power_50um_raw": 1567503.25
+  },
+  "Turbulent": {
+    "input_energy_norm": 0.9466974886674004,
+    "output_energy_norm": 0.9198803022316264,
+    "received_power_5um_norm": 0.48102023779366815,
+    "received_power_10um_norm": 0.7442948254677239,
+    "received_power_25um_norm": 0.8969220607108198,
+    "received_power_50um_norm": 0.9128196364254985,
+    "received_power_5um_raw": 774740.334375,
+    "received_power_10um_raw": 1198775.3875,
+    "received_power_25um_raw": 1444599.7125,
+    "received_power_50um_raw": 1470204.65
+  },
+  "PIB Only": {
+    "input_energy_norm": 0.9466974886674004,
+    "output_energy_norm": 0.4763779477020947,
+    "received_power_5um_norm": 0.3289777080659672,
+    "received_power_10um_norm": 0.43547341697508846,
+    "received_power_25um_norm": 0.46485080115160693,
+    "received_power_50um_norm": 0.4692045139166991,
+    "received_power_5um_raw": 529857.7471875,
+    "received_power_10um_raw": 701381.759375,
+    "received_power_25um_raw": 748697.5325,
+    "received_power_50um_raw": 755709.705
+  },
+  "Strehl Only": {
+    "input_energy_norm": 0.9466974886674004,
+    "output_energy_norm": 0.5427263997568637,
+    "received_power_5um_norm": 0.294995475342089,
+    "received_power_10um_norm": 0.44491233805139513,
+    "received_power_25um_norm": 0.5308696889208435,
+    "received_power_50um_norm": 0.538656859567657,
+    "received_power_5um_raw": 475125.3175,
+    "received_power_10um_raw": 716584.265,
+    "received_power_25um_raw": 855028.8075,
+    "received_power_50um_raw": 867570.9725
+  },
+  "Intensity OL": {
+    "input_energy_norm": 0.9466974886674004,
+    "output_energy_norm": 0.07614237047604057,
+    "received_power_5um_norm": 0.01946374845706643,
+    "received_power_10um_norm": 0.019939406169790154,
+    "received_power_25um_norm": 0.022203798712249763,
+    "received_power_50um_norm": 0.027340237957425063,
+    "received_power_5um_raw": 31348.683076171874,
+    "received_power_10um_raw": 32114.78642578125,
+    "received_power_25um_raw": 35761.860078125,
+    "received_power_50um_raw": 44034.70671875
+  },
+  "CO+PIB Hybrid": {
+    "input_energy_norm": 0.9466974886674004,
+    "output_energy_norm": 0.01581846199470708,
+    "received_power_5um_norm": 0.01479101575293509,
+    "received_power_10um_norm": 0.01529042736187046,
+    "received_power_25um_norm": 0.015464865933095831,
+    "received_power_50um_norm": 0.015561821874899106,
+    "received_power_5um_raw": 23822.691000976563,
+    "received_power_10um_raw": 24627.052827148436,
+    "received_power_25um_raw": 24908.006904296875,
+    "received_power_50um_raw": 25064.165986328124
+  }
+}

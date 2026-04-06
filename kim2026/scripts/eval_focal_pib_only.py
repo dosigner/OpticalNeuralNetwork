@@ -30,7 +30,7 @@ W = 1.55e-6; N = 1024; WIN = 0.002048; APT = 0.002; DX = WIN / N; F = 4.5e-3
 ARCH = dict(num_layers=5, layer_spacing_m=10e-3, detector_distance_m=10e-3)
 RADII = [5, 10, 25, 50]
 
-DATA_DIR = Path("data/kim2026/1km_cn2_5e-14_tel15cm_n1024_br75")
+DATA_DIR = Path("data/kim2026/1km_cn2_5e-14_tel15cm_pupil1024_v1")
 SWEEP = Path("autoresearch/runs/d2nn_focal_pib_sweep")
 OUT = SWEEP / "focal_pib_only"
 
@@ -74,7 +74,7 @@ def main():
 
     # Test data
     ds = CachedFieldDataset(cache_dir=str(DATA_DIR / "cache"),
-                             manifest_path=str(DATA_DIR / "split_manifest.json"), split="test")
+                             manifest_path=str(DATA_DIR / "split_manifest.json"), split="test", plane_selector="reduced_ideal")
     loader = DataLoader(ds, batch_size=16, num_workers=0)
     print(f"Test: {len(ds)} samples")
 

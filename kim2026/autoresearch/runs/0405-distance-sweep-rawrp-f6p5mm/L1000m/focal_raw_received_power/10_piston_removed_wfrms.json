@@ -1,0 +1,44 @@
+{
+  "piston_removed": {
+    "vacuum": {
+      "mean_nm": 0.0,
+      "std_nm": 0.0
+    },
+    "turbulent": {
+      "mean_nm": 367.1603281188264,
+      "std_nm": 66.07034440882109
+    },
+    "d2nn": {
+      "mean_nm": 369.5325232254384,
+      "std_nm": 69.8818510586714
+    }
+  },
+  "piston_tiptilt_removed": {
+    "vacuum": {
+      "mean_nm": 0.0,
+      "std_nm": 0.0
+    },
+    "turbulent": {
+      "mean_nm": 337.0152187482594,
+      "std_nm": 90.75816949008086
+    },
+    "d2nn": {
+      "mean_nm": 343.35590799211496,
+      "std_nm": 91.77019401423
+    }
+  },
+  "raw_align_global_phase": {
+    "vacuum": {
+      "mean_nm": 0.0,
+      "std_nm": 0.0
+    },
+    "turbulent": {
+      "mean_nm": 368.75754467153615,
+      "std_nm": 65.68518155228274
+    },
+    "d2nn": {
+      "mean_nm": 370.9961638555526,
+      "std_nm": 69.69975468353493
+    }
+  }
+}

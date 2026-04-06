@@ -1,0 +1,31 @@
+# 0401 Focal PIB Sweep — Clean data (dn100um_lanczos50), 30 epochs
+# Vacuum WFE=3.4nm, PIB@10um=95.5% (no beam reducer artifacts)
+# True test: can D2NN improve PIB beyond 80% turbulent baseline?
+
+training:
+  seed: 20260401
+  lr: 8.0e-3
+  epochs: 30
+  batch_size: 32
+  tv_weight: 0.05
+  warmup_epochs: 5
+
+architecture:
+  num_layers: 5
+  layer_spacing_m: 0.01
+  detector_distance_m: 0.01
+  propagation_pad_factor: 2
+
+physics:
+  wavelength_m: 1.55e-6
+  receiver_window_m: 0.002048
+  aperture_diameter_m: 0.002
+  focus_f_m: 4.5e-3
+  pib_bucket_radius_um: 10.0
+
+data:
+  path: data/kim2026/1km_cn2_5e-14_tel15cm_dn100um_lanczos50
+  plane_selector: stored
+
+output:
+  dir: autoresearch/runs/0401-focal-pib-sweep-clean-4loss-cn2-5e14

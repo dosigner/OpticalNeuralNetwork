@@ -22,6 +22,7 @@ import torch.nn as nn
 from torch.optim.lr_scheduler import CosineAnnealingLR
 from torch.utils.data import DataLoader
 
+from kim2026.data.canonical_pupil import enforce_reducer_validation_gate
 from kim2026.data.dataset import CachedFieldDataset
 from kim2026.models.d2nn import BeamCleanupD2NN
 from kim2026.optics.lens_2f import lens_2f_forward
@@ -40,8 +41,10 @@ FOCUS_F_M = 4.5e-3
 PIB_BUCKET_RADIUS_UM = 10.0
 STREHL_PAD_FACTOR = 4  # 4x zero-padding → Airy ≈ 5 px
 
-DATA_DIR = Path(__file__).resolve().parent.parent / "data" / "kim2026" / "1km_cn2_5e-14_tel15cm_n1024_br75" / "cache"
+DATA_DIR = Path(__file__).resolve().parent.parent / "data" / "kim2026" / "1km_cn2_5e-14_tel15cm_pupil1024_v1" / "cache"
 MANIFEST = DATA_DIR.parent / "split_manifest.json"
+DATA_PLANE_SELECTOR = "reduced_ideal"
+REDUCER_VALIDATION_SUMMARY_PATH = DATA_DIR.parent / "reducer_val_cache" / "summary.json"
 OUT_ROOT = Path(__file__).resolve().parent / "runs" / "d2nn_focal_pib_sweep"
 
 ARCH = dict(num_layers=5, layer_spacing_m=10e-3, detector_distance_m=10e-3)
@@ -169,10 +172,20 @@ def main():
     print(f"  dx_focal (no pad): {dx_focal*1e6:.3f}μm → Airy={airy/dx_focal:.2f}px (undersampled!)")
     print(f"  dx_focal (4x pad): {dx_focal_pad*1e6:.3f}μm → Airy={airy/dx_focal_pad:.2f}px (OK)")
     print(f"  batch_size={TRAIN['batch_size']}, lr={TRAIN['lr']}, epochs={TRAIN['epochs']}")
+    enforce_reducer_validation_gate(
+        {
+            "cache_dir": str(DATA_DIR),
+            "plane_selector": DATA_PLANE_SELECTOR,
+            "reducer_validation": {
+                "required": True,
+                "summary_path": str(REDUCER_VALIDATION_SUMMARY_PATH),
+            },
+        }
+    )
 
-    train_ds = CachedFieldDataset(cache_dir=str(DATA_DIR), manifest_path=str(MANIFEST), split="train")
-    val_ds = CachedFieldDataset(cache_dir=str(DATA_DIR), manifest_path=str(MANIFEST), split="val")
-    test_ds = CachedFieldDataset(cache_dir=str(DATA_DIR), manifest_path=str(MANIFEST), split="test")
+    train_ds = CachedFieldDataset(cache_dir=str(DATA_DIR), manifest_path=str(MANIFEST), split="train", plane_selector=DATA_PLANE_SELECTOR)
+    val_ds = CachedFieldDataset(cache_dir=str(DATA_DIR), manifest_path=str(MANIFEST), split="val", plane_selector=DATA_PLANE_SELECTOR)
+    test_ds = CachedFieldDataset(cache_dir=str(DATA_DIR), manifest_path=str(MANIFEST), split="test", plane_selector=DATA_PLANE_SELECTOR)
     print(f"  Data: train={len(train_ds)}, val={len(val_ds)}, test={len(test_ds)}")
 
     train_loader = DataLoader(train_ds, batch_size=TRAIN["batch_size"], shuffle=True, num_workers=0)

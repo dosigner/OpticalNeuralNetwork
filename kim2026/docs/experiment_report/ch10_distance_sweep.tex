@@ -1,0 +1,86 @@
+\chapter{Distance Sweep and Regime Dependence}
+
+\section{Question}
+
+After the Raw-RP objective was selected, the next question was whether its
+benefit was tied to a single turbulence setting or whether it scaled across
+distance. The \texttt{0405-distance-sweep-rawrp-f6p5mm} family fixes the same detector
+objective and varies the propagation distance from 100\,m to 3000\,m.
+
+\runfigure{0405-distance-sweep-rawrp-f6p5mm/21_distance_sweep_summary_6panel.png}
+  {Distance sweep summary}
+  {Six-panel summary of the 0405 distance sweep.}
+
+\section{Three Regimes}
+
+The weak, moderate, and strong labels are shorthand for the joint behavior of
+$D/r_0$ and the Rytov variance $\sigma_R^2$. Small values indicate weak phase
+perturbations, order-unity values indicate moderate scintillation, and large
+values indicate a severely distorted detector input.
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{rcccccc}
+    \toprule
+    \smalltablehead{$L$ (m)} & \smalltablehead{$D/r_0$} & \smalltablehead{$\sigma_R^2$} & \smalltablehead{Turb.\ bucket} & \smalltablehead{D2NN bucket} & \smalltablehead{Gain} & \smalltablehead{Regime} \\
+    \midrule
+    100 & 1.261 & 0.0146 & 382.10 & 728.41 & +90.63\% & weak \\
+    500 & 3.312 & 0.2793 & 499.55 & 530.53 & +6.20\% & moderate \\
+    1000 & 5.020 & 0.9955 & 166.01 & 180.91 & +8.98\% & moderate \\
+    2000 & 7.609 & 3.5475 & 9.29 & 16.41 & +76.53\% & strong \\
+    3000 & 9.704 & 7.4603 & 0.643 & 2.077 & +222.97\% & strong \\
+    \bottomrule
+  \end{tabular}
+  \caption{Detector bucket power across the distance sweep. The relative gains
+  at 2000--3000\,m are large because the turbulent baseline has already
+  collapsed to a very small absolute value.}
+\end{table}
+
+\section{Weak and Moderate Turbulence}
+
+At 100\,m, the baseline beam is still bright, but the D2NN can sharply increase
+detector concentration. At 500--1000\,m, the gain is positive but modest,
+showing that the system is no longer in a trivial beam-shaping regime and not
+yet in a catastrophic collapse regime.
+
+\section{Strong Turbulence}
+
+At 2000--3000\,m the relative improvement becomes dramatic, but the absolute
+numbers reveal why this must be interpreted carefully. A gain from 0.643 to
+2.077 is detector-relevant, yet it is still far from the vacuum bucket level.
+The D2NN is improving a badly collapsed detector signal, not restoring the
+vacuum field.
+
+\section{Cross-Distance Generalization}
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{rcc}
+    \toprule
+    \smalltablehead{Distance} & \smalltablehead{3\,km model gain} & \smalltablehead{Local model gain} \\
+    \midrule
+    100\,m & -3.23\% & +90.63\% \\
+    500\,m & -60.53\% & +6.20\% \\
+    1000\,m & -70.49\% & +8.98\% \\
+    2000\,m & -8.68\% & +76.53\% \\
+    3000\,m & +222.97\% & +222.97\% \\
+    \bottomrule
+  \end{tabular}
+  \caption{Cross-distance transfer of the 3\,km-trained model. Detector gains do
+  not transfer reliably across distance regimes.}
+\end{table}
+
+\runfigure{0405-distance-sweep-rawrp-f6p5mm/22_cross_distance_3km_model/focal_L100m_3km_vs_local.png}
+  {3 km model at 100 m}
+  {Cross-distance comparison between the local and 3\,km models at 100\,m.}
+
+\runfigure{0405-distance-sweep-rawrp-f6p5mm/22_cross_distance_3km_model/focal_L3000m_3km_vs_local.png}
+  {3 km model at 3000 m}
+  {The only fair match: the 3\,km model on the 3\,km data.}
+
+\section{Interpretation}
+
+The distance sweep shows that detector-side diffractive preprocessing is highly
+regime-dependent. The optical strategy remains useful, but it does not define a
+single universal front end. This motivates a comparison with the 4f FD2NN
+architecture, which is taken up next.

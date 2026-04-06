@@ -1,0 +1,78 @@
+\chapter{FD2NN 4f Multi-Layer Sweep}
+
+\section{Purpose}
+
+The spatial D2NN branch had shown meaningful detector-side gains. The corrected
+4f FD2NN question was therefore straightforward: if the same Raw-RP objective is
+applied to a five-layer Fourier-plane stack, can the architecture reproduce the
+same scale of detector gain?
+
+\section{Sweep Setup}
+
+The \texttt{0405-fd2nn-4f-sweep-pitchrescale} family varies $f \in \{10, 25\}$\,mm and
+$z \in \{1, 3, 5\}$\,mm while keeping the loss fixed to
+\texttt{focal\_raw\_received\_power}.
+
+\runfigure{0405-fd2nn-4f-sweep-pitchrescale/fd2nn_sweep_figures/fig1_pib_bar.png}
+  {FD2NN PIB bar chart}
+  {Detector-side focal PIB at 10\,$\mu$m across the six 4f FD2NN settings.}
+
+\runfigure{0405-fd2nn-4f-sweep-pitchrescale/fd2nn_sweep_figures/fig2_heatmap.png}
+  {FD2NN heatmap}
+  {Heatmap of the six tested $(f,z)$ combinations.}
+
+\runfigure{0405-fd2nn-4f-sweep-pitchrescale/fd2nn_sweep_figures/fig3_loss_curves.png}
+  {FD2NN loss curves}
+  {Training curves for the six 4f FD2NN configurations.}
+
+\runfigure{0405-fd2nn-4f-sweep-pitchrescale/fd2nn_sweep_figures/fig4_tp_co.png}
+  {FD2NN throughput and CO}
+  {Throughput and output-plane CO across the 4f sweep.}
+
+\runfigure{0405-fd2nn-4f-sweep-pitchrescale/fd2nn_sweep_figures/fig5_regime.png}
+  {FD2NN regime figure}
+  {Interpretive diagram for the $f$--$z$ trade-off.}
+
+\runfigure{0405-fd2nn-4f-sweep-pitchrescale/fd2nn_sweep_figures/fig6_phase_masks.png}
+  {FD2NN masks}
+  {Learned phase masks for the six sweep points.}
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{lccccc}
+    \toprule
+    \smalltablehead{Config} & \smalltablehead{$\Delta x_f$ ($\mu$m)} & \smalltablehead{$\PIB@10\,\mu$m} & \smalltablehead{$\Delta$ vs base} & \smalltablehead{$\TP$} & \smalltablehead{Detector interpretation} \\
+    \midrule
+    baseline & -- & 0.5752 & -- & -- & reference \\
+    f10mm\_z1mm & 7.57 & 0.3774 & -0.1978 & 1.0000 & below baseline \\
+    f10mm\_z3mm & 7.57 & 0.2902 & -0.2850 & 1.0000 & below baseline \\
+    f10mm\_z5mm & 7.57 & 0.2510 & -0.3242 & 1.0000 & below baseline \\
+    f25mm\_z1mm & 18.92 & 0.5856 & +0.0104 & 1.0000 & near-tie / slight gain \\
+    f25mm\_z3mm & 18.92 & 0.4302 & -0.1450 & 1.0000 & below baseline \\
+    f25mm\_z5mm & 18.92 & 0.4192 & -0.1560 & 1.0000 & below baseline \\
+    \bottomrule
+  \end{tabular}
+  \caption{Sweep-level focal-bucket summary for the 4f FD2NN study. Because
+  throughput is essentially unity in every tested configuration, the detector
+  interpretation follows the same ordering as the focal-bucket column: only
+  \texttt{f25mm\_z1mm} slightly exceeds the baseline.}
+\end{table}
+
+\section{The $f$--$z$ Dilemma}
+
+The sweep reveals a structural trade-off. Smaller focal lengths encourage
+stronger diffraction mixing but make the Fourier plane harder to sample and more
+sensitive to defocus. Larger focal lengths are physically safer, but the
+mixing becomes weak enough that the detector gain nearly disappears. The tested
+best point, \texttt{f25mm\_z1mm}, should therefore be read as a near-tie rather than a
+clean success.
+
+\begin{keyinsight}
+The 4f FD2NN branch does not collapse because of energy loss; throughput is
+essentially unity everywhere. It underperforms because the Fourier-plane
+architecture does not deliver enough useful detector-side shaping under the
+tested geometry.
+\end{keyinsight}
+
+This sets up the final interpretive chapter of the technical core: what kind of
+fundamental limit does the 4f architecture appear to face?

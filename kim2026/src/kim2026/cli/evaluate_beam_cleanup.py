@@ -126,6 +126,7 @@ def main(argv: list[str] | None = None) -> None:
         cache_dir=cfg["data"]["cache_dir"],
         manifest_path=cfg["data"]["split_manifest_path"],
         split=split,
+        plane_selector=str(cfg["data"].get("plane_selector", "stored")),
     )
     if len(dataset) == 0:
         raise ValueError(f"evaluation dataset is empty for split '{split}'")

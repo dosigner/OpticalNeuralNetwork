@@ -1,0 +1,90 @@
+\chapter{FD2NN Fundamental-Limit Discussion}
+
+\section{What This Chapter Does and Does Not Claim}
+
+This chapter is deliberately conservative. It does not present a strict
+impossibility theorem for every phase-only FD2NN. Instead, it combines three
+observations:
+\begin{enumerate}
+  \item turbulence PSDs describe second-order statistics, not realization-level
+  phase;
+  \item a static Fourier-plane mask cannot implement a realization-specific
+  inverse phase;
+  \item the corrected \texttt{0405} 4f sweep produces only a near-tie at its best
+  tested geometry.
+\end{enumerate}
+
+\section{PSD versus Realization}
+
+Let a Fourier-domain field be written as
+\begin{equation}
+\hat{\psi}(\kappa)=|\hat{\psi}(\kappa)|\,e^{j\theta(\kappa)}.
+\end{equation}
+The PSD determines $|\hat{\psi}(\kappa)|^2$ statistically, but it does not
+specify the realization-dependent phase $\theta(\kappa)$. A static Fourier mask
+has the form
+\begin{equation}
+H(\kappa)=e^{j\Delta\phi(\kappa)},
+\end{equation}
+whereas an ideal realization-specific correction would require
+\begin{equation}
+H_{\mathrm{ideal}}(\kappa)=e^{-j\theta_{\mathrm{turb}}(\kappa)}.
+\end{equation}
+This is the structural mismatch: a fixed mask cannot equal a realization-varying
+inverse phase law.
+
+The same point can be seen in the simplest one-mode toy example. Suppose a
+single Fourier coefficient carries a turbulent phase $\theta$ and the static
+compensator applies a fixed phase shift $\Delta \phi$. The corrected factor is
+\begin{equation}
+e^{j(\theta + \Delta \phi)}.
+\end{equation}
+If the turbulent phase is broadly distributed, then
+\begin{equation}
+\mathbb{E}[e^{j(\theta + \Delta \phi)}]
+=
+e^{j\Delta\phi}\,\mathbb{E}[e^{j\theta}]
+\approx 0,
+\end{equation}
+so no single fixed phase shift can sharpen the expectation. The missing
+information is the realization-specific phase, not the choice of a better fixed
+mask.
+
+\section{Toy Wiener Intuition}
+
+The project presentation material includes a single-scalar Wiener-style argument
+for why a fixed Fourier correction tends to collapse toward a trivial average
+operator. That argument is useful as intuition, but it is not a direct proof
+for a multilayer phase-only FD2NN. It should therefore be framed as an
+interpretive aid rather than a theorem.
+
+\section{Empirical Evidence from the 4f Sweep}
+
+The corrected \texttt{0405} sweep is consistent with the structural mismatch above. In
+the tested geometry, the best 4f setting raises the focal PIB by only
+$+0.0104$, while spatial D2NN branches achieve much larger detector-side gains.
+The safe statement is not ``FD2NN can never work.'' It is narrower: in the
+tested 4f geometry, static Fourier-plane phase correction provides at most a
+very weak detector-side gain.
+
+\section{The $f$--$z$ Trade-off}
+
+The 4f architecture also inherits a geometry dilemma. Decreasing $f$ increases
+mixing strength but worsens sampling pressure and defocus sensitivity.
+Increasing $f$ improves physical credibility but weakens the very coupling that
+would be needed to build a useful correction. The tested sweep never escaped
+this trade-off.
+
+\begin{discovery}
+The 4f FD2NN results do not justify a universal impossibility claim. They do
+justify a strong practical warning: static Fourier-plane phase masks appear far
+less effective for random turbulence cleanup than the best spatial
+detector-centric D2NN designs studied in the same campaign.
+\end{discovery}
+
+\section{Transition to the Final Conclusion}
+
+The report therefore closes with a nuanced picture. Static diffractive optics
+can matter at the detector, but the useful gains emerge from detector-centric
+spatial shaping, not from field-level restoration or strong Fourier-plane
+correction.

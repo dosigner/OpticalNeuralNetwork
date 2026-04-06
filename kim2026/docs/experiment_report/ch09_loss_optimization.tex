@@ -1,0 +1,98 @@
+\chapter{Loss Optimization under the Throughput Constraint}
+
+\section{Optimization Problem}
+
+Once throughput is treated as intrinsic to the detector objective, the next
+question is selection rather than discovery: among throughput-preserving
+objectives, which
+one gives the best detector utility? The \texttt{0403-combined-6strat-pitchrescale}
+campaign was designed with six candidate losses, although only five appear in
+the completed sweep summary.
+
+\section{Cross-Strategy Comparison}
+
+\runfigure{0403-combined-6strat-pitchrescale-cn2-5e14/19_cross_strategy_received_power.png}
+  {0403 cross-strategy received power}
+  {Mean detector-side received power at 10\,$\mu$m across the completed 0403
+  strategies.}
+
+\runfigure{0403-combined-6strat-pitchrescale-cn2-5e14/20_encircled_energy_per_strategy.png}
+  {0403 encircled energy}
+  {Encircled-energy comparison for the same strategy family.}
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{lccc}
+    \toprule
+    \smalltablehead{Strategy} & \smalltablehead{$\PIB@10\,\mu$m} & \smalltablehead{$\TP$} & \smalltablehead{$\RP@10\,\mu$m} \\
+    \midrule
+    Turbulent baseline & 77.11\% & 97.00\% & 212.04 \\
+    AbsBucket+CO & 80.52\% & 98.30\% & 224.28 \\
+    PIB+HardTP(10) & 80.42\% & 98.92\% & 224.97 \\
+    TP-PIB $w=0.5$ & 81.32\% & 96.94\% & 223.78 \\
+    TP-PIB $w=2.0$ & 80.41\% & 98.93\% & 224.96 \\
+    Raw RP & 80.83\% & 98.59\% & 225.54 \\
+    \bottomrule
+  \end{tabular}
+  \caption{Completed 0403 strategy summary from
+  \texttt{19\_cross\_strategy\_summary.json}. The designed sixth strategy
+  \texttt{TP-PIB w=5.0} does not appear in the completed sweep summary.}
+\end{table}
+
+\section{Why the Direct Received-Power Objective Wins}
+
+The winning objective is the direct received-power loss,
+\begin{equation}
+L_{\mathrm{RP}} = -\log\!\left(\frac{E_{\mathrm{bucket}}}{E_{\mathrm{input}}} + \epsilon\right).
+\end{equation}
+Its advantage is threefold:
+\begin{itemize}
+  \item it optimizes the detector quantity directly rather than a proxy ratio;
+  \item the logarithm amplifies gradients in the low-RP regime, making early
+  training less inert;
+  \item throughput is embedded automatically because energy scattered out of the
+  bucket immediately reduces the numerator.
+\end{itemize}
+
+Strong throughput penalties can approximate the same behavior, but the direct
+received-power objective removes one layer of proxy design. That is why it
+edges out the near-tie alternatives in mean detector performance.
+
+\runfigure{0403-combined-6strat-pitchrescale-cn2-5e14/focal_raw_received_power/18_received_power_histogram.png}
+  {Direct received-power histogram}
+  {Detector-side received-power histogram for the mean-winning direct
+  objective.}
+
+\runfigure{0403-combined-6strat-pitchrescale-cn2-5e14/pib_hard_tp/18_received_power_histogram.png}
+  {Hard-TP histogram}
+  {A near-tie strategy: PIB with a strong throughput penalty.}
+
+\runfigure{0403-combined-6strat-pitchrescale-cn2-5e14/focal_tp_pib_w2/18_received_power_histogram.png}
+  {TP-PIB w=2 histogram}
+  {Another near-tie strategy with strong stability and high throughput.}
+
+\section{Interpreting Near-Ties}
+
+Although \texttt{focal\_raw\_received\_power} has the highest mean received power, the best
+stability-oriented interpretation is subtler. \texttt{PIB+HardTP(10)} and
+\texttt{TP-PIB w=2.0} are essentially tied in mean detector performance and can be read as
+more conservative alternatives. This matters because the objective family is no
+longer about ``whether'' throughput matters, but about how strongly it should be
+regularized.
+
+\runfigure{0403-combined-6strat-pitchrescale-cn2-5e14/focal_raw_received_power/06_fig1_focal_plane_vacuum_vs_turbulent_vs_d2nn.png}
+  {Direct received-power focal plane}
+  {Focal-plane comparison for the final mean-winning direct received-power
+  strategy.}
+
+\runfigure{0403-combined-6strat-pitchrescale-cn2-5e14/focal_raw_received_power/14_zernike_delta_per_mode.png}
+  {Raw-RP Zernike deltas}
+  {Output-plane diagnostics included only to show that detector gains do not
+  imply full wavefront recovery.}
+
+\section{Handoff to the Distance Sweep}
+
+This chapter closes the detector-objective design loop. The next experiment
+freezes the direct received-power objective and asks a different question: how does the same
+detector-centric optical strategy behave as turbulence strength increases with
+range?

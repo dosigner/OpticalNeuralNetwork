@@ -1,0 +1,334 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{fontspec}
+\usepackage{kotex}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+
+\definecolor{accent}{HTML}{1B98E0}
+\definecolor{darkbg}{HTML}{0B1D33}
+\definecolor{redwarn}{HTML}{E74C3C}
+\definecolor{greengood}{HTML}{27AE60}
+\definecolor{orange}{HTML}{E67E22}
+\definecolor{muted}{HTML}{7B8794}
+\definecolor{lightgray}{HTML}{F4F6F9}
+\definecolor{tableheader}{HTML}{1B4F72}
+\definecolor{tablealt}{HTML}{EBF5FB}
+
+\setmainfont{Noto Serif CJK KR}
+\setsansfont{NanumSquareRound}
+
+\titleformat{\section}{\Large\bfseries\sffamily\color{darkbg}}{}{0em}{}[\vspace{-0.5em}\textcolor{accent}{\rule{\textwidth}{1.5pt}}]
+\titleformat{\subsection}{\large\bfseries\sffamily\color{tableheader}}{}{0em}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily\textcolor{muted}{D2NN Loss Function Sweep Report}}
+\fancyhead[R]{\small\sffamily\textcolor{muted}{2026-04-03}}
+\fancyfoot[C]{\small\sffamily\textcolor{muted}{\thepage}}
+\renewcommand{\headrulewidth}{0.5pt}
+
+\newcommand{\highlight}[1]{\colorbox{tablealt}{\textbf{#1}}}
+\newcommand{\good}[1]{\textcolor{greengood}{\textbf{#1}}}
+\newcommand{\bad}[1]{\textcolor{redwarn}{\textbf{#1}}}
+\newcommand{\warn}[1]{\textcolor{orange}{\textbf{#1}}}
+
+\begin{document}
+
+% ── Title ──
+\begin{center}
+{\Huge\bfseries\sffamily\textcolor{darkbg}{Static D2NN Loss Function Sweep}}\\[0.5em]
+{\LARGE\sffamily\textcolor{accent}{종합 분석 보고서}}\\[1.5em]
+{\large\sffamily D2NN Lab \quad|\quad 2026-04-03}\\[0.3em]
+{\small\textcolor{muted}{FSO Beam Cleanup --- Cn$^2$=5$\times$10$^{-14}$, L=1km, $\lambda$=1.55$\mu$m}}
+\end{center}
+\vspace{1em}
+
+% ── 1. Introduction ──
+\section{서론}
+
+자유공간 광통신(FSO)에서 대기 난류는 수신 빔의 위상을 왜곡하여 초점면 수신전력을 감소시킨다.
+본 보고서는 Static D2NN (Diffractive Deep Neural Network)의 \textbf{최적 손실함수 탐색} 및
+\textbf{실용적 성능 한계}를 10개 손실 전략에 걸쳐 분석한 결과를 보고한다.
+
+\begin{itemize}
+\item \textbf{D2NN 구조}: 고정 위상 마스크 5장, layer spacing 10mm, detector 10mm
+\item \textbf{시뮬레이션}: Cn$^2$=5$\times$10$^{-14}$, L=1km, $\lambda$=1.55$\mu$m, f=4.5mm, aperture=2mm, N=1024
+\item \textbf{데이터}: pitch\_rescale (5000쌍, afocal telescope 직접 rescaling, 보간 아티팩트 없음)
+\item \textbf{학습}: 30 epochs, batch=32, LR=8$\times$10$^{-3}$$\rightarrow$cosine, TV=0.05, NVIDIA A100
+\end{itemize}
+
+
+% ── 2. Experiment Overview ──
+\section{실험 개요}
+
+3개 Sweep에 걸쳐 총 10개 손실 전략을 비교하였다.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{llll}
+\toprule
+\rowcolor{tableheader}\textcolor{white}{\textbf{Sweep}} & \textcolor{white}{\textbf{데이터}} & \textcolor{white}{\textbf{전략}} & \textcolor{white}{\textbf{상태}} \\
+\midrule
+0401 & dn100um (Lanczos) & PIB, Strehl, IO, CO+PIB & 완료 \\
+\rowcolor{tablealt}0402 & pitch\_rescale & Abs Bucket (F), TP+PIB (B), Multiplane (C) & 완료 \\
+0403 & pitch\_rescale & CO+hardTP, AbsBkt+CO, PIB+hardTP & 진행중 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+% ── 3. Key Finding 1 ──
+\section{핵심 발견 1: Normalized PIB는 절대 수신전력을 반영하지 않는다}
+
+PIB (Power-in-Bucket)는 전체 에너지 대비 버킷 내 에너지 비율(정규화)로, throughput 손실을 반영하지 않는다.
+\textbf{절대 수신전력} 기준으로 평가하면 결과가 역전된다.
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{l >{\centering\arraybackslash}p{2.2cm} >{\centering\arraybackslash}p{2cm} >{\centering\arraybackslash}p{3cm} >{\centering\arraybackslash}p{2cm}}
+\toprule
+\rowcolor{tableheader}\textcolor{white}{\textbf{Strategy}} & \textcolor{white}{\textbf{PIB@10$\mu$m}} & \textcolor{white}{\textbf{Throughput}} & \textcolor{white}{\textbf{Abs Power vs Turb}} & \textcolor{white}{\textbf{판정}} \\
+\midrule
+PIB Only (0401) & \good{90.1\%} & \bad{50.7\%} & \bad{58.7\%} & \bad{손해} \\
+\rowcolor{tablealt}Strehl Only (0401) & 81.8\% & \bad{57.5\%} & \bad{60.4\%} & \bad{손해} \\
+Abs Bucket F (0402) & 81.4\% & \good{98.6\%} & \good{105.8\%} & \good{이득} \\
+\rowcolor{tablealt}TP+PIB B (0402) & 81.6\% & \good{98.4\%} & \good{105.8\%} & \good{이득} \\
+Multiplane C (0402) & 84.2\% & \bad{39.5\%} & \bad{44.2\%} & \bad{대손해} \\
+\rowcolor{tablealt}CO+hardTP (0403) & 74.0\% & \good{99.3\%} & \warn{97.0\%} & \warn{중립} \\
+\bottomrule
+\end{tabular}
+\caption{전략별 성능 비교. PIB Only가 PIB 90.1\%를 달성했으나 절대 수신전력은 turbulent의 58.7\%.}
+\end{table}
+
+\noindent\fcolorbox{orange}{tablealt}{\parbox{0.95\textwidth}{
+\textbf{핵심}: PIB Only는 에너지의 절반을 scatter하고 남은 에너지 중 비율만 높인 것.
+\textbf{Throughput을 유지하는 F/B 전략만이 실제 수신전력 +5.8\% 개선.}
+}}
+
+
+% ── 4. Key Finding 2 ──
+\section{핵심 발견 2: Throughput 감소의 물리적 원인}
+
+D2NN이 PIB를 올리는 메커니즘은 \textbf{spatial filtering}이다:
+
+\begin{enumerate}
+\item D2NN phase mask가 \textbf{고주파 위상 패턴}을 생성
+\item Angular spectrum propagation에서 \textbf{evanescent wave cutoff} ($k_x^2 + k_y^2 > k^2$)
+\item Turbulent 빔의 고주파 성분이 더 많아 \textbf{비대칭 에너지 손실}
+\item D2NN이 원치 않는 에너지를 scatter $\rightarrow$ propagation이 자동 제거
+\end{enumerate}
+
+\noindent 결과: 남은 에너지 중 집속 비율(PIB) $\uparrow$, 총 에너지(TP) $\downarrow$.
+Throughput을 강제하면 scatter가 불가능해져 PIB 개선이 제한된다.
+
+
+% ── 5. Gap Decomposition ──
+\section{수신전력 갭 분해}
+
+Vacuum과 turbulent beam의 초점면 수신전력 차이를 분해하였다.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lccc}
+\toprule
+\rowcolor{tableheader}\textcolor{white}{} & \textcolor{white}{\textbf{Total Power}} & \textcolor{white}{\textbf{Bucket@10$\mu$m}} & \textcolor{white}{\textbf{PIB}} \\
+\midrule
+Vacuum & 290.18 & 277.17 & 95.5\% \\
+\rowcolor{tablealt}Turbulent & 278.67 & 217.95 & 78.1\% \\
+\textbf{Gap} & 11.51 (4.0\%) & \textbf{59.22 (21.4\%)} & 17.4\%p \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent 갭의 원인:
+\begin{itemize}
+\item \textbf{Wavefront error (PIB spreading): 81.8\%} --- WFE가 focal spot을 퍼뜨림
+\item Throughput loss: 18.6\% --- 전파 중 에너지 손실
+\end{itemize}
+
+\noindent 물리적 지표:
+\begin{align*}
+\text{WFE} &= 442.9\text{nm} \quad (2.87\lambda) \gg \text{Mar\'{e}chal limit} = \lambda/14 = 111\text{nm} \\
+\text{Mar\'{e}chal Strehl} &= \exp(-\sigma^2) = 0.04 \\
+\text{Bucket Power} &\approx \text{TP} \times \exp(-\sigma^2_{\text{WFE}}) \times P_{\text{diff.limited}}
+\end{align*}
+
+\noindent\fcolorbox{redwarn}{tablealt}{\parbox{0.95\textwidth}{
+\textbf{Static D2NN의 한계}: 각 샘플의 WFE가 random (매번 다른 난류).
+고정 마스크는 random error를 보정할 수 없다 $\rightarrow$ \textbf{구조적 한계}.
+}}
+
+
+% ── 6. Zernike ──
+\section{Zernike 모드 분석}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lccc}
+\toprule
+\rowcolor{tableheader}\textcolor{white}{\textbf{Strategy}} & \textcolor{white}{\textbf{Higher-order $\Delta$}} & \textcolor{white}{\textbf{Tip/Tilt $\Delta$}} & \textcolor{white}{\textbf{Throughput}} \\
+\midrule
+F/B (Abs Bucket) & $\pm$1 nm & $\pm$0.2 nm & \good{98\%} \\
+\rowcolor{tablealt}Multiplane C & \good{$-$28 nm} & +1.3 nm & \bad{40\%} \\
+PIB Only & $-$28 nm & \bad{+16 nm} & \bad{51\%} \\
+\bottomrule
+\end{tabular}
+\caption{Zernike 모드 변화. TP 유지 시 wavefront 보정이 거의 불가.}
+\end{table}
+
+\noindent TP를 유지하면 Zernike delta $\approx$ 0 (보정 없음).
+Wavefront을 보정하면 TP가 감소한다. \textbf{PIB $\leftrightarrow$ TP 구조적 트레이드오프}.
+
+
+% ── 7. CO Loss ──
+\section{CO Loss 단독의 한계 (0403 co\_hard\_tp)}
+
+CO (Complex Overlap) + Quadratic TP penalty ($\lambda$=10) 결과:
+\begin{itemize}
+\item Throughput: \good{99.3\%} (전 전략 중 최고)
+\item PIB@10$\mu$m: \bad{74.0\%} (baseline 76.1\%보다 낮음)
+\item 절대 수신전력: turbulent의 97\% (3\% 손해)
+\end{itemize}
+
+\noindent CO는 전체 field 매칭을 최적화하므로 버킷 집중에 대한 gradient가 부재하다.
+Multiplane C에서 amplitude MSE (weight 0.2)가 CO (weight 0.5)에 밀려 TP 보존에 실패한 것도 같은 맥락이다.
+
+
+% ── 8. Deep Fade ──
+\section{Deep Fade / Scintillation 분석}
+
+500개 test sample에 대해 bucket@10$\mu$m 절대 수신전력을 dB로 분석하였다.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lccccc}
+\toprule
+\rowcolor{tableheader}\textcolor{white}{} & \textcolor{white}{\textbf{Mean}} & \textcolor{white}{\textbf{Std}} & \textcolor{white}{\textbf{Min}} & \textcolor{white}{\textbf{1\%ile}} & \textcolor{white}{\textbf{5\%ile}} \\
+\midrule
+Vacuum & 0.00 dB & 0.00 dB & 0.00 dB & 0.00 dB & 0.00 dB \\
+\rowcolor{tablealt}Turbulent & $-$1.12 dB & 0.86 dB & \bad{$-$7.73 dB} & $-$3.72 dB & $-$2.45 dB \\
+D2NN (F) & $-$0.85 dB & 0.74 dB & \warn{$-$6.36 dB} & $-$3.25 dB & $-$2.00 dB \\
+\bottomrule
+\end{tabular}
+\caption{Scintillation 통계 (vacuum mean 기준 dB).}
+\end{table}
+
+\subsection{Deep Fade 최악 케이스}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{ccccc}
+\toprule
+\rowcolor{tableheader}\textcolor{white}{\textbf{Rank}} & \textcolor{white}{\textbf{Turbulent}} & \textcolor{white}{\textbf{D2NN (F)}} & \textcolor{white}{\textbf{Vacuum}} & \textcolor{white}{\textbf{D2NN 개선}} \\
+\midrule
+1 & $-$7.73 dB & $-$6.36 dB & 0.00 dB & \good{+1.37 dB} \\
+\rowcolor{tablealt}2 & $-$6.38 dB & $-$5.20 dB & 0.00 dB & \good{+1.18 dB} \\
+3 & $-$6.28 dB & $-$5.05 dB & 0.00 dB & \good{+1.24 dB} \\
+\rowcolor{tablealt}8 & $-$3.68 dB & $-$2.66 dB & 0.00 dB & \good{+1.02 dB} \\
+\bottomrule
+\end{tabular}
+\caption{Deep fade 샘플에서 D2NN이 더 효과적 (0.3--1.4 dB 개선).}
+\end{table}
+
+\subsection{Fade Probability}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lcc}
+\toprule
+\rowcolor{tableheader}\textcolor{white}{\textbf{Threshold}} & \textcolor{white}{\textbf{Turbulent}} & \textcolor{white}{\textbf{D2NN (F)}} \\
+\midrule
+$<$ $-$3 dB & 2.8\% & 1.8\% \\
+\rowcolor{tablealt}$<$ $-$5 dB & 0.6\% & 0.6\% \\
+$<$ $-$7 dB & 0.2\% & 0.0\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent\fcolorbox{orange}{tablealt}{\parbox{0.95\textwidth}{
+\textbf{Context}: 실제 FSO scintillation은 5--10 dB 변동.
+D2NN의 평균 +0.24 dB 개선은 noise floor 수준이다.
+다만, \textbf{deep fade에서 D2NN이 상대적으로 더 효과적} (+1.37 dB worst case).
+Vacuum-turbulent gap 자체가 $-$1.04 dB로 작아, scintillation이 지배적인 환경에서
+static D2NN의 실질적 가치는 제한적이다.
+}}
+
+
+% ── 9. Histogram ──
+\section{절대 수신전력 히스토그램}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{/root/dj/D2NN/kim2026/autoresearch/runs/0402-focal-new-losses-pitchrescale-3strat-cn2-5e14/16_abs_power_histogram_per_strategy.png}
+\caption{전략별 절대 수신전력 분포. F/B만 turbulent 대비 +5.8\% 개선, Multiplane은 $-$55.8\% 악화.}
+\end{figure}
+
+
+% ── 10. Phase Masks ──
+\section{Phase Mask 비교}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{/root/dj/D2NN/kim2026/autoresearch/runs/0401-focal-pib-sweep-clean-4loss-cn2-5e14/focal_pib_only/15_phase_masks_5layers.png}
+\caption{PIB Only --- 고주파 격자 패턴 (aggressive spatial filtering). TP=50.7\%.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{/root/dj/D2NN/kim2026/autoresearch/runs/0402-focal-new-losses-pitchrescale-3strat-cn2-5e14/focal_absolute_bucket/15_phase_masks_5layers.png}
+\caption{Abs Bucket (F) --- 거의 flat한 위상 마스크 (throughput 보존). TP=98.6\%.}
+\end{figure}
+
+
+% ── 11. Conclusion ──
+\section{결론}
+
+\begin{enumerate}
+\item \textbf{Throughput이 실전 성능의 핵심 지표.} Normalized PIB는 misleading.
+
+\item \textbf{Static D2NN 절대 수신전력 개선 한계: +5.8\% (+0.24 dB)} --- Abs Bucket (F) / TP+PIB (B) 전략.
+
+\item \textbf{PIB $\leftrightarrow$ Throughput 구조적 대립.}
+    에너지 집중(PIB)은 scatter를 통해 달성 $\rightarrow$ throughput 감소 불가피.
+
+\item \textbf{Vacuum PIB (94.2\%)는 TP 유지하면서 달성 불가.}
+    WFE = 442.9nm (random per-sample) $\rightarrow$ 고정 마스크로 보정 불가.
+
+\item \textbf{Scintillation 5--10 dB 변동 대비 D2NN +0.24 dB는 미미.}
+    다만 deep fade에서 상대적으로 더 효과적 (+1.37 dB worst case).
+
+\item \textbf{Absolute bucket loss가 최적 손실함수.}
+    $\text{Bucket Power} \propto \text{TP} \times \text{Strehl}$을 직접 최대화.
+
+\item \textbf{Absolute bucket loss 수식}:
+    \[
+    \mathcal{L}_{\text{abs}} = 1 - \frac{\sum_{r \leq 10\mu\text{m}} |E_{\text{pred}}^{\text{focal}}|^2}
+    {\sum_{r \leq 10\mu\text{m}} |E_{\text{vac}}^{\text{focal}}|^2}
+    \]
+\end{enumerate}
+
+
+% ── 12. Future ──
+\section{향후 방향}
+
+\begin{itemize}
+\item 0403 pib\_hard\_tp 결과 확인 (PIB + Quadratic TP penalty)
+\item 강한 난류 조건 (Cn$^2$=10$^{-13}$) 시뮬레이션 --- deep fade에서 D2NN 가치 재검증
+\item Switchable static masks --- 난류 세기별 2--3세트 전환
+\item Hybrid AO(저차 보정) + D2NN(고차 보정)
+\item Dynamic D2NN --- Zernike 기반 소형 적응형 (20 coefficients $\times$ 5 layers = 100 parameters)
+\item 구조 최적화 --- layer 수 (3, 5, 7, 10), spacing, TV weight sweep
+\end{itemize}
+
+\end{document}

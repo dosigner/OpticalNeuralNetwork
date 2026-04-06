@@ -1,0 +1,100 @@
+\chapter{Introduction}
+
+\section{Free-Space Optical Communication and Turbulence}
+
+Free-space optical (FSO) communication offers fiber-like bandwidth without a
+physical waveguide, but the atmosphere couples amplitude scintillation,
+wavefront distortion, and beam wander into the received field. In this report
+we focus on a passive optical receiver question: can a fixed diffractive neural
+network improve detector-plane utility for a turbulent laser beam without any
+adaptive feedback?
+
+The turbulence models used throughout the campaign follow the standard
+Kolmogorov and von Karman descriptions,
+\begin{equation}
+\Phi(\kappa) = 0.023\, r_0^{-5/3}\, \kappa^{-11/3},
+\end{equation}
+\begin{equation}
+\Phi(\kappa) = 0.023\, r_0^{-5/3}\, (\kappa^2 + \kappa_0^2)^{-11/6},
+\end{equation}
+where $r_0$ is the Fried parameter, $\kappa$ is the spatial frequency, and
+$\kappa_0$ is the outer-scale cutoff. The quantities $D/r_0$ and the Rytov
+variance $\sigma_R^2$ will appear repeatedly because they provide a compact
+regime description for weak, moderate, and strong turbulence.
+
+\section{Phase-Only D2NN and Propagation Model}
+
+The optical processor is modeled as a stack of phase-only diffractive layers.
+Each layer applies
+\begin{equation}
+t(x,y) = \exp\!\bigl(j \phi(x,y)\bigr),
+\end{equation}
+and free-space propagation between layers is simulated with the band-limited
+angular spectrum method (BL-ASM). In the sampled scalar model used in the
+project, a phase-only D2NN block is a lossless linear operator up to numerical
+precision, which is the starting point for the invariance arguments in
+Chapter~4.
+
+For detector-plane metrics the field is optionally relayed through a focal lens.
+This distinction is central to the report:
+\begin{itemize}
+  \item output-plane metrics: $\CO$, wavefront RMS, phase residuals;
+  \item focal-plane metrics: $\PIB$, Strehl, and received power $\RP@10\,\mu$m.
+\end{itemize}
+The campaign only converged once these two measurement planes were kept
+strictly separate.
+
+\section{Notation and Measurement Conventions}
+
+The report reuses a small set of quantities throughout, so we fix them here.
+Unless otherwise stated, all inner products and norms are taken on the sampled
+receiver grid after the telescope aperture and before detector cropping.
+\begin{align}
+\CO(U_1,U_2)
+&=
+\frac{|\langle U_1,U_2\rangle|}{\|U_1\|_2\,\|U_2\|_2},\\
+\PIB(r_b)
+&=
+\frac{\int_{|\rho|<r_b} I_f(\rho)\,d\rho}{\int I_f(\rho)\,d\rho},\\
+\TP
+&=
+\frac{\int |U_{\mathrm{out}}|^2\,dA}{\int |U_{\mathrm{in}}|^2\,dA},\\
+\RP(r_b)
+&=
+\int_{|\rho|<r_b} I_f(\rho)\,d\rho .
+\end{align}
+Here $U_{\mathrm{in}}$ and $U_{\mathrm{out}}$ are the sampled complex fields
+before and after the diffractive block, while $I_f$ is the focal-plane
+irradiance after the detector lens. The shorthand $\RP@10\,\mu$m used in later
+tables means the bucket power with $r_b=10\,\mu$m.
+
+\section{Research Question}
+
+The campaign began with an optimistic hypothesis: if turbulence is a structured
+optical distortion, perhaps a static diffractive network can be trained as a
+wavefront corrector. The experiments instead led to a narrower and more
+defensible conclusion.
+
+\begin{keyinsight}
+Static phase-only D2NNs do not improve field-level similarity under the sampled
+unitary model, but they can reshape intensity observables at the detector. The
+entire report is the chronology of discovering where that distinction matters
+and where it breaks naive interpretations.
+\end{keyinsight}
+
+This distinction also motivates the Received Power objective used later in the
+campaign. A detector does not observe $\CO$ directly; it observes power falling
+into a finite aperture or bucket. Once that detector-centric formulation is
+made explicit, the design space changes substantially.
+
+\section{Report Roadmap}
+
+Chapters~2--3 cover the first spatial D2NN beam-reducer experiments and the
+FD2NN optics crisis around the $f=1$\,mm design. Chapters~4--5 establish the
+static-limit theorem and diagnose why the original PIB interpretation was
+misleading. Chapters~6--9 rebuild the pipeline around clean focal-plane metrics
+and progressively refine the loss from normalized sharpness objectives to raw
+received power. Chapter~10 studies distance-dependent regimes, while
+Chapters~11--12 revisit a 4f FD2NN architecture under the corrected detector
+objective and assess its limits conservatively. Chapter~13 summarizes the final
+lessons and future directions.

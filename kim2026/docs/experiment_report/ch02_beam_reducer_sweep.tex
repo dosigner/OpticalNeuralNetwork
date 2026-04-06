@@ -1,0 +1,78 @@
+\chapter{D2NN Beam-Reducer Sweep}
+
+\section{Motivation}
+
+The first successful track in the chronology was a spatial D2NN beam-reducer
+receiver. The aim was pragmatic: if the telescope output beam can be compressed
+into a detector-friendly footprint while preserving most of the energy, then a
+compact phase-only network might already provide value before any Fourier-domain
+architecture is considered.
+
+\section{Experimental Setup}
+
+The run family \texttt{0325-telescope-sweep-cn2-5e14-15cm} compares five loss
+formulations with a common five-layer spatial D2NN. All variants use the same
+geometry and differ only in training loss. The committed summary shows that the
+best complex-overlap results cluster tightly near a plateau around $0.646$,
+with throughput effectively unity in every case.
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{lcccc}
+    \toprule
+    \smalltablehead{Variant} & \smalltablehead{$\CO$} & \smalltablehead{IO} & \smalltablehead{EE} & \smalltablehead{$\TP$} \\
+    \midrule
+    baseline\_co & 0.6456 & 0.7843 & 0.8399 & 1.0000 \\
+    co\_amp & 0.6456 & 0.7844 & 0.8400 & 1.0000 \\
+    co\_ffp & 0.6407 & 0.7149 & 0.7709 & 1.0000 \\
+    co\_phasor & 0.6295 & 0.7647 & 0.8186 & 1.0000 \\
+    roi80 & 0.5457 & 0.8074 & 0.9880 & 1.0000 \\
+    \bottomrule
+  \end{tabular}
+  \caption{\texttt{0325} beam-reducer sweep summary. The best field-level score
+  saturates around $\CO \approx 0.646$, while detector-like concentration
+  metrics can be traded against field fidelity.}
+\end{table}
+
+\runfigure{0325-telescope-sweep-cn2-5e14-15cm/phase2_fig1_input.png}
+  {0325 input-field summary}
+  {Representative input-field visualization for the 15\,cm telescope receiver
+  experiment family.}
+
+\runfigure{0325-telescope-sweep-cn2-5e14-15cm/phase2_fig2_d2nn_output.png}
+  {0325 output-field summary}
+  {D2NN output-field comparison across the main \texttt{0325} loss variants.}
+
+\runfigure{0325-telescope-sweep-cn2-5e14-15cm/phase2_fig3_detector.png}
+  {0325 detector summary}
+  {Detector-plane energy redistribution in the beam-reducer sweep.}
+
+\runfigure{0325-telescope-sweep-cn2-5e14-15cm/phase2_fig4_masks.png}
+  {0325 masks}
+  {Learned phase masks for the five-layer spatial D2NN beam reducer.}
+
+\runfigure{0325-telescope-sweep-cn2-5e14-15cm/phase2_fig5_training_curves.png}
+  {0325 training curves}
+  {Training trajectories for the beam-reducer sweep.}
+
+\runfigure{0325-telescope-sweep-cn2-5e14-15cm/phase2_fig6_statistics.png}
+  {0325 statistics}
+  {Aggregate statistics showing the plateau in field-level performance.}
+
+\section{Interpretation}
+
+Two lessons emerged immediately. First, the spatial D2NN could shape the
+detector-plane distribution without catastrophic throughput loss. Second, the
+best field-level score plateaued early. In other words, the beam reducer was
+useful but not obviously approaching a vacuum-field recovery regime.
+
+\begin{discovery}
+The \texttt{0325} beam-reducer receiver demonstrated that passive diffractive optics
+can improve detector-side concentration while preserving energy, but it also
+showed an empirical plateau in field-level quality. That plateau motivated the
+shift toward FD2NN architectures and later detector-centric objective design.
+\end{discovery}
+
+The next step was therefore not incremental tuning of the same spatial design.
+Instead, the campaign moved toward a Fourier-domain architecture in the hope
+that a 4f representation might offer stronger control over wavefront structure.

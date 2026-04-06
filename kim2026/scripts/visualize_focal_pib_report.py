@@ -51,7 +51,7 @@ LABELS = {
     "focal_co_pib_hybrid": "CO+fPIB",
 }
 
-DATA_DIR = Path(__file__).resolve().parent.parent / "data" / "kim2026" / "1km_cn2_5e-14_tel15cm_n1024_br75"
+DATA_DIR = Path(__file__).resolve().parent.parent / "data" / "kim2026" / "1km_cn2_5e-14_tel15cm_pupil1024_v1"
 SWEEP_DIR = Path(__file__).resolve().parent.parent / "autoresearch" / "runs" / "d2nn_focal_pib_sweep"
 OUT = SWEEP_DIR
 
@@ -88,7 +88,7 @@ def main():
     print(f"dx_focal = {DX_FOCAL*1e6:.3f} μm, focal window = {N*DX_FOCAL*1e6:.0f} μm")
 
     ds = CachedFieldDataset(cache_dir=str(DATA_DIR / "cache"),
-                             manifest_path=str(DATA_DIR / "split_manifest.json"), split="test")
+                             manifest_path=str(DATA_DIR / "split_manifest.json"), split="test", plane_selector="reduced_ideal")
     s = ds[0]
     u_turb = prepare(s["u_turb"].unsqueeze(0).to(device))
     u_vac = prepare(s["u_vacuum"].unsqueeze(0).to(device))

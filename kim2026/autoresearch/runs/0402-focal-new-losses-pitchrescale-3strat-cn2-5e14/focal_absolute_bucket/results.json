@@ -1,0 +1,76 @@
+{
+  "name": "focal_absolute_bucket",
+  "description": "Absolute bucket power ratio (pred/vacuum) at focal plane",
+  "arch": {
+    "num_layers": 5,
+    "layer_spacing_m": 0.01,
+    "detector_distance_m": 0.01,
+    "propagation_pad_factor": 2
+  },
+  "focus_f_mm": 4.5,
+  "pib_bucket_radius_um": 10.0,
+  "propagation_pad_factor": 2,
+  "strehl_pad_factor": 4,
+  "co_output": 0.2667574882507324,
+  "io_output": 0.7887107729911804,
+  "co_baseline": 0.2683299481868744,
+  "focal_pib_10um": 0.814325749874115,
+  "focal_pib_50um": 0.9911558628082275,
+  "focal_pib_10um_baseline": 0.7606973648071289,
+  "focal_pib_50um_baseline": 0.9846101999282837,
+  "focal_pib_10um_vacuum": 0.9421337842941284,
+  "focal_pib_50um_vacuum": 0.9885987639427185,
+  "focal_strehl": 0.5087540745735168,
+  "dx_focal_um": 3.40576171875,
+  "throughput": 0.9861226946265462,
+  "wf_rms_rad": 1.7909877926111222,
+  "wf_rms_baseline_rad": 1.7955695779323577,
+  "wf_rms_nm": 441.8190683275187,
+  "wf_rms_baseline_nm": 442.9493496897125,
+  "training_seconds": 11085.212708473206,
+  "sanity_checks": [
+    {
+      "name": "Energy Throughput",
+      "passed": true,
+      "value": 0.9865226960684709,
+      "threshold": "[0.9, 1.1]",
+      "message": "Throughput=0.9865, energy lost"
+    },
+    {
+      "name": "Unitary CO Preservation",
+      "passed": true,
+      "value": 0.0025477013550698757,
+      "threshold": "|delta| < 0.01",
+      "message": "CO delta=0.002548, D2NN may not be unitary"
+    },
+    {
+      "name": "Strehl Upper Bound",
+      "passed": true,
+      "value": 0.6050013303756714,
+      "threshold": "<= 1.05",
+      "message": "Strehl=0.6050 exceeds passive limit"
+    }
+  ],
+  "history": {
+    "epoch": [
+      0,
+      29
+    ],
+    "loss": [
+      0.217059499502182,
+      0.18378530377149582
+    ],
+    "val_co": [
+      0.2690849304199219,
+      0.2681908905506134
+    ],
+    "val_focal_pib_10": [
+      0.785807192325592,
+      0.8067531585693359
+    ],
+    "lr": [
+      0.0016,
+      1e-05
+    ]
+  }
+}
