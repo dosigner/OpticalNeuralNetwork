@@ -49,3 +49,7 @@ To regenerate checkpoints and data from committed configs:
 - Standard optics: f=25mm Thorlabs AC127-025-C, dx_fourier=37.8μm
 - Energy conservation: flag if >10% loss at any stage
 - Baselines (CO/IO, Strehl): compute from raw input beams, NOT D2NN outputs
+
+
+## /make-slide
+When the user types "/make-slide", read `.claude/skills/make-slide/SKILL.md` and follow the presentation creation workflow. Browse themes at https://make-slide.vercel.app

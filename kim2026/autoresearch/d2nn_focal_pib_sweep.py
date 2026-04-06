@@ -33,6 +33,7 @@ import torch.nn as nn
 from torch.optim.lr_scheduler import CosineAnnealingLR
 from torch.utils.data import DataLoader
 
+from kim2026.data.canonical_pupil import enforce_reducer_validation_gate
 from kim2026.data.dataset import CachedFieldDataset
 from kim2026.models.d2nn import BeamCleanupD2NN
 from kim2026.optics import MAX_ALIAS_SAFE_DISTANCE_M, MIN_PAD_FACTOR
@@ -58,8 +59,10 @@ SEED = 20260329
 FOCUS_F_M = 4.5e-3  # f=4.5mm focusing lens
 PIB_BUCKET_RADIUS_UM = 10.0  # 10μm bucket (SMF coupling proxy)
 
-DATA_DIR = KIM2026_ROOT / "data" / "kim2026" / "1km_cn2_5e-14_tel15cm_n1024_br75" / "cache"
+DATA_DIR = KIM2026_ROOT / "data" / "kim2026" / "1km_cn2_5e-14_tel15cm_pupil1024_v1" / "cache"
 MANIFEST = DATA_DIR.parent / "split_manifest.json"
+DATA_PLANE_SELECTOR = "reduced_ideal"
+REDUCER_VALIDATION_SUMMARY_PATH = DATA_DIR.parent / "reducer_val_cache" / "summary.json"
 OUT_ROOT = Path(__file__).resolve().parent / "runs" / "d2nn_focal_pib_sweep"
 
 ARCH = dict(num_layers=5, layer_spacing_m=10e-3, detector_distance_m=10e-3)
@@ -125,7 +128,7 @@ def apply_config_overrides(cfg: dict | None) -> None:
 
     global WAVELENGTH_M, RECEIVER_WINDOW_M, APERTURE_DIAMETER_M
     global FOCUS_F_M, PIB_BUCKET_RADIUS_UM, N_FULL, ROI_N
-    global DATA_DIR, MANIFEST, SEED, OUT_ROOT, ARCH
+    global DATA_DIR, MANIFEST, DATA_PLANE_SELECTOR, REDUCER_VALIDATION_SUMMARY_PATH, SEED, OUT_ROOT, ARCH
 
     physics = cfg.get("physics", {})
     if "wavelength_m" in physics:
@@ -162,6 +165,10 @@ def apply_config_overrides(cfg: dict | None) -> None:
     data = cfg.get("data", {})
     if "path" in data:
         DATA_DIR, MANIFEST = _resolve_data_paths(data["path"])
+    if "plane_selector" in data:
+        DATA_PLANE_SELECTOR = str(data["plane_selector"])
+    if "reducer_validation_summary_path" in data:
+        REDUCER_VALIDATION_SUMMARY_PATH = Path(data["reducer_validation_summary_path"])
 
     output = cfg.get("output", {})
     if "dir" in output:
@@ -189,6 +196,8 @@ def print_resolved_parameters(config_path: str | None) -> None:
     print(f"    alias_safe_distance_guard_m={MAX_ALIAS_SAFE_DISTANCE_M:.3f}")
     print(f"    data_dir={DATA_DIR}")
     print(f"    manifest={MANIFEST}")
+    print(f"    plane_selector={DATA_PLANE_SELECTOR}")
+    print(f"    reducer_validation_summary={REDUCER_VALIDATION_SUMMARY_PATH}")
     print(f"    out_root={OUT_ROOT}")
     print(f"  dx_in={dx_in*1e6:.1f}μm → dx_focal={dx_focal*1e6:.3f}μm")
     print(f"  Focal window: {ROI_N * dx_focal * 1e6:.0f}μm")
@@ -260,6 +269,154 @@ def focal_co_pib_hybrid_loss(d2nn_pred: torch.Tensor, d2nn_target: torch.Tensor,
     return (1.0 - co) + 0.5 * pib
 
 
+def _bucket_mask(field: torch.Tensor, dx_focal: float,
+                 radius_um: float = PIB_BUCKET_RADIUS_UM) -> torch.Tensor:
+    """Binary mask for bucket region at focal plane."""
+    n = field.shape[-1]
+    c = n // 2
+    yy, xx = torch.meshgrid(torch.arange(n, device=field.device) - c,
+                             torch.arange(n, device=field.device) - c, indexing="ij")
+    r = torch.sqrt((xx * dx_focal) ** 2 + (yy * dx_focal) ** 2)
+    return (r <= radius_um * 1e-6).float()
+
+
+def focal_absolute_bucket_loss(d2nn_pred: torch.Tensor, d2nn_target: torch.Tensor,
+                               focal_pred: torch.Tensor, focal_target: torch.Tensor,
+                               dx_focal: float) -> torch.Tensor:
+    """1 - (absolute bucket energy / vacuum bucket energy).
+
+    Unlike normalized PIB, this penalizes throughput loss because
+    scattering energy away reduces the numerator directly.
+    """
+    mask = _bucket_mask(focal_pred, dx_focal)
+    pred_bucket = (focal_pred.abs().square() * mask).sum(dim=(-2, -1))
+    tgt_bucket = (focal_target.abs().square() * mask).sum(dim=(-2, -1))
+    ratio = pred_bucket / tgt_bucket.clamp(min=1e-12)
+    return 1.0 - ratio.mean()
+
+
+def focal_tp_penalized_pib_loss(d2nn_pred: torch.Tensor, d2nn_target: torch.Tensor,
+                                focal_pred: torch.Tensor, focal_target: torch.Tensor,
+                                dx_focal: float) -> torch.Tensor:
+    """Normalized PIB loss + throughput preservation penalty.
+
+    Combines focal-plane PIB with an energy-conservation term that
+    penalizes the D2NN for scattering energy out of the passband.
+    """
+    pib_l = focal_pib_loss(focal_pred, focal_target, dx_focal)
+    tp = (d2nn_pred.abs().square().sum(dim=(-2, -1))
+          / d2nn_target.abs().square().sum(dim=(-2, -1)).clamp(min=1e-12))
+    tp_l = (1.0 - tp).clamp(min=0).mean()
+    return pib_l + 1.0 * tp_l
+
+
+def focal_multiplane_co_pib_amp_loss(d2nn_pred: torch.Tensor, d2nn_target: torch.Tensor,
+                                     focal_pred: torch.Tensor, focal_target: torch.Tensor,
+                                     dx_focal: float) -> torch.Tensor:
+    """Multi-plane: output CO + focal PIB + amplitude preservation.
+
+    CO preserves field structure at the output plane, PIB concentrates
+    energy at the focal plane, and amplitude MSE implicitly preserves
+    throughput by keeping the amplitude envelope close to vacuum.
+    """
+    co_l = 1.0 - complex_overlap(d2nn_pred, d2nn_target).mean()
+    pib_l = focal_pib_loss(focal_pred, focal_target, dx_focal)
+    amp_l = (d2nn_pred.abs() - d2nn_target.abs()).square().mean()
+    return 0.5 * co_l + 0.3 * pib_l + 0.2 * amp_l
+
+
+def co_hard_tp_loss(d2nn_pred: torch.Tensor, d2nn_target: torch.Tensor) -> torch.Tensor:
+    """CO for wavefront matching + quadratic throughput penalty.
+
+    CO drives vacuum-like field correction while the strong quadratic TP
+    term (λ=10) prevents the energy scattering that collapsed multiplane C.
+    """
+    co_l = 1.0 - complex_overlap(d2nn_pred, d2nn_target).mean()
+    tp = (d2nn_pred.abs().square().sum(dim=(-2, -1))
+          / d2nn_target.abs().square().sum(dim=(-2, -1)).clamp(min=1e-12))
+    tp_l = ((1.0 - tp).clamp(min=0) ** 2).mean()
+    return co_l + 10.0 * tp_l
+
+
+def abs_bucket_plus_co_loss(d2nn_pred: torch.Tensor, d2nn_target: torch.Tensor,
+                            focal_pred: torch.Tensor, focal_target: torch.Tensor,
+                            dx_focal: float) -> torch.Tensor:
+    """Focal absolute bucket + output CO (equal weight).
+
+    Abs bucket implicitly preserves throughput (energy scatter reduces
+    numerator). CO adds wavefront correction at the output plane.
+    """
+    mask = _bucket_mask(focal_pred, dx_focal)
+    pred_bkt = (focal_pred.abs().square() * mask).sum(dim=(-2, -1))
+    tgt_bkt = (focal_target.abs().square() * mask).sum(dim=(-2, -1))
+    abs_l = 1.0 - (pred_bkt / tgt_bkt.clamp(min=1e-12)).mean()
+    co_l = 1.0 - complex_overlap(d2nn_pred, d2nn_target).mean()
+    return 0.5 * abs_l + 0.5 * co_l
+
+
+def pib_hard_tp_loss(d2nn_pred: torch.Tensor, d2nn_target: torch.Tensor,
+                     focal_pred: torch.Tensor, focal_target: torch.Tensor,
+                     dx_focal: float) -> torch.Tensor:
+    """PIB maximization + quadratic TP penalty (λ=10).
+
+    Combines PIB Only's concentration power with a strong throughput
+    constraint to prevent the 50% energy loss seen in 0401.
+    """
+    pib_l = focal_pib_loss(focal_pred, focal_target, dx_focal)
+    tp = (d2nn_pred.abs().square().sum(dim=(-2, -1))
+          / d2nn_target.abs().square().sum(dim=(-2, -1)).clamp(min=1e-12))
+    tp_l = ((1.0 - tp).clamp(min=0) ** 2).mean()
+    return pib_l + 10.0 * tp_l
+
+
+def focal_raw_received_power_loss(d2nn_pred: torch.Tensor, d2nn_target: torch.Tensor,
+                                  focal_pred: torch.Tensor, focal_target: torch.Tensor,
+                                  dx_focal: float) -> torch.Tensor:
+    """Maximize absolute received power in bucket (no vacuum reference).
+
+    loss = -log(bucket_energy / input_energy + eps)
+    Directly maximizes focal throughput without ratio to vacuum.
+    """
+    mask = _bucket_mask(focal_pred, dx_focal)
+    pred_bucket = (focal_pred.abs().square() * mask).sum(dim=(-2, -1))
+    input_energy = d2nn_target.abs().square().sum(dim=(-2, -1)).clamp(min=1e-12)
+    focal_tp = pred_bucket / input_energy
+    return -torch.log(focal_tp + 1e-8).mean()
+
+
+def focal_tp_penalized_pib_w05_loss(d2nn_pred: torch.Tensor, d2nn_target: torch.Tensor,
+                                    focal_pred: torch.Tensor, focal_target: torch.Tensor,
+                                    dx_focal: float) -> torch.Tensor:
+    """PIB + TP penalty (weight=0.5)."""
+    pib_l = focal_pib_loss(focal_pred, focal_target, dx_focal)
+    tp = (d2nn_pred.abs().square().sum(dim=(-2, -1))
+          / d2nn_target.abs().square().sum(dim=(-2, -1)).clamp(min=1e-12))
+    tp_l = (1.0 - tp).clamp(min=0).mean()
+    return pib_l + 0.5 * tp_l
+
+
+def focal_tp_penalized_pib_w2_loss(d2nn_pred: torch.Tensor, d2nn_target: torch.Tensor,
+                                   focal_pred: torch.Tensor, focal_target: torch.Tensor,
+                                   dx_focal: float) -> torch.Tensor:
+    """PIB + TP penalty (weight=2.0)."""
+    pib_l = focal_pib_loss(focal_pred, focal_target, dx_focal)
+    tp = (d2nn_pred.abs().square().sum(dim=(-2, -1))
+          / d2nn_target.abs().square().sum(dim=(-2, -1)).clamp(min=1e-12))
+    tp_l = (1.0 - tp).clamp(min=0).mean()
+    return pib_l + 2.0 * tp_l
+
+
+def focal_tp_penalized_pib_w5_loss(d2nn_pred: torch.Tensor, d2nn_target: torch.Tensor,
+                                   focal_pred: torch.Tensor, focal_target: torch.Tensor,
+                                   dx_focal: float) -> torch.Tensor:
+    """PIB + TP penalty (weight=5.0)."""
+    pib_l = focal_pib_loss(focal_pred, focal_target, dx_focal)
+    tp = (d2nn_pred.abs().square().sum(dim=(-2, -1))
+          / d2nn_target.abs().square().sum(dim=(-2, -1)).clamp(min=1e-12))
+    tp_l = (1.0 - tp).clamp(min=0).mean()
+    return pib_l + 5.0 * tp_l
+
+
 # Loss config registry — each fn receives (d2nn_pred, d2nn_target, focal_pred, focal_target, dx_focal)
 LOSS_CONFIGS = OrderedDict({
     "focal_pib_only": {
@@ -277,6 +434,46 @@ LOSS_CONFIGS = OrderedDict({
     "focal_co_pib_hybrid": {
         "fn": lambda dp, dt, fp, ft, dx: focal_co_pib_hybrid_loss(dp, dt, fp, dx),
         "desc": "D2NN-output CO + focal PIB@10μm hybrid",
+    },
+    "focal_absolute_bucket": {
+        "fn": focal_absolute_bucket_loss,
+        "desc": "Absolute bucket power ratio (pred/vacuum) at focal plane",
+    },
+    "focal_tp_penalized_pib": {
+        "fn": focal_tp_penalized_pib_loss,
+        "desc": "Focal PIB + throughput preservation penalty",
+    },
+    "focal_multiplane_co_pib_amp": {
+        "fn": focal_multiplane_co_pib_amp_loss,
+        "desc": "Output CO + focal PIB + amplitude MSE (multi-plane)",
+    },
+    "co_hard_tp": {
+        "fn": lambda dp, dt, fp, ft, dx: co_hard_tp_loss(dp, dt),
+        "desc": "Output CO + quadratic TP penalty (λ=10)",
+    },
+    "abs_bucket_plus_co": {
+        "fn": abs_bucket_plus_co_loss,
+        "desc": "Focal abs bucket + output CO (0.5/0.5)",
+    },
+    "pib_hard_tp": {
+        "fn": lambda dp, dt, fp, ft, dx: pib_hard_tp_loss(dp, dt, fp, ft, dx),
+        "desc": "Focal PIB + quadratic TP penalty (λ=10)",
+    },
+    "focal_raw_received_power": {
+        "fn": focal_raw_received_power_loss,
+        "desc": "Maximize absolute focal bucket power (no vacuum ref)",
+    },
+    "focal_tp_pib_w05": {
+        "fn": focal_tp_penalized_pib_w05_loss,
+        "desc": "Focal PIB + TP penalty (weight=0.5)",
+    },
+    "focal_tp_pib_w2": {
+        "fn": focal_tp_penalized_pib_w2_loss,
+        "desc": "Focal PIB + TP penalty (weight=2.0)",
+    },
+    "focal_tp_pib_w5": {
+        "fn": focal_tp_penalized_pib_w5_loss,
+        "desc": "Focal PIB + TP penalty (weight=5.0)",
     },
 })
 
@@ -590,10 +787,20 @@ def main():
         print(f"GPU: {torch.cuda.get_device_name(0)}")
 
     print_resolved_parameters(args.config)
+    enforce_reducer_validation_gate(
+        {
+            "cache_dir": str(DATA_DIR),
+            "plane_selector": DATA_PLANE_SELECTOR,
+            "reducer_validation": {
+                "required": DATA_PLANE_SELECTOR == "reduced_ideal",
+                "summary_path": str(REDUCER_VALIDATION_SUMMARY_PATH),
+            },
+        }
+    )
 
-    train_ds = CachedFieldDataset(cache_dir=str(DATA_DIR), manifest_path=str(MANIFEST), split="train")
-    val_ds = CachedFieldDataset(cache_dir=str(DATA_DIR), manifest_path=str(MANIFEST), split="val")
-    test_ds = CachedFieldDataset(cache_dir=str(DATA_DIR), manifest_path=str(MANIFEST), split="test")
+    train_ds = CachedFieldDataset(cache_dir=str(DATA_DIR), manifest_path=str(MANIFEST), split="train", plane_selector=DATA_PLANE_SELECTOR)
+    val_ds = CachedFieldDataset(cache_dir=str(DATA_DIR), manifest_path=str(MANIFEST), split="val", plane_selector=DATA_PLANE_SELECTOR)
+    test_ds = CachedFieldDataset(cache_dir=str(DATA_DIR), manifest_path=str(MANIFEST), split="test", plane_selector=DATA_PLANE_SELECTOR)
     print(f"  Data: train={len(train_ds)}, val={len(val_ds)}, test={len(test_ds)}")
 
     train_loader = DataLoader(train_ds, batch_size=TRAIN["batch_size"], shuffle=True, num_workers=0)
@@ -611,8 +818,17 @@ def main():
         except ImportError:
             print("  (sanity_check module not available, skipping pre-checks)")
 
+    # Filter strategies if config specifies a subset
+    strategy_filter = cfg.get("strategies") if cfg else None
+    active_configs = OrderedDict(
+        (k, v) for k, v in LOSS_CONFIGS.items()
+        if strategy_filter is None or k in strategy_filter
+    )
+    if strategy_filter:
+        print(f"  Strategies (filtered): {list(active_configs.keys())}")
+
     all_results = []
-    for name, config in LOSS_CONFIGS.items():
+    for name, config in active_configs.items():
         result = train_one(
             name,
             config,

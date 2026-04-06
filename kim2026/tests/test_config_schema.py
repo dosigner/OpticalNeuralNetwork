@@ -73,6 +73,30 @@ def test_validate_config_fills_reproducible_defaults() -> None:
     assert result["training"]["pair_generation_batch_size"] == 64
     assert result["training"]["eval_batch_size"] == 32
     assert result["runtime"]["device"] == "cuda"
+    assert result["data"]["plane_selector"] == "stored"
+
+
+def test_validate_config_accepts_plane_selector_and_reducer_validation() -> None:
+    cfg = _base_config()
+    cfg["data"]["plane_selector"] = "reduced_ideal"
+    cfg["data"]["reducer_validation"] = {
+        "required": True,
+        "summary_path": "data/cache/reducer_summary.json",
+    }
+
+    result = validate_config(cfg)
+
+    assert result["data"]["plane_selector"] == "reduced_ideal"
+    assert result["data"]["reducer_validation"]["required"] is True
+    assert result["data"]["reducer_validation"]["summary_path"].endswith("reducer_summary.json")
+
+
+def test_validate_config_rejects_unknown_plane_selector() -> None:
+    cfg = _base_config()
+    cfg["data"]["plane_selector"] = "invalid"
+
+    with pytest.raises(ValueError, match="plane_selector"):
+        validate_config(cfg)
 
 
 def test_validate_config_rejects_missing_required_sections() -> None:

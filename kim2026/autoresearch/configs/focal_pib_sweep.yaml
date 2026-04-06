@@ -34,7 +34,9 @@ training:
   scheduler_eta_min: 1.0e-5
 
 data:
-  path: data/kim2026/1km_cn2_5e-14_tel15cm_n1024_br75
+  path: data/kim2026/1km_cn2_5e-14_tel15cm_pupil1024_v1
+  plane_selector: reduced_ideal
+  reducer_validation_summary_path: data/kim2026/1km_cn2_5e-14_tel15cm_pupil1024_v1/reducer_val_cache/summary.json
   # Alternative datasets:
   # path: data/kim2026/1km_cn2e-14_w2m_n1024_dx2mm  # weak turbulence
 

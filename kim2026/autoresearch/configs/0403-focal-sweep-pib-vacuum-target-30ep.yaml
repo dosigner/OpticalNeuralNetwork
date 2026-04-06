@@ -1,0 +1,36 @@
+# 0403 Focal Sweep — PIB@10μm → Vacuum target, TP-constrained
+# Goal: maximize PIB while maintaining throughput via quadratic TP penalty
+# Key insight: CO wavefront correction + hard TP enforcement
+
+training:
+  seed: 20260403
+  lr: 8.0e-3
+  epochs: 30
+  batch_size: 32
+  tv_weight: 0.05
+  warmup_epochs: 5
+
+architecture:
+  num_layers: 5
+  layer_spacing_m: 0.01
+  detector_distance_m: 0.01
+  propagation_pad_factor: 2
+
+physics:
+  wavelength_m: 1.55e-6
+  receiver_window_m: 0.002048
+  aperture_diameter_m: 0.002
+  focus_f_m: 4.5e-3
+  pib_bucket_radius_um: 10.0
+
+data:
+  path: data/kim2026/1km_cn2_5e-14_tel15cm_pitch_rescale
+  plane_selector: stored
+
+output:
+  dir: autoresearch/runs/0403-focal-pib-vacuum-target-pitchrescale-3strat-cn2-5e14
+
+strategies:
+  - co_hard_tp
+  - abs_bucket_plus_co
+  - pib_hard_tp

@@ -8,6 +8,8 @@ from typing import Any
 
 import yaml
 
+from kim2026.data.canonical_pupil import SUPPORTED_PLANE_SELECTORS, default_reducer_summary_path
+
 _REQ_TOP = (
     "experiment",
     "optics",
@@ -217,6 +219,14 @@ def validate_config(cfg: dict[str, Any]) -> dict[str, Any]:
     _require(data, "split_manifest_path", "data")
     data.setdefault("episode_manifest_path", str(Path(data["cache_dir"]) / "episodes.json"))
     data.setdefault("split_episode_counts", {"train": 100, "val": 20, "test": 20})
+    plane_selector = str(data.get("plane_selector", "stored"))
+    if plane_selector not in SUPPORTED_PLANE_SELECTORS:
+        raise ValueError(f"data.plane_selector must be one of {sorted(SUPPORTED_PLANE_SELECTORS)}, got '{plane_selector}'")
+    data["plane_selector"] = plane_selector
+    reducer_validation = dict(data.get("reducer_validation", {}))
+    reducer_validation["required"] = bool(reducer_validation.get("required", False))
+    reducer_validation.setdefault("summary_path", str(default_reducer_summary_path(data["cache_dir"])))
+    data["reducer_validation"] = reducer_validation
 
     evaluation = out["evaluation"]
     evaluation.setdefault("metrics", ["overlap", "strehl", "beam_radius", "encircled_energy"])

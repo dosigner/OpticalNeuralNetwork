@@ -1,0 +1,36 @@
+# 0403 Focal Sweep — Original 4 loss functions with pitch_rescale data
+# Goal: compare 0401 losses on same data as 0402 (pitch_rescale)
+
+training:
+  seed: 20260403
+  lr: 8.0e-3
+  epochs: 30
+  batch_size: 32
+  tv_weight: 0.05
+  warmup_epochs: 5
+
+architecture:
+  num_layers: 5
+  layer_spacing_m: 0.01
+  detector_distance_m: 0.01
+  propagation_pad_factor: 2
+
+physics:
+  wavelength_m: 1.55e-6
+  receiver_window_m: 0.002048
+  aperture_diameter_m: 0.002
+  focus_f_m: 4.5e-3
+  pib_bucket_radius_um: 10.0
+
+data:
+  path: data/kim2026/1km_cn2_5e-14_tel15cm_pitch_rescale
+  plane_selector: stored
+
+output:
+  dir: autoresearch/runs/0403-focal-pib-sweep-pitchrescale-4loss-cn2-5e14
+
+strategies:
+  - focal_pib_only
+  - focal_strehl_only
+  - focal_intensity_overlap
+  - focal_co_pib_hybrid

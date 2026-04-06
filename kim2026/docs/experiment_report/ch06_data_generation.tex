@@ -1,0 +1,69 @@
+\chapter{Production Data Generation}
+
+\section{Why the Dataset Had to Be Rebuilt}
+
+After the metric bug was diagnosed, it became clear that the campaign also
+needed a cleaner focal-plane forward model and a production-quality dataset.
+The \texttt{0401-datagen-dn100um-lanczos50} run established the geometry, sampling,
+and runtime regime used by the later focal-plane sweeps.
+
+\section{Focal-Lens and Sampling Design}
+
+The focal-lens analysis selected $f=4.5$\,mm as the detector lens:
+\begin{itemize}
+  \item Airy radius $\approx 4.26\,\mu$m,
+  \item focal pitch $\Delta x_{\mathrm{focal}} \approx 3.4\,\mu$m,
+  \item 10\,$\mu$m bucket $\approx 2.35\times$ the Airy radius.
+\end{itemize}
+This choice yields a detector objective that is achievable but still
+discriminative. Very short focal lengths make the bucket trivial, while very
+long focal lengths make it excessively strict.
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{lccccc}
+    \toprule
+    \smalltablehead{$\Delta n$} & \smalltablehead{$N$} & \smalltablehead{Screens} & \smalltablehead{Time / real.} & \smalltablehead{Total 5000} & \smalltablehead{Nyquist} \\
+    \midrule
+    50\,$\mu$m & 8192 & 77 & 71\,s & 98\,h & 3.0$\times$ \\
+    100\,$\mu$m & 4096 & 39 & 3.2\,s & 4.4\,h & 1.5$\times$ \\
+    150\,$\mu$m & 2048 & 18 & 1.5\,s & 2.1\,h & 0.98$\times$ \\
+    \bottomrule
+  \end{tabular}
+  \caption{Production data-generation trade-off. The 100\,$\mu$m + Lanczos 50:1
+  setting was selected as the practical sweet spot.}
+\end{table}
+
+\runfigure{0401-datagen-dn100um-lanczos50/dataset_visualization_5samples.png}
+  {Dataset visualization}
+  {Five representative generated samples from the production dataset.}
+
+\runfigure{0401-datagen-dn100um-lanczos50/dataset_1d_crosssection_5samples.png}
+  {Dataset cross-sections}
+  {One-dimensional cross-sections used to inspect beam shape and sampling
+  quality.}
+
+\runfigure{0401-datagen-dn100um-lanczos50/phase1_architecture.png}
+  {Data-generation architecture}
+  {Pipeline structure used to produce the training, validation, and test sets
+  for the corrected focal-plane sweeps.}
+
+\section{Committed Dataset Quality}
+
+The generated dataset contains 5000 realizations split into 4000/500/500 for
+train/validation/test. The focal-lens analysis reports:
+\begin{itemize}
+  \item vacuum higher-order WFE: 26.0\,nm,
+  \item vacuum $\PIB@10\,\mu$m: 95.5\%,
+  \item time per realization: 3.2\,s,
+  \item peak VRAM: 6.8\,GB.
+\end{itemize}
+
+\begin{keyinsight}
+This chapter is not just data housekeeping. It locks the focal-plane physics,
+sampling, and detector lens needed to interpret every clean sweep that follows.
+\end{keyinsight}
+
+With the detector geometry and dataset stabilized, the campaign returned to the
+four canonical focal-plane losses. The corrected rerun appears in the next
+chapter.

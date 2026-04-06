@@ -165,6 +165,16 @@ def analyze_sampling(config: SimulationConfig) -> SamplingResult:
 
     n_scr = max(n_min, n_scr_rytov)
 
+    # Strong-turbulence guard: the constrained r0 optimiser needs enough
+    # screens so that per-screen upper bounds don't prevent matching the
+    # aggregate r0_sw and sigma2_chi targets.  Empirically, sigma2_chi > 5
+    # (deep saturation regime) requires ~60+ screens.
+    sigma2_chi_sw = atm.get("sigma2_chi_sw", 0.0) if isinstance(atm, dict) else 0.0
+    if sigma2_chi_sw > 5.0:
+        n_scr = max(n_scr, 60)
+    elif sigma2_chi_sw > 2.0:
+        n_scr = max(n_scr, 40)
+
     # ------------------------------------------------------------------
     # 5. Plane positions and per-plane grid spacings
     # ------------------------------------------------------------------

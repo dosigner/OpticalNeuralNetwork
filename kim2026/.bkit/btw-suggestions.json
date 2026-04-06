@@ -1,0 +1,39 @@
+{
+  "version": "1.0",
+  "suggestions": [
+    {
+      "id": "btw-001",
+      "timestamp": "2026-03-24T16:00:00Z",
+      "suggestion": "irradiance loss가 io=0.933으로 가장 잘 나온 이유를 물리적으로 자세히 분석해볼 것. phase-only mask가 intensity 보존에는 유리한 구조적 이유, Parseval 관계, diffraction에 의한 energy redistribution 메커니즘 등.",
+      "context": {
+        "file": "docs/04-report/features/fd2nn-loss-sweep-comprehensive.report.md",
+        "pdcaPhase": "do",
+        "feature": "fso"
+      },
+      "category": "improvement",
+      "status": "completed",
+      "promotedTo": null,
+      "priority": "high"
+    }
+    ,{
+      "id": "btw-002",
+      "timestamp": "2026-03-24T17:00:00Z",
+      "suggestion": "sweep 06/07에서 tanh_2pi, spacing=1mm을 고정한 이유: 이전 sweep 01(spacing), 02(phase range)에서 이미 최적화된 hyperparameter. controlled experiment를 위해 loss function 구성만 변수로 두고 나머지 고정.",
+      "context": {
+        "file": "scripts/sweep_loss_ablation_curriculum.py",
+        "pdcaPhase": "do",
+        "feature": "fso"
+      },
+      "category": "documentation",
+      "status": "completed",
+      "promotedTo": null,
+      "priority": "low"
+    }
+  ],
+  "stats": {
+    "total": 2,
+    "promoted": 0,
+    "dismissed": 0,
+    "lastAnalyzed": "2026-03-24T16:30:00Z"
+  }
+}

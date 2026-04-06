@@ -1,0 +1,94 @@
+\chapter{PIB Metric Bug and Plane Confusion}
+
+\section{Why the Legacy Result Looked Exciting}
+
+The \texttt{0330-focal-pib-sweep-4loss-cn2-5e14} run was the first attempt to optimize
+focal-plane concentration explicitly. The figures looked impressive: the
+\texttt{focal\_pib\_only} strategy produced a sharp focal peak and high PIB values across
+multiple bucket radii. If interpreted naively, the run appeared to show that a
+static D2NN had become an excellent detector preconditioner.
+
+\section{Bug 1: PIB Is a Ratio}
+
+The first problem is definitional. Power-in-bucket is a normalized fraction,
+\begin{equation}
+\PIB(r_b)=
+\frac{\int_{|\rho|<r_b} I_f(\rho)\, d\rho}{\int I_f(\rho)\, d\rho}.
+\end{equation}
+By itself, a larger ratio does not guarantee a larger absolute detector signal.
+The physically relevant quantity is the bucket power
+\begin{equation}
+P_{\mathrm{bucket}}(r_b)=\int_{|\rho|<r_b} I_f(\rho)\, d\rho
+= \PIB(r_b)\,\TP\,E_{\mathrm{in}}.
+\end{equation}
+Here $E_{\mathrm{in}}$ is the energy incident on the diffractive block before
+the detector lens, and $\TP$ is the output-plane throughput ratio
+$\int |U_{\mathrm{out}}|^2 dA / \int |U_{\mathrm{in}}|^2 dA$. Later chapters use
+both normalized received power and raw bucket energy, so this identity is the
+bridge between those two tabulations.
+If throughput collapses faster than the ratio improves, the detector receives
+less power even though the normalized PIB appears better.
+
+\section{Bug 2: Output Plane versus Focal Plane}
+
+The second bug is geometric. Let
+\begin{equation}
+U_{\mathrm{out}} = H(U_{\mathrm{turb}}),
+\end{equation}
+and let the detector observe the focal-plane irradiance
+\begin{equation}
+I_f(\rho)=\left| \mathcal{L}\{U_{\mathrm{out}}\}(\rho)\right|^2.
+\end{equation}
+Then output-plane metrics such as $\CO$ and wavefront RMS live on
+$U_{\mathrm{out}}$, while detector metrics such as $\PIB$ and Strehl live on
+$I_f$. The legacy interpretation mixed these two planes, which made a detector
+observable look like a field-recovery claim.
+
+\runfigure{0330-focal-pib-sweep-4loss-cn2-5e14/focal_pib_only/06_fig1_focal_plane_vacuum_vs_turbulent_vs_d2nn.png}
+  {Legacy focal-plane comparison}
+  {The \texttt{0330} focal-plane result that initially suggested strong detector-side
+  concentration.}
+
+\runfigure{0330-focal-pib-sweep-4loss-cn2-5e14/focal_pib_only/07_fig2_pib_bar_chart_5um_10um_25um_50um.png}
+  {Legacy PIB bars}
+  {PIB increases across multiple bucket radii in the legacy interpretation.}
+
+\runfigure{0330-focal-pib-sweep-4loss-cn2-5e14/focal_pib_only/08_fig3_d2nn_output_plane_irradiance_phase_residual.png}
+  {Legacy output-plane field}
+  {The output-plane field can look highly distorted even when the focal-plane
+  bucket ratio appears favorable.}
+
+\runfigure{0330-focal-pib-sweep-4loss-cn2-5e14/focal_pib_only/09_fig4_wavefront_rms_distribution_50samples.png}
+  {Legacy wavefront distribution}
+  {Wavefront diagnostics from the legacy run. These do not live on the same
+  plane as the focal detector metric.}
+
+\runfigure{0330-focal-pib-sweep-4loss-cn2-5e14/focal_pib_only/11_cheatsheet_d2nn_mode_conversion.png}
+  {Legacy mechanism sketch}
+  {Mechanism sketch retained as a qualitative reminder that static optics can
+  redistribute energy without restoring the target field.}
+
+\runfigure{0330-focal-pib-sweep-4loss-cn2-5e14/focal_pib_only/13_fig5_metrics_comparison_0330_vs_0401.png}
+  {Legacy versus corrected metrics}
+  {Comparison between the legacy interpretation and the corrected 0401
+  re-evaluation.}
+
+\section{How to Reclassify the 0330 Run}
+
+The safe interpretation is therefore narrow:
+\begin{itemize}
+  \item the run is useful as a \emph{bug-discovery artifact};
+  \item it is not a reliable benchmark for final detector performance;
+  \item it motivated a corrected clean sweep with hardened data and explicit
+  detector-side received-power accounting.
+\end{itemize}
+
+\begin{breakthrough}
+The legacy PIB bug did not invalidate detector-plane optimization. It clarified
+what the detector objective had to be: absolute received power on the focal
+plane, not a normalized sharpness ratio interpreted in isolation.
+\end{breakthrough}
+
+That clarification forced a second cleanup step before retraining: the data and
+physics pipeline also had to be rebuilt on a cleaner footing. That is the role
+of the next chapter.

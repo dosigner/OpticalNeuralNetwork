@@ -1,0 +1,34 @@
+# 0406 D2NN 10km turbulence test — raw received power loss
+# Extends distance sweep (0405) to 10km
+# D/r0=19.98, Rytov=67.82 (saturated scintillation)
+
+training:
+  seed: 20260406
+  lr: 8.0e-3
+  epochs: 30
+  batch_size: 32
+  tv_weight: 0.05
+  warmup_epochs: 5
+
+architecture:
+  num_layers: 5
+  layer_spacing_m: 0.01
+  detector_distance_m: 0.01
+  propagation_pad_factor: 2
+
+physics:
+  wavelength_m: 1.55e-6
+  receiver_window_m: 0.002048
+  aperture_diameter_m: 0.002
+  focus_f_m: 6.5e-3
+  pib_bucket_radius_um: 10.0
+
+data:
+  path: data/kim2026/distance_sweep_cn2_5e-14/L10000m
+  plane_selector: stored
+
+output:
+  dir: autoresearch/runs/0406-d2nn-10km-rawrp-f6p5mm
+
+strategies:
+  - focal_raw_received_power

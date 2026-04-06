@@ -1,0 +1,83 @@
+\chapter{Clean Four-Loss Focal Sweep}
+
+\section{Purpose of the Clean Rerun}
+
+The \texttt{0401-focal-pib-sweep-clean-4loss-cn2-5e14} campaign reran the focal-plane
+loss family after the PIB bug and the data-generation cleanup. The central
+question was no longer ``can PIB be made large?'' It was ``does a large
+focal-plane bucket ratio actually increase detector utility?''
+
+\section{The First-Look Result}
+
+At first glance, the answer looked positive. Several strategies pushed
+$\PIB@10\,\mu$m upward:
+\runfigure{0401-focal-pib-sweep-clean-4loss-cn2-5e14/10_figA_all_strategies_pib_comparison.png}
+  {0401 PIB comparison}
+  {All four corrected focal-plane losses compared in terms of
+  $\PIB@10\,\mu$m.}
+
+\runfigure{0401-focal-pib-sweep-clean-4loss-cn2-5e14/12_figC_focal_all_strategies.png}
+  {0401 focal-plane montage}
+  {Focal-plane visual comparison across the four corrected strategies.}
+
+\runfigure{0401-focal-pib-sweep-clean-4loss-cn2-5e14/13_figD_wfrms_all_strategies.png}
+  {0401 wavefront summary}
+  {Wavefront summary shown only as supporting diagnostics; it is not the
+  detector-side objective.}
+
+\section{Detector Utility Collapse}
+
+The decisive comparison is the absolute received power, not the normalized PIB.
+\runfigure{0401-focal-pib-sweep-clean-4loss-cn2-5e14/16_throughput_analysis.png}
+  {0401 throughput analysis}
+  {Throughput collapse across the conventional focal-plane losses.}
+
+\runfigure{0401-focal-pib-sweep-clean-4loss-cn2-5e14/17_received_power_analysis.png}
+  {0401 received-power analysis}
+  {Detector-side received power reveals that all four conventional strategies
+  underperform the turbulent baseline at 10\,$\mu$m.}
+
+\runfigure{0401-focal-pib-sweep-clean-4loss-cn2-5e14/16_absolute_bucket_power_histogram.png}
+  {0401 absolute bucket histogram}
+  {Absolute bucket power rather than normalized bucket fraction is the key
+  detector-side quantity.}
+
+\runfigure{0401-focal-pib-sweep-clean-4loss-cn2-5e14/20_encircled_energy_per_strategy.png}
+  {0401 encircled energy}
+  {Encircled-energy comparison across the clean four-loss sweep.}
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{lccccc}
+    \toprule
+    \smalltablehead{Strategy} & \smalltablehead{$\CO_{\mathrm{out}}$} & \smalltablehead{$\PIB@10\,\mu$m} & \smalltablehead{$\TP$} & \smalltablehead{$\RP@10\,\mu$m} & \smalltablehead{vs.\ turb.} \\
+    \midrule
+    Turbulent baseline & -- & 0.8084 & 0.9199 & 0.7443 & -- \\
+    PIB only & -- & 0.9116 & 0.5016 & 0.4355 & $-41.5\%$ \\
+    Strehl only & -- & 0.8185 & 0.5710 & 0.4449 & $-40.2\%$ \\
+    Intensity overlap & -- & 0.2563 & 0.0803 & 0.0199 & $-97.3\%$ \\
+    CO+PIB hybrid & 0.9726 & 0.9582 & 0.0165 & 0.0153 & $-97.9\%$ \\
+    \bottomrule
+  \end{tabular}
+  \caption{The clean rerun reverses the naive PIB story. Every conventional
+  focal-plane loss underperforms the turbulent baseline in received power at
+  10\,$\mu$m.}
+\end{table}
+
+\section{Failure Modes}
+
+The strategies fail in different ways. \texttt{PIB only} and \texttt{Strehl only} improve the
+bucket ratio but throw away too much energy. \texttt{Intensity overlap} collapses both
+throughput and detector utility. \texttt{CO+PIB hybrid} is the most deceptive: it
+produces excellent-looking $\CO$ and PIB numbers while almost eliminating the
+useful detector signal.
+
+\begin{discovery}
+The clean rerun established the main detector-side lesson of the entire report:
+normalized sharpness objectives are not detector objectives. A static D2NN can
+make the surviving energy look sharp while simultaneously destroying the amount
+of energy that reaches the detector.
+\end{discovery}
+
+The next step was therefore not to abandon focal-plane optimization, but to
+design losses in which throughput is structurally inside the objective.

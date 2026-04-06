@@ -1,0 +1,167 @@
+Device: cuda
+GPU: NVIDIA A100-SXM4-40GB
+
+D2NN Focal-Plane PIB Sweep
+  Config: autoresearch/configs/0403-combined-6strat-30ep.yaml
+  Resolved parameters:
+    wavelength_m=1.550000e-06
+    receiver_window_m=2.048000e-03
+    aperture_diameter_m=2.000000e-03
+    focus_f_m=4.500000e-03
+    pib_bucket_radius_um=10.000
+    arch={'num_layers': 5, 'layer_spacing_m': 0.01, 'detector_distance_m': 0.01, 'propagation_pad_factor': 2}
+    train={'lr': 0.008, 'epochs': 30, 'batch_size': 32, 'tv_weight': 0.05, 'warmup_epochs': 5}
+    strehl_pad_factor=4
+    alias_safe_distance_guard_m=0.050
+    data_dir=/root/dj/D2NN/kim2026/data/kim2026/1km_cn2_5e-14_tel15cm_pitch_rescale/cache
+    manifest=/root/dj/D2NN/kim2026/data/kim2026/1km_cn2_5e-14_tel15cm_pitch_rescale/split_manifest.json
+    plane_selector=stored
+    reducer_validation_summary=/root/dj/D2NN/kim2026/data/kim2026/1km_cn2_5e-14_tel15cm_pupil1024_v1/reducer_val_cache/summary.json
+    out_root=/root/dj/D2NN/kim2026/autoresearch/runs/0403-combined-6strat-pitchrescale-cn2-5e14
+  dx_in=2.0μm → dx_focal=3.406μm
+  Focal window: 3488μm
+  PIB bucket: 10μm = 2.9 pixels
+  4 loss strategies × TV reg + cosine LR
+  Data: train=4000, val=500, test=500
+
+============================================================
+  PHYSICS SANITY CHECKS
+============================================================
+  [PASS] Vacuum Strehl: 0.903237 ([0.0, 1.05])
+
+  Result: ALL PASSED
+============================================================
+
+  Strategies (filtered): ['abs_bucket_plus_co', 'pib_hard_tp', 'focal_raw_received_power', 'focal_tp_pib_w05', 'focal_tp_pib_w2', 'focal_tp_pib_w5']
+
+======================================================================
+  [abs_bucket_plus_co] Focal abs bucket + output CO (0.5/0.5)
+  TV=0.05, LR=0.008→cosine, epochs=30
+  Focus lens f=4.5mm, PIB bucket=10μm
+======================================================================
+  Epoch   0/29 | loss=0.47057 | co=0.2702 | fpib10=0.7828 | fpib50=0.9930 | fstrehl=0.4927 | lr=1.60e-03 | 419.7s
+  Epoch  29/29 | loss=0.45512 | co=0.2706 | fpib10=0.8045 | fpib50=0.9920 | fstrehl=0.5099 | lr=1.00e-05 | 364.1s
+
+============================================================
+  PHYSICS SANITY CHECKS
+============================================================
+  [PASS] Energy Throughput: 0.983636 ([0.9, 1.1])
+  [PASS] Unitary CO Preservation: 0.003172 (|delta| < 0.01)
+  [PASS] Strehl Upper Bound: 0.614664 (<= 1.05)
+
+  Result: ALL PASSED
+============================================================
+
+
+  TEST RESULTS (metric plane separation):
+    === D2NN Output Plane ===
+    CO:     0.2683 → 0.2697 (+0.0013)
+    IO:     0.7921
+    WF RMS: 442.9 → 442.0 nm (+0.2%)
+    === Focal Plane (f=4.5mm) ===
+    PIB@10μm: 0.7607 → 0.8127 (Δ=+0.0520, 86.3% of vacuum=0.9421)
+    PIB@50μm: 0.9846 → 0.9920 (vacuum=0.9886)
+    Strehl:   0.5152
+    dx_focal: 3.406 μm
+    TP:       0.9831
+
+======================================================================
+  [pib_hard_tp] Focal PIB + quadratic TP penalty (λ=10)
+  TV=0.05, LR=0.008→cosine, epochs=30
+  Focus lens f=4.5mm, PIB bucket=10μm
+======================================================================
+  Epoch   0/29 | loss=0.33262 | co=0.2690 | fpib10=0.7832 | fpib50=0.9927 | fstrehl=0.4961 | lr=1.60e-03 | 366.2s
+  Epoch  29/29 | loss=0.29045 | co=0.2676 | fpib10=0.8038 | fpib50=0.9901 | fstrehl=0.5050 | lr=1.00e-05 | 360.0s
+
+============================================================
+  PHYSICS SANITY CHECKS
+============================================================
+  [PASS] Energy Throughput: 0.989529 ([0.9, 1.1])
+  [PASS] Unitary CO Preservation: 0.001984 (|delta| < 0.01)
+  [PASS] Strehl Upper Bound: 0.600745 (<= 1.05)
+
+  Result: ALL PASSED
+============================================================
+
+
+  TEST RESULTS (metric plane separation):
+    === D2NN Output Plane ===
+    CO:     0.2683 → 0.2661 (-0.0023)
+    IO:     0.7880
+    WF RMS: 442.9 → 441.5 nm (+0.3%)
+    === Focal Plane (f=4.5mm) ===
+    PIB@10μm: 0.7607 → 0.8113 (Δ=+0.0506, 86.1% of vacuum=0.9421)
+    PIB@50μm: 0.9846 → 0.9900 (vacuum=0.9886)
+    Strehl:   0.5061
+    dx_focal: 3.406 μm
+    TP:       0.9893
+
+======================================================================
+  [focal_raw_received_power] Maximize absolute focal bucket power (no vacuum ref)
+  TV=0.05, LR=0.008→cosine, epochs=30
+  Focus lens f=4.5mm, PIB bucket=10μm
+======================================================================
+  Epoch   0/29 | loss=0.32826 | co=0.2690 | fpib10=0.7867 | fpib50=0.9929 | fstrehl=0.4993 | lr=1.60e-03 | 364.1s
+  Epoch  29/29 | loss=0.28018 | co=0.2685 | fpib10=0.8078 | fpib50=0.9908 | fstrehl=0.5067 | lr=1.00e-05 | 359.6s
+
+============================================================
+  PHYSICS SANITY CHECKS
+============================================================
+  [PASS] Energy Throughput: 0.986445 ([0.9, 1.1])
+  [PASS] Unitary CO Preservation: 0.002558 (|delta| < 0.01)
+  [PASS] Strehl Upper Bound: 0.600125 (<= 1.05)
+
+  Result: ALL PASSED
+============================================================
+
+
+  TEST RESULTS (metric plane separation):
+    === D2NN Output Plane ===
+    CO:     0.2683 → 0.2670 (-0.0014)
+    IO:     0.7880
+    WF RMS: 442.9 → 441.9 nm (+0.2%)
+    === Focal Plane (f=4.5mm) ===
+    PIB@10μm: 0.7607 → 0.8149 (Δ=+0.0542, 86.5% of vacuum=0.9421)
+    PIB@50μm: 0.9846 → 0.9907 (vacuum=0.9886)
+    Strehl:   0.5071
+    dx_focal: 3.406 μm
+    TP:       0.9860
+
+======================================================================
+  [focal_tp_pib_w05] Focal PIB + TP penalty (weight=0.5)
+  TV=0.05, LR=0.008→cosine, epochs=30
+  Focus lens f=4.5mm, PIB bucket=10μm
+======================================================================
+  Epoch   0/29 | loss=0.25592 | co=0.2696 | fpib10=0.7896 | fpib50=0.9936 | fstrehl=0.4993 | lr=1.60e-03 | 364.0s
+  Epoch  29/29 | loss=0.22689 | co=0.2699 | fpib10=0.8149 | fpib50=0.9935 | fstrehl=0.5112 | lr=1.00e-05 | 361.7s
+
+============================================================
+  PHYSICS SANITY CHECKS
+============================================================
+  [PASS] Energy Throughput: 0.970779 ([0.9, 1.1])
+  [PASS] Unitary CO Preservation: 0.006025 (|delta| < 0.01)
+  [PASS] Strehl Upper Bound: 0.608431 (<= 1.05)
+
+  Result: ALL PASSED
+============================================================
+
+
+  TEST RESULTS (metric plane separation):
+    === D2NN Output Plane ===
+    CO:     0.2683 → 0.2687 (+0.0004)
+    IO:     0.7908
+    WF RMS: 442.9 → 442.1 nm (+0.2%)
+    === Focal Plane (f=4.5mm) ===
+    PIB@10μm: 0.7607 → 0.8223 (Δ=+0.0616, 87.3% of vacuum=0.9421)
+    PIB@50μm: 0.9846 → 0.9935 (vacuum=0.9886)
+    Strehl:   0.5126
+    dx_focal: 3.406 μm
+    TP:       0.9696
+
+======================================================================
+  [focal_tp_pib_w2] Focal PIB + TP penalty (weight=2.0)
+  TV=0.05, LR=0.008→cosine, epochs=30
+  Focus lens f=4.5mm, PIB bucket=10μm
+======================================================================
+  Epoch   0/29 | loss=0.36842 | co=0.2690 | fpib10=0.7835 | fpib50=0.9926 | fstrehl=0.4964 | lr=1.60e-03 | 362.6s
+  Epoch  29/29 | loss=0.32721 | co=0.2676 | fpib10=0.8036 | fpib50=0.9900 | fstrehl=0.5050 | lr=1.00e-05 | 448.1s

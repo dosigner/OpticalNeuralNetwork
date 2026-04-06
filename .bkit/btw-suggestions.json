@@ -1,0 +1,67 @@
+{
+  "version": "1.0",
+  "suggestions": [
+    {
+      "id": "btw-001",
+      "timestamp": "2026-03-26T06:30:00Z",
+      "suggestion": "레이저(1550nm) → 대기 1km(Cn²=10⁻¹⁴) → 망원경 → Beam Reducer 경로에서 물리적으로 어떻게 가능한지 궁금. FSO 수신단 물리 교육 콘텐츠/스킬이 있으면 좋겠다.",
+      "context": {
+        "file": "kim2026/autoresearch/visualize_optical_path.py",
+        "pdcaPhase": "do",
+        "feature": "fso"
+      },
+      "category": "documentation",
+      "status": "pending",
+      "promotedTo": null,
+      "priority": null
+    }
+    ,{
+      "id": "btw-002",
+      "timestamp": "2026-03-26T08:15:00Z",
+      "suggestion": "처음부터 난류 생성 → 전파(grid 크기) → beam reducer → D2NN → APD 맺힘까지 물리적/수학적/정확한 위치로 end-to-end 시각화. 22 loss configs 전체 목록도 한눈에 보이게.",
+      "context": {
+        "file": "kim2026/autoresearch/loss_sweep.py",
+        "pdcaPhase": "do",
+        "feature": "fso"
+      },
+      "category": "documentation",
+      "status": "pending",
+      "promotedTo": null,
+      "priority": null
+    }
+    ,{
+      "id": "btw-003",
+      "timestamp": "2026-03-29T14:40:00Z",
+      "suggestion": "A100 40GB에서 batch_size=16일 때 VRAM 3.7GB만 사용 (9%). batch_size=64~128로 올리면 학습 시간 3~5배 단축 가능. focal_pib_sweep처럼 lens_2f_forward가 추가되어도 VRAM 여유. 향후 sweep 시 GPU VRAM 자동 체크 후 최적 batch_size 추천하는 스킬이 있으면 좋겠다.",
+      "context": {
+        "file": "kim2026/autoresearch/d2nn_focal_pib_sweep.py",
+        "pdcaPhase": "do",
+        "feature": "fso"
+      },
+      "category": "improvement",
+      "status": "pending",
+      "promotedTo": null,
+      "priority": null
+    }
+    ,{
+      "id": "btw-004",
+      "timestamp": "2026-03-30T13:30:00Z",
+      "suggestion": "pin_memory=True가 npz 디스크 I/O 기반 Dataset에서 오히려 성능 저하. 매 batch마다 page-locked 메모리 할당 overhead가 디스크 읽기보다 큼. 향후 학습 스크립트 템플릿에서 pin_memory 사용 가이드라인 필요: in-memory dataset에만 pin_memory=True, npz/HDF5 기반은 False.",
+      "context": {
+        "file": "kim2026/autoresearch/d2nn_focal_pib_sweep.py",
+        "pdcaPhase": "do",
+        "feature": "fso"
+      },
+      "category": "improvement",
+      "status": "pending",
+      "promotedTo": null,
+      "priority": null
+    }
+  ],
+  "stats": {
+    "total": 4,
+    "promoted": 0,
+    "dismissed": 0,
+    "lastAnalyzed": null
+  }
+}

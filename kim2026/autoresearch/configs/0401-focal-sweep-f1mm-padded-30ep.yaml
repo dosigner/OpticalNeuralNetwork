@@ -1,0 +1,30 @@
+# 0401 Focal PIB Sweep — f=1mm (beam-matched lens), padded, 30 epochs
+# f=1mm gives vacuum PIB@10um=98%, turbulent=97% WITHOUT D2NN
+# This tests whether D2NN adds value on top of a properly matched lens
+
+training:
+  seed: 20260401
+  lr: 8.0e-3
+  epochs: 30
+  batch_size: 32
+  tv_weight: 0.05
+  warmup_epochs: 5
+
+architecture:
+  num_layers: 5
+  layer_spacing_m: 0.01
+  detector_distance_m: 0.01
+  propagation_pad_factor: 2
+
+physics:
+  wavelength_m: 1.55e-6
+  receiver_window_m: 0.002048
+  aperture_diameter_m: 0.002
+  focus_f_m: 1.0e-3          # f=1mm (beam-matched)
+  pib_bucket_radius_um: 10.0
+
+data:
+  path: data/kim2026/1km_cn2_5e-14_tel15cm_n1024_br75
+
+output:
+  dir: autoresearch/runs/0401-focal-pib-sweep-f1mm-padded-4loss-cn2-5e14

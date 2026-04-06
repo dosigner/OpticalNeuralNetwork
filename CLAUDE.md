@@ -43,3 +43,7 @@
 ## Python Environment
 - Primary conda env: `d2nn` at `miniconda3/envs/d2nn/bin/python` relative to the repo root
 - Always use `PYTHONPATH=src` when running project scripts.
+
+
+## /make-slide
+When the user types "/make-slide", read `.claude/skills/make-slide/SKILL.md` and follow the presentation creation workflow. Browse themes at https://make-slide.vercel.app

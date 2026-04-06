@@ -1,0 +1,76 @@
+{
+  "name": "pib_hard_tp",
+  "description": "Focal PIB + quadratic TP penalty (\u03bb=10)",
+  "arch": {
+    "num_layers": 5,
+    "layer_spacing_m": 0.01,
+    "detector_distance_m": 0.01,
+    "propagation_pad_factor": 2
+  },
+  "focus_f_mm": 4.5,
+  "pib_bucket_radius_um": 10.0,
+  "propagation_pad_factor": 2,
+  "strehl_pad_factor": 4,
+  "co_output": 0.2660769820213318,
+  "io_output": 0.7879752516746521,
+  "co_baseline": 0.2683299481868744,
+  "focal_pib_10um": 0.8112967610359192,
+  "focal_pib_50um": 0.990009605884552,
+  "focal_pib_10um_baseline": 0.7606973648071289,
+  "focal_pib_50um_baseline": 0.9846101999282837,
+  "focal_pib_10um_vacuum": 0.9421337842941284,
+  "focal_pib_50um_vacuum": 0.9885987639427185,
+  "focal_strehl": 0.5061237812042236,
+  "dx_focal_um": 3.40576171875,
+  "throughput": 0.9892732028455399,
+  "wf_rms_rad": 1.7895306438207625,
+  "wf_rms_baseline_rad": 1.7955695779323577,
+  "wf_rms_nm": 441.4596040566692,
+  "wf_rms_baseline_nm": 442.9493496897125,
+  "training_seconds": 11285.930321455002,
+  "sanity_checks": [
+    {
+      "name": "Energy Throughput",
+      "passed": true,
+      "value": 0.9895290465830299,
+      "threshold": "[0.9, 1.1]",
+      "message": "Throughput=0.9895, energy lost"
+    },
+    {
+      "name": "Unitary CO Preservation",
+      "passed": true,
+      "value": 0.0019838695880025625,
+      "threshold": "|delta| < 0.01",
+      "message": "CO delta=0.001984, D2NN may not be unitary"
+    },
+    {
+      "name": "Strehl Upper Bound",
+      "passed": true,
+      "value": 0.6007453203201294,
+      "threshold": "<= 1.05",
+      "message": "Strehl=0.6007 exceeds passive limit"
+    }
+  ],
+  "history": {
+    "epoch": [
+      0,
+      29
+    ],
+    "loss": [
+      0.33262304270267484,
+      0.29045225262641905
+    ],
+    "val_co": [
+      0.2689756453037262,
+      0.26757705211639404
+    ],
+    "val_focal_pib_10": [
+      0.7831553816795349,
+      0.8037766218185425
+    ],
+    "lr": [
+      0.0016,
+      1e-05
+    ]
+  }
+}

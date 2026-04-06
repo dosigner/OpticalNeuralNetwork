@@ -1,0 +1,182 @@
+Sun Apr  5 12:14:42 AM UTC 2026 Starting distance sweep training...
+Sun Apr  5 12:14:42 AM UTC 2026 === Training L=100m ===
+L=100m, f=6.5mm, loss=focal_raw_received_power
+Data: train=1600, val=200, test=200
+
+======================================================================
+  [focal_raw_received_power] Maximize absolute focal bucket power (no vacuum ref)
+  TV=0.05, LR=0.008→cosine, epochs=30
+  Focus lens f=6.5mm, PIB bucket=10μm
+======================================================================
+  Epoch   0/29 | loss=0.61611 | co=0.9605 | fpib10=0.5634 | fpib50=0.9986 | fstrehl=0.6611 | lr=1.60e-03 | 155.9s
+  Epoch  29/29 | loss=0.04623 | co=0.6507 | fpib10=0.9675 | fpib50=0.9893 | fstrehl=0.8713 | lr=1.00e-05 | 140.1s
+
+============================================================
+  PHYSICS SANITY CHECKS
+============================================================
+  [PASS] Energy Throughput: 0.996304 ([0.9, 1.1])
+  [PASS] Unitary CO Preservation: 0.000913 (|delta| < 0.01)
+  [PASS] Strehl Upper Bound: 0.869938 (<= 1.05)
+
+  Result: ALL PASSED
+============================================================
+
+
+  TEST RESULTS (metric plane separation):
+    === D2NN Output Plane ===
+    CO:     0.9752 → 0.6514 (-0.3238)
+    IO:     0.6407
+    WF RMS: 361.4 → 372.9 nm (-3.2%)
+    === Focal Plane (f=6.5mm) ===
+    PIB@10μm: 0.5059 → 0.9679 (Δ=+0.4620, 180.2% of vacuum=0.5370)
+    PIB@50μm: 0.9984 → 0.9894 (vacuum=1.0000)
+    Strehl:   0.8710
+    dx_focal: 4.919 μm
+    TP:       0.9963
+Done: L=100m
+Sun Apr  5 01:26:45 AM UTC 2026 Finished L=100m
+Sun Apr  5 01:26:45 AM UTC 2026 === Training L=500m ===
+L=500m, f=6.5mm, loss=focal_raw_received_power
+Data: train=1600, val=200, test=200
+
+======================================================================
+  [focal_raw_received_power] Maximize absolute focal bucket power (no vacuum ref)
+  TV=0.05, LR=0.008→cosine, epochs=30
+  Focus lens f=6.5mm, PIB bucket=10μm
+======================================================================
+  Epoch   0/29 | loss=0.26302 | co=0.4721 | fpib10=0.7992 | fpib50=0.9938 | fstrehl=0.6725 | lr=1.60e-03 | 156.7s
+  Epoch  29/29 | loss=0.21620 | co=0.4645 | fpib10=0.8206 | fpib50=0.9936 | fstrehl=0.6936 | lr=1.00e-05 | 141.9s
+
+============================================================
+  PHYSICS SANITY CHECKS
+============================================================
+  [PASS] Energy Throughput: 0.992440 ([0.9, 1.1])
+  [PASS] Unitary CO Preservation: 0.002816 (|delta| < 0.01)
+  [PASS] Strehl Upper Bound: 0.705818 (<= 1.05)
+
+  Result: ALL PASSED
+============================================================
+
+
+  TEST RESULTS (metric plane separation):
+    === D2NN Output Plane ===
+    CO:     0.4674 → 0.4684 (+0.0010)
+    IO:     0.9054
+    WF RMS: 432.9 → 437.9 nm (-1.2%)
+    === Focal Plane (f=6.5mm) ===
+    PIB@10μm: 0.7695 → 0.8251 (Δ=+0.0556, 85.7% of vacuum=0.9629)
+    PIB@50μm: 0.9886 → 0.9935 (vacuum=0.9932)
+    Strehl:   0.7036
+    dx_focal: 4.919 μm
+    TP:       0.9925
+Done: L=500m
+Sun Apr  5 02:39:43 AM UTC 2026 Finished L=500m
+Sun Apr  5 02:39:43 AM UTC 2026 === Training L=1000m ===
+L=1000m, f=6.5mm, loss=focal_raw_received_power
+Data: train=1600, val=200, test=200
+
+======================================================================
+  [focal_raw_received_power] Maximize absolute focal bucket power (no vacuum ref)
+  TV=0.05, LR=0.008→cosine, epochs=30
+  Focus lens f=6.5mm, PIB bucket=10μm
+======================================================================
+  Epoch   0/29 | loss=0.66467 | co=0.3080 | fpib10=0.6246 | fpib50=0.9862 | fstrehl=0.4888 | lr=1.60e-03 | 159.8s
+  Epoch  29/29 | loss=0.57223 | co=0.3035 | fpib10=0.6560 | fpib50=0.9824 | fstrehl=0.5002 | lr=1.00e-05 | 141.6s
+
+============================================================
+  PHYSICS SANITY CHECKS
+============================================================
+  [PASS] Energy Throughput: 0.982562 ([0.9, 1.1])
+  [PASS] Unitary CO Preservation: 0.002109 (|delta| < 0.01)
+  [PASS] Strehl Upper Bound: 0.528913 (<= 1.05)
+
+  Result: ALL PASSED
+============================================================
+
+
+  TEST RESULTS (metric plane separation):
+    === D2NN Output Plane ===
+    CO:     0.2757 → 0.2801 (+0.0044)
+    IO:     0.7807
+    WF RMS: 441.9 → 441.4 nm (+0.1%)
+    === Focal Plane (f=6.5mm) ===
+    PIB@10μm: 0.5646 → 0.6273 (Δ=+0.0627, 67.5% of vacuum=0.9298)
+    PIB@50μm: 0.9747 → 0.9821 (vacuum=0.9834)
+    Strehl:   0.4964
+    dx_focal: 4.919 μm
+    TP:       0.9838
+Done: L=1000m
+Sun Apr  5 03:53:28 AM UTC 2026 Finished L=1000m
+Sun Apr  5 03:53:28 AM UTC 2026 === Training L=2000m ===
+L=2000m, f=6.5mm, loss=focal_raw_received_power
+Data: train=1600, val=200, test=200
+
+======================================================================
+  [focal_raw_received_power] Maximize absolute focal bucket power (no vacuum ref)
+  TV=0.05, LR=0.008→cosine, epochs=30
+  Focus lens f=6.5mm, PIB bucket=10μm
+======================================================================
+  Epoch   0/29 | loss=1.96379 | co=0.1832 | fpib10=0.2187 | fpib50=0.9539 | fstrehl=0.1921 | lr=1.60e-03 | 128.4s
+  Epoch  29/29 | loss=1.28928 | co=0.1638 | fpib10=0.3763 | fpib50=0.9332 | fstrehl=0.2812 | lr=1.00e-05 | 117.9s
+
+============================================================
+  PHYSICS SANITY CHECKS
+============================================================
+  [PASS] Energy Throughput: 0.961051 ([0.9, 1.1])
+  [PASS] Unitary CO Preservation: 0.003846 (|delta| < 0.01)
+  [PASS] Strehl Upper Bound: 0.265530 (<= 1.05)
+
+  Result: ALL PASSED
+============================================================
+
+
+  TEST RESULTS (metric plane separation):
+    === D2NN Output Plane ===
+    CO:     0.1696 → 0.1540 (-0.0156)
+    IO:     0.5843
+    WF RMS: 444.2 → 444.3 nm (-0.0%)
+    === Focal Plane (f=6.5mm) ===
+    PIB@10μm: 0.1923 → 0.3618 (Δ=+0.1694, 53.1% of vacuum=0.6811)
+    PIB@50μm: 0.9268 → 0.9319 (vacuum=0.9727)
+    Strehl:   0.2781
+    dx_focal: 4.919 μm
+    TP:       0.9617
+Done: L=2000m
+Sun Apr  5 04:54:18 AM UTC 2026 Finished L=2000m
+Sun Apr  5 04:54:18 AM UTC 2026 === Training L=3000m ===
+L=3000m, f=6.5mm, loss=focal_raw_received_power
+Data: train=1600, val=200, test=200
+
+======================================================================
+  [focal_raw_received_power] Maximize absolute focal bucket power (no vacuum ref)
+  TV=0.05, LR=0.008→cosine, epochs=30
+  Focus lens f=6.5mm, PIB bucket=10μm
+======================================================================
+  Epoch   0/29 | loss=3.32992 | co=0.1389 | fpib10=0.0670 | fpib50=0.7558 | fstrehl=0.0664 | lr=1.60e-03 | 104.3s
+  Epoch  29/29 | loss=1.90599 | co=0.1151 | fpib10=0.2291 | fpib50=0.8288 | fstrehl=0.1481 | lr=1.00e-05 | 105.7s
+
+============================================================
+  PHYSICS SANITY CHECKS
+============================================================
+  [PASS] Energy Throughput: 0.927394 ([0.9, 1.1])
+  [PASS] Unitary CO Preservation: 0.004420 (|delta| < 0.01)
+  [PASS] Strehl Upper Bound: 0.125307 (<= 1.05)
+
+  Result: ALL PASSED
+============================================================
+
+
+  TEST RESULTS (metric plane separation):
+    === D2NN Output Plane ===
+    CO:     0.1609 → 0.1303 (-0.0305)
+    IO:     0.4939
+    WF RMS: 451.8 → 448.5 nm (+0.7%)
+    === Focal Plane (f=6.5mm) ===
+    PIB@10μm: 0.0640 → 0.2358 (Δ=+0.1718, 51.9% of vacuum=0.4544)
+    PIB@50μm: 0.7178 → 0.8356 (vacuum=0.9554)
+    Strehl:   0.1489
+    dx_focal: 4.919 μm
+    TP:       0.9305
+Done: L=3000m
+Sun Apr  5 05:46:53 AM UTC 2026 Finished L=3000m
+Sun Apr  5 05:46:53 AM UTC 2026 ALL DISTANCE TRAINING COMPLETE!

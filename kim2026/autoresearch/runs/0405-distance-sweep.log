@@ -1,0 +1,146 @@
+Device: cuda
+Distance Sweep Data Generation
+Cn²=5e-14, λ=1.55μm, Tel=15cm
+N_real=2000 per distance (1600/200/200)
+
+======================================================================
+  L = 100 m | Cn² = 5e-14
+======================================================================
+  N=2048, n_scr=6, delta_n=150μm
+  r0=11.9cm, D/r0=1.26
+  Rytov σ²_R=0.015
+  Generating 2000 realizations...
+    [1/2000] 0.6s/real, elapsed 0min, ETA 22min
+    [2/2000] 0.6s/real, elapsed 0min, ETA 21min
+    [3/2000] 0.6s/real, elapsed 0min, ETA 21min
+    [200/2000] 0.6s/real, elapsed 2min, ETA 19min
+    [400/2000] 0.6s/real, elapsed 4min, ETA 17min
+    [600/2000] 0.6s/real, elapsed 6min, ETA 15min
+    [800/2000] 0.6s/real, elapsed 8min, ETA 13min
+    [1000/2000] 0.6s/real, elapsed 10min, ETA 10min
+    [1200/2000] 0.6s/real, elapsed 13min, ETA 8min
+    [1400/2000] 0.6s/real, elapsed 15min, ETA 6min
+    [1600/2000] 0.6s/real, elapsed 17min, ETA 4min
+    [1800/2000] 0.6s/real, elapsed 19min, ETA 2min
+    [2000/2000] 0.6s/real, elapsed 21min, ETA 0min
+  Done: 2000 in 21min (skip=0, train=1600, val=200, test=200)
+
+======================================================================
+  L = 500 m | Cn² = 5e-14
+======================================================================
+  N=2048, n_scr=18, delta_n=150μm
+  r0=4.5cm, D/r0=3.31
+  Rytov σ²_R=0.279
+  Generating 2000 realizations...
+    [1/2000] 0.9s/real, elapsed 0min, ETA 31min
+    [2/2000] 0.9s/real, elapsed 0min, ETA 31min
+    [3/2000] 0.9s/real, elapsed 0min, ETA 31min
+    [200/2000] 0.9s/real, elapsed 3min, ETA 28min
+    [400/2000] 0.9s/real, elapsed 6min, ETA 25min
+    [600/2000] 0.9s/real, elapsed 9min, ETA 22min
+    [800/2000] 0.9s/real, elapsed 12min, ETA 19min
+    [1000/2000] 0.9s/real, elapsed 16min, ETA 16min
+    [1200/2000] 0.9s/real, elapsed 19min, ETA 12min
+    [1400/2000] 0.9s/real, elapsed 22min, ETA 9min
+    [1600/2000] 0.9s/real, elapsed 25min, ETA 6min
+    [1800/2000] 0.9s/real, elapsed 28min, ETA 3min
+    [2000/2000] 0.9s/real, elapsed 31min, ETA 0min
+  Done: 2000 in 31min (skip=0, train=1600, val=200, test=200)
+
+======================================================================
+  L = 1000 m | Cn² = 5e-14
+======================================================================
+  N=4096, n_scr=18, delta_n=150μm
+  r0=3.0cm, D/r0=5.02
+  Rytov σ²_R=0.995
+  Generating 2000 realizations...
+    [1/2000] 2.0s/real, elapsed 0min, ETA 66min
+    [2/2000] 2.0s/real, elapsed 0min, ETA 67min
+    [3/2000] 2.0s/real, elapsed 0min, ETA 66min
+    [200/2000] 2.0s/real, elapsed 7min, ETA 60min
+    [400/2000] 2.0s/real, elapsed 13min, ETA 53min
+    [600/2000] 2.0s/real, elapsed 20min, ETA 46min
+    [800/2000] 2.0s/real, elapsed 26min, ETA 40min
+    [1000/2000] 2.0s/real, elapsed 33min, ETA 33min
+    [1200/2000] 2.0s/real, elapsed 40min, ETA 26min
+    [1400/2000] 2.0s/real, elapsed 46min, ETA 20min
+    [1600/2000] 2.0s/real, elapsed 53min, ETA 13min
+    [1800/2000] 2.0s/real, elapsed 60min, ETA 7min
+    [2000/2000] 2.0s/real, elapsed 66min, ETA 0min
+  Done: 2000 in 66min (skip=0, train=1600, val=200, test=200)
+
+======================================================================
+  L = 2000 m | Cn² = 5e-14
+======================================================================
+  N=8192, n_scr=18, delta_n=150μm
+  r0=2.0cm, D/r0=7.61
+  Rytov σ²_R=3.547
+  Generating 2000 realizations...
+Traceback (most recent call last):
+  File "/root/dj/D2NN/kim2026/scripts/generate_data_distance_sweep.py", line 218, in <module>
+    main()
+    ~~~~^^
+  File "/root/dj/D2NN/kim2026/scripts/generate_data_distance_sweep.py", line 212, in main
+    generate_distance(float(L), device)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/root/dj/D2NN/kim2026/scripts/generate_data_distance_sweep.py", line 143, in generate_distance
+    _, _, U_turb_full = ang_spec_multi_prop(
+                        ~~~~~~~~~~~~~~~~~~~^
+        U_in, WAVELENGTH, delta1, delta_n, z_planes,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        phase_screens=screens, device=device)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/dj/D2NN/kim2026/src/kim2026/fso/propagation.py", line 173, in ang_spec_multi_prop
+    G = ft2(U / m[i], delta[i].item())
+  File "/root/dj/D2NN/kim2026/src/kim2026/fso/ft_utils.py", line 40, in ft2
+    torch.fft.fft2(
+    ~~~~~~~~~~~~~~^
+        torch.fft.ifftshift(g, dim=(-2, -1)),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 1024.00 MiB. GPU 0 has a total capacity of 39.49 GiB of which 981.50 MiB is free. Including non-PyTorch memory, this process has 38.53 GiB memory in use. Of the allocated memory 36.52 GiB is allocated by PyTorch, and 1.52 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+
+======================================================================
+  L = 2000m | dn = 200um
+======================================================================
+  N=4096, n_scr=20, r0=2.0cm, D/r0=7.6, σR²=3.55
+  Vacuum propagation...
+  Generating 2000 realizations...
+    [1/2000] 2.0s/real, 0min, ETA 65min
+    [2/2000] 1.9s/real, 0min, ETA 65min
+    [3/2000] 1.9s/real, 0min, ETA 65min
+    [200/2000] 1.9s/real, 6min, ETA 58min
+    [400/2000] 1.9s/real, 13min, ETA 52min
+    [600/2000] 1.9s/real, 19min, ETA 45min
+    [800/2000] 1.9s/real, 26min, ETA 39min
+    [1000/2000] 1.9s/real, 32min, ETA 32min
+    [1200/2000] 1.9s/real, 39min, ETA 26min
+    [1400/2000] 1.9s/real, 45min, ETA 19min
+    [1600/2000] 1.9s/real, 52min, ETA 13min
+    [1800/2000] 1.9s/real, 58min, ETA 6min
+    [2000/2000] 1.9s/real, 65min, ETA 0min
+  Done: 2000 in 65min
+
+======================================================================
+  L = 3000m | dn = 300um
+======================================================================
+  N=4096, n_scr=14, r0=1.5cm, D/r0=9.7, σR²=7.46
+  Vacuum propagation...
+  Generating 2000 realizations...
+    [1/2000] 1.3s/real, 0min, ETA 45min
+    [2/2000] 1.3s/real, 0min, ETA 45min
+    [3/2000] 1.3s/real, 0min, ETA 45min
+    [200/2000] 1.3s/real, 4min, ETA 40min
+    [400/2000] 1.3s/real, 9min, ETA 36min
+    [600/2000] 1.3s/real, 13min, ETA 31min
+    [800/2000] 1.3s/real, 18min, ETA 27min
+    [1000/2000] 1.3s/real, 22min, ETA 22min
+    [1200/2000] 1.3s/real, 27min, ETA 18min
+    [1400/2000] 1.3s/real, 31min, ETA 13min
+    [1600/2000] 1.3s/real, 36min, ETA 9min
+    [1800/2000] 1.3s/real, 40min, ETA 4min
+    [2000/2000] 1.3s/real, 45min, ETA 0min
+  Done: 2000 in 45min
+
+All done!

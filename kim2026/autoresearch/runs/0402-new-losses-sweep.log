@@ -1,0 +1,150 @@
+Thu Apr  2 01:22:04 PM UTC 2026 Watching for 0401 sweep completion...
+Thu Apr  2 02:05:04 PM UTC 2026 0401 sweep complete! Launching 0402 new losses sweep...
+Device: cuda
+GPU: NVIDIA A100-SXM4-40GB
+
+D2NN Focal-Plane PIB Sweep
+  Config: autoresearch/configs/0402-focal-sweep-new-losses-30ep.yaml
+  Resolved parameters:
+    wavelength_m=1.550000e-06
+    receiver_window_m=2.048000e-03
+    aperture_diameter_m=2.000000e-03
+    focus_f_m=4.500000e-03
+    pib_bucket_radius_um=10.000
+    arch={'num_layers': 5, 'layer_spacing_m': 0.01, 'detector_distance_m': 0.01, 'propagation_pad_factor': 2}
+    train={'lr': 0.008, 'epochs': 30, 'batch_size': 32, 'tv_weight': 0.05, 'warmup_epochs': 5}
+    strehl_pad_factor=4
+    alias_safe_distance_guard_m=0.050
+    data_dir=/root/dj/D2NN/kim2026/data/kim2026/1km_cn2_5e-14_tel15cm_pitch_rescale/cache
+    manifest=/root/dj/D2NN/kim2026/data/kim2026/1km_cn2_5e-14_tel15cm_pitch_rescale/split_manifest.json
+    plane_selector=stored
+    reducer_validation_summary=/root/dj/D2NN/kim2026/data/kim2026/1km_cn2_5e-14_tel15cm_pupil1024_v1/reducer_val_cache/summary.json
+    out_root=/root/dj/D2NN/kim2026/autoresearch/runs/0402-focal-new-losses-pitchrescale-3strat-cn2-5e14
+  dx_in=2.0μm → dx_focal=3.406μm
+  Focal window: 3488μm
+  PIB bucket: 10μm = 2.9 pixels
+  4 loss strategies × TV reg + cosine LR
+  Data: train=4000, val=500, test=500
+
+============================================================
+  PHYSICS SANITY CHECKS
+============================================================
+  [PASS] Vacuum Strehl: 0.903237 ([0.0, 1.05])
+
+  Result: ALL PASSED
+============================================================
+
+  Strategies (filtered): ['focal_absolute_bucket', 'focal_tp_penalized_pib', 'focal_multiplane_co_pib_amp']
+
+======================================================================
+  [focal_absolute_bucket] Absolute bucket power ratio (pred/vacuum) at focal plane
+  TV=0.05, LR=0.008→cosine, epochs=30
+  Focus lens f=4.5mm, PIB bucket=10μm
+======================================================================
+  Epoch   0/29 | loss=0.21706 | co=0.2691 | fpib10=0.7858 | fpib50=0.9929 | fstrehl=0.4974 | lr=1.60e-03 | 435.5s
+  Epoch  29/29 | loss=0.18379 | co=0.2682 | fpib10=0.8068 | fpib50=0.9912 | fstrehl=0.5067 | lr=1.00e-05 | 358.8s
+
+============================================================
+  PHYSICS SANITY CHECKS
+============================================================
+  [PASS] Energy Throughput: 0.986523 ([0.9, 1.1])
+  [PASS] Unitary CO Preservation: 0.002548 (|delta| < 0.01)
+  [PASS] Strehl Upper Bound: 0.605001 (<= 1.05)
+
+  Result: ALL PASSED
+============================================================
+
+
+  TEST RESULTS (metric plane separation):
+    === D2NN Output Plane ===
+    CO:     0.2683 → 0.2668 (-0.0016)
+    IO:     0.7887
+    WF RMS: 442.9 → 441.8 nm (+0.3%)
+    === Focal Plane (f=4.5mm) ===
+    PIB@10μm: 0.7607 → 0.8143 (Δ=+0.0536, 86.4% of vacuum=0.9421)
+    PIB@50μm: 0.9846 → 0.9912 (vacuum=0.9886)
+    Strehl:   0.5088
+    dx_focal: 3.406 μm
+    TP:       0.9861
+
+======================================================================
+  [focal_tp_penalized_pib] Focal PIB + throughput preservation penalty
+  TV=0.05, LR=0.008→cosine, epochs=30
+  Focus lens f=4.5mm, PIB bucket=10μm
+======================================================================
+  Epoch   0/29 | loss=0.29436 | co=0.2691 | fpib10=0.7867 | fpib50=0.9931 | fstrehl=0.4984 | lr=1.60e-03 | 380.5s
+  Epoch  29/29 | loss=0.26230 | co=0.2683 | fpib10=0.8083 | fpib50=0.9918 | fstrehl=0.5068 | lr=1.00e-05 | 354.9s
+
+============================================================
+  PHYSICS SANITY CHECKS
+============================================================
+  [PASS] Energy Throughput: 0.984476 ([0.9, 1.1])
+  [PASS] Unitary CO Preservation: 0.002993 (|delta| < 0.01)
+  [PASS] Strehl Upper Bound: 0.603389 (<= 1.05)
+
+  Result: ALL PASSED
+============================================================
+
+
+  TEST RESULTS (metric plane separation):
+    === D2NN Output Plane ===
+    CO:     0.2683 → 0.2668 (-0.0015)
+    IO:     0.7891
+    WF RMS: 442.9 → 441.9 nm (+0.2%)
+    === Focal Plane (f=4.5mm) ===
+    PIB@10μm: 0.7607 → 0.8157 (Δ=+0.0550, 86.6% of vacuum=0.9421)
+    PIB@50μm: 0.9846 → 0.9918 (vacuum=0.9886)
+    Strehl:   0.5081
+    dx_focal: 3.406 μm
+    TP:       0.9840
+
+======================================================================
+  [focal_multiplane_co_pib_amp] Output CO + focal PIB + amplitude MSE (multi-plane)
+  TV=0.05, LR=0.008→cosine, epochs=30
+  Focus lens f=4.5mm, PIB bucket=10μm
+======================================================================
+  Epoch   0/29 | loss=0.42671 | co=0.2707 | fpib10=0.7837 | fpib50=0.9932 | fstrehl=0.4912 | lr=1.60e-03 | 357.2s
+  Epoch  29/29 | loss=0.36837 | co=0.3768 | fpib10=0.8351 | fpib50=0.9601 | fstrehl=0.5461 | lr=1.00e-05 | 357.3s
+
+============================================================
+  PHYSICS SANITY CHECKS
+============================================================
+  [FAIL] Energy Throughput: 0.406389 ([0.9, 1.1])
+         Throughput=0.4064, energy lost
+  [FAIL] Unitary CO Preservation: 0.121579 (|delta| < 0.01)
+         CO delta=0.121579, D2NN may not be unitary
+  [PASS] Strehl Upper Bound: 0.625695 (<= 1.05)
+
+  Result: FAILURES DETECTED
+============================================================
+
+WARNING: Post-training sanity checks failed for focal_multiplane_co_pib_amp.
+
+  TEST RESULTS (metric plane separation):
+    === D2NN Output Plane ===
+    CO:     0.2683 → 0.3824 (+0.1140)
+    IO:     0.7804
+    WF RMS: 442.9 → 440.8 nm (+0.5%)
+    === Focal Plane (f=4.5mm) ===
+    PIB@10μm: 0.7607 → 0.8420 (Δ=+0.0813, 89.4% of vacuum=0.9421)
+    PIB@50μm: 0.9846 → 0.9611 (vacuum=0.9886)
+    Strehl:   0.5525
+    dx_focal: 3.406 μm
+    TP:       0.3954
+
+========================================================================================================================
+FOCAL-PLANE PIB SWEEP SUMMARY
+Focus lens f=4.5mm | PIB bucket=10μm | dx_focal=3.406μm
+========================================================================================================================
+                     Name | CO(out) |  fPIB10 |  fPIB50 | fStrehl |   WF nm |     TP | vs vac%
+----------------------------------------------------------------------------------------------
+    focal_absolute_bucket |  0.2668 |  0.8143 |  0.9912 |  0.5088 |   441.8 | 0.9861 |   86.4%
+   focal_tp_penalized_pib |  0.2668 |  0.8157 |  0.9918 |  0.5081 |   441.9 | 0.9840 |   86.6%
+focal_multiplane_co_pib_amp |  0.3824 |  0.8420 |  0.9611 |  0.5525 |   440.8 | 0.3954 |   89.4%
+
+Baselines:
+  Turbulent: CO=0.2683, fPIB@10μm=0.7607, fPIB@50μm=0.9846
+  Vacuum:    fPIB@10μm=0.9421, fPIB@50μm=0.9886
+
+Results saved to /root/dj/D2NN/kim2026/autoresearch/runs/0402-focal-new-losses-pitchrescale-3strat-cn2-5e14
+Thu Apr  2 11:20:00 PM UTC 2026 0402 sweep COMPLETE!

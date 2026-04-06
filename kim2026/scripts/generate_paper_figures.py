@@ -24,14 +24,20 @@ from kim2026.models.d2nn import BeamCleanupD2NN
 from kim2026.optics.lens_2f import lens_2f_forward
 from kim2026.training.targets import apply_receiver_aperture, center_crop_field
 from kim2026.training.metrics import complex_overlap
+from kim2026.viz.mpl_fonts import configure_matplotlib_fonts, ensure_output_dir
+from kim2026.viz.paper_figure_text import FIGURE_TEXTS
 
 W = 1.55e-6; N = 1024; WIN = 0.002048; APT = 0.002; DX = WIN / N
 ARCH = dict(num_layers=5, layer_spacing_m=10e-3, detector_distance_m=10e-3)
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data" / "kim2026" / "1km_cn2_5e-14_tel15cm_n1024_br75"
 LOSS_DIR = Path(__file__).resolve().parent.parent / "autoresearch" / "runs" / "d2nn_loss_strategy"
-CO_DIR = Path(__file__).resolve().parent.parent / "autoresearch" / "runs" / "d2nn_strong_turb_sweep"
+CO_DIR = Path(__file__).resolve().parent.parent / "autoresearch" / "runs" / "0328-co-sweep-strong-turb-cn2-5e14"
+PAPER_META = Path(__file__).resolve().parent.parent / "autoresearch" / "runs" / "PAPER_figures_tables_meta.json"
 OUT = Path(__file__).resolve().parent.parent / "autoresearch" / "runs" / "paper_figures"
+
+configure_matplotlib_fonts()
+ensure_output_dir(OUT)
 
 def prepare(f):
     return center_crop_field(apply_receiver_aperture(f, receiver_window_m=WIN, aperture_diameter_m=APT), crop_n=N)
@@ -50,14 +56,50 @@ def focus(field):
     return f, dx
 
 
+def load_phase_b_summary():
+    """Load the committed Phase B summary table used by the paper figures."""
+    meta = json.load(open(PAPER_META))
+    table = next(item for item in meta["tables"] if item["id"] == "tab6")
+
+    label_map = {
+        "보정 없음": "No\nD2NN",
+        "PIB only": "PIB\nonly",
+        "CO+PIB hybrid": "CO+PIB\nhybrid",
+        "Strehl only": "Strehl\nonly",
+        "Intensity overlap": "Intensity\noverlap",
+    }
+    color_map = {
+        "보정 없음": "gray",
+        "PIB only": "#e74c3c",
+        "Strehl only": "#3498db",
+        "Intensity overlap": "#2ecc71",
+        "CO+PIB hybrid": "#9b59b6",
+    }
+
+    parsed_rows = []
+    for strategy, pib_raw, mixed_co, theorem_co, wf_rms in table["rows"]:
+        parsed_rows.append(
+            {
+                "strategy": strategy,
+                "label": label_map[strategy],
+                "color": color_map[strategy],
+                "pib": float(str(pib_raw).replace("%", "")) / 100.0,
+                "mixed_co": float(mixed_co),
+                "theorem_co": float(theorem_co),
+                "wf_rms_nm": float(str(wf_rms).replace(" nm", "")),
+            }
+        )
+
+    return parsed_rows
+
+
 def fig2_unitary_invariance():
     """Epoch vs {CO, WF RMS, PIB} for co_pib_hybrid — CO/WF flat, PIB rises."""
     print("Fig 2: Unitary invariance visualization...")
+    text = FIGURE_TEXTS["fig2"]
 
     fig, axes = plt.subplots(1, 3, figsize=(18, 6))
-    fig.suptitle("그림 2: 유니터리 불변성의 실험적 증명\n"
-                 "CO와 WF RMS는 학습 전후 보존, PIB만 변화",
-                 fontsize=14, fontweight="bold")
+    fig.suptitle(text["suptitle"], fontsize=14, fontweight="bold")
 
     strategies = {
         "co_pib_hybrid": ("#9b59b6", "CO+PIB hybrid"),
@@ -82,7 +124,7 @@ def fig2_unitary_invariance():
     axes[0].axhline(0.3044, color='k', ls='--', lw=2, label='Baseline (no D2NN)')
     axes[0].set_ylabel("Complex Overlap (CO)", fontsize=13)
     axes[0].set_xlabel("Epoch", fontsize=13)
-    axes[0].set_title("(a) CO — 보존됨 (정리 1)", fontsize=13, fontweight="bold")
+    axes[0].set_title(text["titles"][0], fontsize=13, fontweight="bold")
     axes[0].legend(fontsize=11)
     axes[0].grid(True, alpha=0.3)
 
@@ -91,16 +133,16 @@ def fig2_unitary_invariance():
     axes[1].set_ylim(400, 520)
     axes[1].set_ylabel("WF RMS [nm]", fontsize=13)
     axes[1].set_xlabel("Epoch", fontsize=13)
-    axes[1].set_title("(b) WF RMS — 보존됨 (정리 2)", fontsize=13, fontweight="bold")
+    axes[1].set_title(text["titles"][1], fontsize=13, fontweight="bold")
     axes[1].legend(fontsize=11)
     axes[1].grid(True, alpha=0.3)
-    axes[1].text(100, 465, "460 ± 5 nm\n(모든 전략에서 불변)", fontsize=12, ha="center",
+    axes[1].text(100, 465, text["wf_annotation"], fontsize=12, ha="center",
                  bbox=dict(facecolor="lightyellow", edgecolor="gray"))
 
     axes[2].axhline(0.0034, color='k', ls='--', lw=2, label='Baseline')
     axes[2].set_ylabel("PIB@50μm", fontsize=13)
     axes[2].set_xlabel("Epoch", fontsize=13)
-    axes[2].set_title("(c) PIB — 변화함 (비선형 metric)", fontsize=13, fontweight="bold")
+    axes[2].set_title(text["titles"][2], fontsize=13, fontweight="bold")
     axes[2].legend(fontsize=11)
     axes[2].grid(True, alpha=0.3)
 
@@ -113,10 +155,10 @@ def fig2_unitary_invariance():
 def fig3_deterministic_vs_random():
     """Side-by-side: single-layer success vs multi-layer random failure."""
     print("Fig 3: Deterministic vs Random...")
+    text = FIGURE_TEXTS["fig3"]
 
     fig, axes = plt.subplots(1, 2, figsize=(16, 7))
-    fig.suptitle("그림 3: 결정론적 수차 교정 vs 랜덤 난류 교정",
-                 fontsize=14, fontweight="bold")
+    fig.suptitle(text["suptitle"], fontsize=14, fontweight="bold")
 
     # Left: Deterministic (single-layer)
     epochs_det = list(range(0, 200, 40)) + [199]
@@ -130,9 +172,8 @@ def fig3_deterministic_vs_random():
     ax_wf.set_xlabel("Epoch", fontsize=13)
     ax_wf.set_ylabel("WF RMS [nm]", fontsize=13, color='r')
     ax_co.set_ylabel("CO", fontsize=13, color='b')
-    ax_wf.set_title("(a) 결정론적 (Defocus Z₄)\n단층 D2NN — 완벽 교정", fontsize=13, fontweight="bold")
-    ax_wf.legend([l1, l2], ['WF RMS (212→0.1nm)', 'CO (0.989→1.000)'],
-                 fontsize=11, loc='center right')
+    ax_wf.set_title(text["left_title"], fontsize=13, fontweight="bold")
+    ax_wf.legend([l1, l2], text["left_legend"], fontsize=11, loc='center right')
     ax_wf.grid(True, alpha=0.3)
     ax_wf.set_ylim(-10, 250)
     ax_co.set_ylim(0.98, 1.005)
@@ -146,21 +187,21 @@ def fig3_deterministic_vs_random():
         if h.get("epoch"):
             ax_wf2 = axes[1]
             # WF RMS stays at 460nm (constant)
-            ax_wf2.axhline(460, color='r', ls='-', lw=2.5, label='WF RMS (460nm, 불변)')
+            ax_wf2.axhline(460, color='r', ls='-', lw=2.5, label=text["right_wf_label"])
             ax_co2 = ax_wf2.twinx()
             ax_co2.plot(h["epoch"], h["val_co"], 'b-s', lw=2.5, ms=4, label='Val CO')
             ax_co2.axhline(0.3044, color='b', ls='--', lw=1.5, alpha=0.5, label='Baseline CO')
             ax_wf2.set_xlabel("Epoch", fontsize=13)
             ax_wf2.set_ylabel("WF RMS [nm]", fontsize=13, color='r')
             ax_co2.set_ylabel("CO", fontsize=13, color='b')
-            ax_wf2.set_title("(b) 랜덤 난류 (D/r₀=5.02)\n5층 D2NN — 교정 불가", fontsize=13, fontweight="bold")
+            ax_wf2.set_title(text["right_title"], fontsize=13, fontweight="bold")
             ax_wf2.set_ylim(400, 520)
             ax_co2.set_ylim(0.28, 0.38)
             lines1, labels1 = ax_wf2.get_legend_handles_labels()
             lines2, labels2 = ax_co2.get_legend_handles_labels()
             ax_wf2.legend(lines1 + lines2, labels1 + labels2, fontsize=10, loc='center right')
             ax_wf2.grid(True, alpha=0.3)
-            ax_wf2.text(50, 470, "WF RMS 불변\n(정리 2)", fontsize=12, ha="center",
+            ax_wf2.text(50, 470, text["right_annotation"], fontsize=12, ha="center",
                         bbox=dict(facecolor="#f5b7b1", edgecolor="red", alpha=0.5))
 
     plt.tight_layout(rect=[0, 0, 1, 0.90])
@@ -172,57 +213,43 @@ def fig3_deterministic_vs_random():
 def fig4_loss_strategy_bar():
     """PIB/CO/WF RMS comparison across loss strategies."""
     print("Fig 4: Loss strategy bar chart...")
-
-    strategies = ["pib_only", "strehl_only", "intensity_overlap", "co_pib_hybrid"]
-    labels = ["PIB\nonly", "Strehl\nonly", "Intensity\noverlap", "CO+PIB\nhybrid"]
-    results = []
-    for s in strategies:
-        rp = LOSS_DIR / s / "results.json"
-        if rp.exists():
-            results.append(json.load(open(rp)))
-        else:
-            results.append(None)
+    text = FIGURE_TEXTS["fig4"]
+    rows = load_phase_b_summary()
 
     fig, axes = plt.subplots(1, 3, figsize=(20, 7))
-    fig.suptitle("그림 4: 손실 함수 전략별 성능 비교\n"
-                 "PIB만 개선 가능, CO와 WF RMS는 보존됨",
-                 fontsize=14, fontweight="bold")
+    fig.suptitle(text["suptitle"], fontsize=14, fontweight="bold")
 
-    colors = ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6']
-    x = np.arange(len(strategies) + 1)
+    x = np.arange(len(rows))
     width = 0.6
+    bar_colors = [row["color"] for row in rows]
+    bar_labels = [row["label"] for row in rows]
 
     # PIB
-    pibs = [results[0]["baseline_pib_50um"] if results[0] else 0] + \
-           [r["pib_50um"] if r else 0 for r in results]
-    bar_colors = ['gray'] + colors
-    bar_labels = ["No\nD2NN"] + labels
+    pibs = [row["pib"] for row in rows]
     axes[0].bar(x, pibs, width, color=bar_colors, alpha=0.8, edgecolor='black', lw=0.5)
     axes[0].set_xticks(x); axes[0].set_xticklabels(bar_labels, fontsize=11)
     axes[0].set_ylabel("PIB@50μm", fontsize=13)
-    axes[0].set_title("(a) 집속효율 (PIB)", fontsize=13, fontweight="bold")
+    axes[0].set_title(text["titles"][0], fontsize=13, fontweight="bold")
     for i, v in enumerate(pibs):
         axes[0].text(i, v + 0.02, f"{v:.4f}", ha="center", fontsize=10, fontweight="bold")
     axes[0].grid(True, alpha=0.3, axis='y')
 
     # CO
-    cos = [results[0]["baseline_co"] if results[0] else 0] + \
-          [r["complex_overlap"] if r else 0 for r in results]
+    cos = [row["mixed_co"] for row in rows]
     axes[1].bar(x, cos, width, color=bar_colors, alpha=0.8, edgecolor='black', lw=0.5)
     axes[1].set_xticks(x); axes[1].set_xticklabels(bar_labels, fontsize=11)
     axes[1].set_ylabel("Complex Overlap", fontsize=13)
-    axes[1].set_title("(b) 복소 중첩 (CO)", fontsize=13, fontweight="bold")
+    axes[1].set_title(text["titles"][1], fontsize=13, fontweight="bold")
     for i, v in enumerate(cos):
         axes[1].text(i, v + 0.005, f"{v:.4f}", ha="center", fontsize=10)
     axes[1].grid(True, alpha=0.3, axis='y')
 
     # WF RMS
-    wfs = [results[0].get("wf_rms_baseline_nm", 460) if results[0] else 460] + \
-          [r.get("wf_rms_nm", 0) if r else 0 for r in results]
+    wfs = [row["wf_rms_nm"] for row in rows]
     axes[2].bar(x, wfs, width, color=bar_colors, alpha=0.8, edgecolor='black', lw=0.5)
     axes[2].set_xticks(x); axes[2].set_xticklabels(bar_labels, fontsize=11)
     axes[2].set_ylabel("WF RMS [nm]", fontsize=13)
-    axes[2].set_title("(c) 파면 오차 (WF RMS)", fontsize=13, fontweight="bold")
+    axes[2].set_title(text["titles"][2], fontsize=13, fontweight="bold")
     for i, v in enumerate(wfs):
         axes[2].text(i, v + 5, f"{v:.0f}", ha="center", fontsize=10)
     axes[2].grid(True, alpha=0.3, axis='y')
@@ -236,60 +263,47 @@ def fig4_loss_strategy_bar():
 def fig5_pareto():
     """CO vs PIB tradeoff — Pareto frontier."""
     print("Fig 5: CO vs PIB Pareto...")
+    text = FIGURE_TEXTS["fig5"]
+    rows = load_phase_b_summary()
 
     fig, ax = plt.subplots(figsize=(10, 8))
-    fig.suptitle("그림 5: CO–PIB 트레이드오프 (Pareto 경계)\n"
-                 "비선형 metric(PIB) 개선은 선형 metric(CO) 파괴를 수반",
-                 fontsize=14, fontweight="bold")
-
-    # Collect all results
-    points = []
-    # Baseline
-    for s in ["pib_only", "strehl_only", "intensity_overlap", "co_pib_hybrid"]:
-        rp = LOSS_DIR / s / "results.json"
-        if rp.exists():
-            r = json.load(open(rp))
-            points.append((r["complex_overlap"], r["pib_50um"], s))
-
-    # CO-based results
-    for s in ["baseline_co", "co_amp", "co_phasor", "co_ffp", "roi80"]:
-        rp = CO_DIR / s / "results.json"
-        if rp.exists():
-            r = json.load(open(rp))
-            points.append((r["complex_overlap"], r.get("pib_50um", 0.003), s))
+    fig.suptitle(text["suptitle"], fontsize=14, fontweight="bold")
 
     # Baseline (no D2NN)
-    if points:
-        bl_co = 0.3044
-        bl_pib = 0.0034
-        ax.scatter(bl_co, bl_pib, s=200, c='black', marker='*', zorder=5, label='No D2NN')
-        ax.annotate("No D2NN", (bl_co, bl_pib), textcoords="offset points",
-                    xytext=(10, 10), fontsize=12, fontweight="bold")
+    baseline = next(row for row in rows if row["strategy"] == "보정 없음")
+    bl_co = baseline["mixed_co"]
+    bl_pib = baseline["pib"]
+    ax.scatter(bl_co, bl_pib, s=200, c='black', marker='*', zorder=5, label='No D2NN')
+    ax.annotate("No D2NN", (bl_co, bl_pib), textcoords="offset points",
+                xytext=(10, 10), fontsize=12, fontweight="bold")
 
     colors_map = {
-        'pib_only': '#e74c3c', 'strehl_only': '#3498db',
-        'intensity_overlap': '#2ecc71', 'co_pib_hybrid': '#9b59b6',
-        'baseline_co': '#f39c12', 'co_amp': '#e67e22',
-        'co_phasor': '#1abc9c', 'co_ffp': '#2980b9', 'roi80': '#8e44ad',
+        "PIB only": "#e74c3c",
+        "CO+PIB hybrid": "#9b59b6",
+        "Strehl only": "#3498db",
+        "Intensity overlap": "#2ecc71",
     }
 
-    for co, pib, name in points:
+    for row in rows:
+        if row["strategy"] == "보정 없음":
+            continue
+        co, pib, name = row["mixed_co"], row["pib"], row["strategy"]
         c = colors_map.get(name, 'gray')
         ax.scatter(co, pib, s=150, c=c, edgecolor='black', lw=1, zorder=4)
         ax.annotate(name, (co, pib), textcoords="offset points",
                     xytext=(8, 5), fontsize=10, color=c)
 
-    ax.set_xlabel("Complex Overlap (CO)", fontsize=14)
-    ax.set_ylabel("PIB@50μm", fontsize=14)
+    ax.set_xlabel(text["xlabel"], fontsize=14)
+    ax.set_ylabel(text["ylabel"], fontsize=14)
     ax.set_xlim(-0.02, 0.35)
     ax.grid(True, alpha=0.3)
 
     # Add quadrant labels
     ax.axhline(bl_pib, color='gray', ls=':', alpha=0.5)
     ax.axvline(bl_co, color='gray', ls=':', alpha=0.5)
-    ax.text(0.25, 0.7, "이상적 영역\n(CO↑, PIB↑)", fontsize=12, ha="center",
+    ax.text(0.25, 0.7, text["ideal_region"], fontsize=12, ha="center",
             color="green", bbox=dict(facecolor="lightgreen", alpha=0.3))
-    ax.text(0.02, 0.7, "PIB↑, CO↓\n(공간 필터링)", fontsize=12, ha="center",
+    ax.text(0.02, 0.7, text["filtering_region"], fontsize=12, ha="center",
             color="orange", bbox=dict(facecolor="#fdebd0", alpha=0.3))
 
     plt.tight_layout(rect=[0, 0, 1, 0.88])
@@ -301,6 +315,7 @@ def fig5_pareto():
 def fig6_energy_redistribution():
     """Before/after D2NN intensity + difference map."""
     print("Fig 6: Energy redistribution...")
+    text = FIGURE_TEXTS["fig6"]
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     ds = CachedFieldDataset(cache_dir=str(DATA_DIR / "cache"),
@@ -333,18 +348,16 @@ def fig6_energy_redistribution():
             -(Z * float(dx_det) * 1e6), Z * float(dx_det) * 1e6]
 
     fields = {
-        "진공 (목표)": det_vac[0, c-Z:c+Z, c-Z:c+Z].cpu().numpy(),
-        "난류 (보정 없음)": det_none[0, c-Z:c+Z, c-Z:c+Z].cpu().numpy(),
-        "PIB only": det_pib[0, c-Z:c+Z, c-Z:c+Z].cpu().numpy(),
-        "CO+PIB hybrid": det_hybrid[0, c-Z:c+Z, c-Z:c+Z].cpu().numpy(),
+        text["field_labels"][0]: det_vac[0, c-Z:c+Z, c-Z:c+Z].cpu().numpy(),
+        text["field_labels"][1]: det_none[0, c-Z:c+Z, c-Z:c+Z].cpu().numpy(),
+        text["field_labels"][2]: det_pib[0, c-Z:c+Z, c-Z:c+Z].cpu().numpy(),
+        text["field_labels"][3]: det_hybrid[0, c-Z:c+Z, c-Z:c+Z].cpu().numpy(),
     }
 
     fig, axes = plt.subplots(3, 4, figsize=(24, 18))
-    fig.suptitle("그림 6: 에너지 공간 재분배 — Detector Plane\n"
-                 "D2NN이 intensity를 50μm bucket으로 집중시키는 과정",
-                 fontsize=14, fontweight="bold")
+    fig.suptitle(text["suptitle"], fontsize=14, fontweight="bold")
 
-    vac_irr = np.abs(fields["진공 (목표)"])**2
+    vac_irr = np.abs(fields[text["field_labels"][0]])**2
     imax = vac_irr.max()
 
     for col, (label, field) in enumerate(fields.items()):
@@ -370,7 +383,7 @@ def fig6_energy_redistribution():
                             vmin=-vmax_d, vmax=vmax_d)
         axes[2, col].plot(50*np.cos(theta), 50*np.sin(theta), 'k--', lw=1, alpha=0.5)
 
-    row_labels = ["Irradiance\n(linear)", "Irradiance\n(log scale)", "차이맵\n(vs 진공)"]
+    row_labels = text["row_labels"]
     for r, lbl in enumerate(row_labels):
         axes[r, 0].set_ylabel(lbl, fontsize=13, fontweight="bold")
 
@@ -389,7 +402,7 @@ def main():
 
     # Fig 1: reuse existing architecture diagram
     import shutil
-    arch_src = Path(__file__).resolve().parent.parent / "autoresearch" / "runs" / "d2nn_strong_turb_sweep" / "phase1_architecture.png"
+    arch_src = Path(__file__).resolve().parent.parent / "autoresearch" / "runs" / "0328-co-sweep-strong-turb-cn2-5e14" / "phase1_architecture.png"
     if arch_src.exists():
         shutil.copy(arch_src, OUT / "fig1_system.png")
         print("Fig 1: Copied from phase1_architecture.png")

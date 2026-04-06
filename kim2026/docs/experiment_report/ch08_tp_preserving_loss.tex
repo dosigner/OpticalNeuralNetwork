@@ -1,0 +1,73 @@
+\chapter{Throughput-Preserving Loss Design}
+
+\section{From 0401 Failure to a New Principle}
+
+The \texttt{0401} rerun showed that detector utility collapses when throughput is not
+protected. The \texttt{0402-focal-new-losses-pitchrescale-3strat-cn2-5e14} campaign
+turned that observation into a design principle by comparing three losses:
+absolute bucket power, PIB with explicit throughput preservation, and a
+multi-plane hybrid objective.
+
+\section{Result Overview}
+
+\runfigure{0402-focal-new-losses-pitchrescale-3strat-cn2-5e14/17_received_power_analysis.png}
+  {0402 received-power comparison}
+  {Absolute received power at the detector for the three TP-aware strategies.}
+
+\runfigure{0402-focal-new-losses-pitchrescale-3strat-cn2-5e14/16_abs_power_histogram_per_strategy.png}
+  {0402 absolute bucket histogram}
+  {Histogram of absolute bucket power across the three TP-aware strategies.}
+
+\runfigure{0402-focal-new-losses-pitchrescale-3strat-cn2-5e14/20_encircled_energy_per_strategy.png}
+  {0402 encircled energy}
+  {Encircled-energy comparison in the TP-preserving sweep.}
+
+\runfigure{0402-focal-new-losses-pitchrescale-3strat-cn2-5e14/19_focal_resolution_verification.png}
+  {0402 focal resolution verification}
+  {Padding and focal-plane resolution checks used to validate the detector
+  forward model.}
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{lccc}
+    \toprule
+    \smalltablehead{Strategy} & \smalltablehead{$\PIB@10\,\mu$m} & \smalltablehead{$\TP$} & \smalltablehead{$\RP@10\,\mu$m} \\
+    \midrule
+    Turbulent baseline & 0.7685 & 0.9702 & 0.7158 \\
+    Absolute bucket & 0.8002 & 0.9862 & 0.7577 \\
+    TP-penalized PIB & 0.8015 & 0.9841 & 0.7573 \\
+    Multiplane CO+PIB+Amp & 0.8306 & 0.3983 & 0.3198 \\
+    \bottomrule
+  \end{tabular}
+  \caption{Detector-side performance in the TP-preserving sweep. Only the two
+  throughput-aware single-plane losses exceed the turbulent baseline at
+  10\,$\mu$m.}
+\end{table}
+
+\section{The Design Principle}
+
+\begin{breakthrough}
+Throughput must be intrinsic to the loss, not a post-hoc diagnostic.
+\end{breakthrough}
+
+\texttt{focal\_absolute\_bucket} and \texttt{focal\_tp\_penalized\_pib} both keep throughput near
+98\% and raise the 10\,$\mu$m received power by roughly 5.8--5.9\% above the
+turbulent baseline. By contrast, the multi-plane objective appears attractive in
+PIB and Strehl, but it collapses throughput and therefore fails the detector.
+
+\runfigure{0402-focal-new-losses-pitchrescale-3strat-cn2-5e14/focal_absolute_bucket/06_fig1_focal_plane_vacuum_vs_turbulent_vs_d2nn.png}
+  {Absolute bucket focal plane}
+  {Focal-plane comparison for the absolute-bucket objective.}
+
+\runfigure{0402-focal-new-losses-pitchrescale-3strat-cn2-5e14/focal_tp_penalized_pib/06_fig1_focal_plane_vacuum_vs_turbulent_vs_d2nn.png}
+  {TP-penalized PIB focal plane}
+  {Focal-plane comparison for the TP-penalized PIB objective.}
+
+\runfigure{0402-focal-new-losses-pitchrescale-3strat-cn2-5e14/focal_multiplane_co_pib_amp/06_fig1_focal_plane_vacuum_vs_turbulent_vs_d2nn.png}
+  {Multiplane focal plane}
+  {The multiplane objective still produces a visually concentrated focal spot,
+  but it does so after sacrificing too much throughput.}
+
+This result converts the narrative from bug diagnosis into objective design. The
+next chapter asks which throughput-aware loss is actually best once the
+principle is accepted.

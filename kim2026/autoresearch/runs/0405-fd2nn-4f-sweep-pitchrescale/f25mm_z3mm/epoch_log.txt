@@ -1,0 +1,34 @@
+ep  0 loss=4.63653 334.8s
+  Epoch   0/29 | loss=4.63653 | co=0.0385 | fpib10=0.0134 | 334.8s
+ep  1 loss=4.17702 340.6s
+ep  2 loss=3.74073 340.9s
+ep  3 loss=3.36579 332.6s
+ep  4 loss=3.05785 339.8s
+ep  5 loss=2.80386 332.3s
+ep  6 loss=2.59048 334.6s
+ep  7 loss=2.40801 337.4s
+ep  8 loss=2.24967 337.3s
+ep  9 loss=2.11067 340.5s
+ep 10 loss=1.98758 333.0s
+  Epoch  10/29 | loss=1.98758 | co=0.1416 | fpib10=0.1633 | 333.0s
+ep 11 loss=1.87785 336.3s
+ep 12 loss=1.77946 339.9s
+ep 13 loss=1.69085 341.4s
+ep 14 loss=1.61077 338.8s
+ep 15 loss=1.53813 340.1s
+ep 16 loss=1.47206 360.2s
+ep 17 loss=1.41177 356.0s
+ep 18 loss=1.35664 375.7s
+ep 19 loss=1.30609 377.2s
+ep 20 loss=1.25965 389.5s
+  Epoch  20/29 | loss=1.25965 | co=0.1938 | fpib10=0.3234 | 389.5s
+ep 21 loss=1.21687 385.8s
+ep 22 loss=1.17738 344.3s
+ep 23 loss=1.14086 357.6s
+ep 24 loss=1.10698 358.8s
+ep 25 loss=1.07545 366.4s
+ep 26 loss=1.04602 358.1s
+ep 27 loss=1.01844 345.1s
+ep 28 loss=0.99248 340.8s
+ep 29 loss=0.96791 353.1s
+  Epoch  29/29 | loss=0.96791 | co=0.2193 | fpib10=0.4256 | 353.1s

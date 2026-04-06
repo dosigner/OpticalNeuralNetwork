@@ -10,45 +10,44 @@ miniconda3/
 **/data/cifar10/
 **/data/mnist/
 
-# Shared Claude / agent tooling
-.claude/settings.local.json
-kim2026/.claude/settings.local.json
-
-# Shared bkit structure, exclude machine-local execution state
-.bkit/runtime/
-.bkit/state/
-.bkit/audit/
-.bkit/snapshots/
-.bkit/btw-suggestions.json
-kim2026/.bkit/
+# Shared Claude / agent tooling — tracked for harness engineering portability
 
 # Experiment runs (keep summaries/figures, exclude heavy binaries)
 /luo2022_random_diffusers_d2nn/runs*/
 /lin2018_all_optical_d2nn/runs*/
 /tao2019_fourier_space_d2nn/runs*/
 /kim2026/data/
-/kim2026/autoresearch/runs/**/*.pt
-/kim2026/autoresearch/runs/**/*.npy
-/kim2026/autoresearch/runs/**/*.npz
-/kim2026/autoresearch/runs/**/*.pkl
-/kim2026/autoresearch/runs/**/*.ckpt
 
 # Wandb
 wandb/
 
-# IDE
-.vscode/
+# IDE — .vscode tracked for shared settings
 *.egg-info/
 
 # Generated LaTeX build outputs
-/docs/latex/*.aux
-/docs/latex/*.log
-/docs/latex/*.out
-/docs/latex/*.toc
+**/*.aux
+**/*.aux.bak
+**/*.lof
+**/*.lof.bak
+**/*.lot
+**/*.lot.bak
+**/*.toc.bak
+**/*.out.bak
+**/missfont.log
+
+# Large PDFs (>100MB, GitHub limit)
+kim2026/docs/experiment_report/main.pdf
+kim2026/docs/experiment_report/main.log
+
+# Node
+node_modules/
+package-lock.json
 
 # Local archive bundles
 /d2nn_reproduction_vault.zip
 /fd2nn_claude_files.tar.gz
+rclone-current-linux-amd64.zip
+rclone-upload.log
 
 # Local git worktrees
 /.worktrees/

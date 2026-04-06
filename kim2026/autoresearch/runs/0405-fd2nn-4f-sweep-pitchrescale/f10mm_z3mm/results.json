@@ -1,0 +1,19 @@
+{
+  "name": "f10mm_z3mm",
+  "f_mm": 10.0,
+  "z_mm": 3.0,
+  "num_layers": 5,
+  "dx_fourier_um": 7.568359375,
+  "focus_f_mm": 6.5,
+  "co_output": 0.18783198297023773,
+  "co_baseline": 0.2683299481868744,
+  "focal_pib_10um": 0.2901896834373474,
+  "focal_pib_50um": 0.41813746094703674,
+  "focal_pib_10um_baseline": 0.5752106308937073,
+  "focal_pib_50um_baseline": 0.9745141267776489,
+  "focal_pib_10um_vacuum": 0.9298173189163208,
+  "focal_pib_50um_vacuum": 0.9833511114120483,
+  "dx_focal_um": 4.919433593749999,
+  "throughput": 0.9999975476002795,
+  "training_seconds": 10254.134551048279
+}

@@ -1,0 +1,27 @@
+\contentsline {section}{\numberline {1}Introduction and Motivation}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}System Parameters}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Key Optical Relations}{2}{subsection.1.2}%
+\contentsline {section}{\numberline {2}The Fundamental Problem: PIB vs.\ Received Power}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Metric Definitions}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Phase-Only Mask Energy Scattering Mechanism}{3}{subsection.2.2}%
+\contentsline {section}{\numberline {3}Sweep 0401: Conventional Loss Functions}{3}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Loss Function Definitions}{3}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Results: The Throughput Catastrophe}{4}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Physics Interpretation}{4}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Sweep 0402: Throughput-Aware Loss Functions}{4}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Rationale for New Loss Designs}{4}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Results: First Successful RP Improvement}{5}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Focal Plane Resolution Verification}{6}{subsection.4.3}%
+\contentsline {section}{\numberline {5}Sweep 0403: Loss Function Optimization}{6}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Expanded Loss Function Space}{6}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Results: Convergence to a Physical Attractor}{7}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Per-Loss-Function Insights}{7}{subsection.5.3}%
+\contentsline {subsubsection}{\numberline {5.3.1}Raw Received Power (Best: $+6.4\%$)}{7}{subsubsection.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.3.2}PIB + Hard TP and TP-PIB $w$=2.0 (Tied: $+6.1\%$)}{8}{subsubsection.5.3.2}%
+\contentsline {subsubsection}{\numberline {5.3.3}TP-PIB $w$=0.5 (Lowest: $+5.5\%$)}{8}{subsubsection.5.3.3}%
+\contentsline {subsubsection}{\numberline {5.3.4}Absolute Bucket + CO ($+5.8\%$)}{9}{subsubsection.5.3.4}%
+\contentsline {section}{\numberline {6}Wavefront Analysis: Why WF RMS Does Not Improve}{9}{section.6}%
+\contentsline {section}{\numberline {7}Phase Mask Analysis}{9}{section.7}%
+\contentsline {section}{\numberline {8}Physical Mechanism: Focal Energy Redistribution}{10}{section.8}%
+\contentsline {section}{\numberline {9}Summary of All Loss Functions}{10}{section.9}%
+\contentsline {section}{\numberline {10}Conclusions}{11}{section.10}%

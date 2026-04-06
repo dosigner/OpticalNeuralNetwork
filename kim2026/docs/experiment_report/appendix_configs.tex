@@ -1,0 +1,107 @@
+\chapter{Configuration Provenance}
+
+This appendix records the committed configuration files that define the main
+campaign families. The appendix is organized by the chapter in which each
+configuration becomes relevant.
+
+\section{Focal-Plane Sweep Configurations}
+
+\lstinputlisting[
+  language={},
+  caption={0401 clean focal sweep configuration},
+  label={lst:cfg-0401-clean}
+]{../../autoresearch/configs/0401-focal-sweep-clean-data-30ep.yaml}
+
+\lstinputlisting[
+  language={},
+  caption={0401 legacy f=1\,mm padded focal sweep configuration},
+  label={lst:cfg-0401-f1mm}
+]{../../autoresearch/configs/0401-focal-sweep-f1mm-padded-30ep.yaml}
+
+\lstinputlisting[
+  language={},
+  caption={0402 TP-preserving focal sweep configuration},
+  label={lst:cfg-0402-losses}
+]{../../autoresearch/configs/0402-focal-sweep-new-losses-30ep.yaml}
+
+\lstinputlisting[
+  language={},
+  caption={0403 combined loss optimization configuration},
+  label={lst:cfg-0403-combined}
+]{../../autoresearch/configs/0403-combined-6strat-30ep.yaml}
+
+\lstinputlisting[
+  language={},
+  caption={0403 vacuum-target exploratory sweep configuration},
+  label={lst:cfg-0403-vac}
+]{../../autoresearch/configs/0403-focal-sweep-pib-vacuum-target-30ep.yaml}
+
+\lstinputlisting[
+  language={},
+  caption={Generic focal PIB sweep configuration},
+  label={lst:cfg-focal-generic}
+]{../../autoresearch/configs/focal_pib_sweep.yaml}
+
+\section{Core D2NN Training Configurations}
+
+\lstinputlisting[
+  language={},
+  caption={Base FSO training configuration},
+  label={lst:cfg-fso-base}
+]{../../configs/fso_1024_train.yaml}
+
+\lstinputlisting[
+  language={},
+  caption={Pilot D2NN 2\,cm configuration},
+  label={lst:cfg-fso-2cm}
+]{../../configs/fso_1024_train_d2nn_2cm.yaml}
+
+\lstinputlisting[
+  language={},
+  caption={Beam-reducer base configuration},
+  label={lst:cfg-beamreducer}
+]{../../configs/fso_1024_train_d2nn_beamreducer_base.yaml}
+
+\lstinputlisting[
+  language={},
+  caption={Beam-reducer ROI complex base configuration},
+  label={lst:cfg-beamreducer-roi}
+]{../../configs/fso_1024_train_d2nn_beamreducer_roi_complex_base.yaml}
+
+\lstinputlisting[
+  language={},
+  caption={Beam-reducer ROI complex BR15cm configuration},
+  label={lst:cfg-beamreducer-br15}
+]{../../configs/d2nn_beamreducer_roi_complex_br15cm.yaml}
+
+\section{Pilot, Debug, and Smoke Configurations}
+
+\lstinputlisting[
+  language={},
+  caption={Pilot train configuration},
+  label={lst:cfg-pilot-train}
+]{../../configs/pilot_train_a100.yaml}
+
+\lstinputlisting[
+  language={},
+  caption={Pilot evaluation configuration},
+  label={lst:cfg-pilot-eval}
+]{../../configs/pilot_eval_a100.yaml}
+
+\lstinputlisting[
+  language={},
+  caption={Pilot pair generation configuration},
+  label={lst:cfg-pilot-pair}
+]{../../configs/pilot_pair_generation_a100.yaml}
+
+\lstinputlisting[
+  language={},
+  caption={Vacuum split-step debug configuration},
+  label={lst:cfg-debug-vacuum}
+]{../../configs/debug_vacuum_split_step.yaml}
+
+\lstinputlisting[
+  language={},
+  caption={Smoke test configuration},
+  label={lst:cfg-smoke}
+]{../../configs/smoke_test.yaml}

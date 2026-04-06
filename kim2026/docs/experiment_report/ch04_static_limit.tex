@@ -1,0 +1,141 @@
+\chapter{Static D2NN Fundamental Limit}
+
+\section{Problem Framing}
+
+This chapter answers the field-level question left open by the optics crisis.
+Suppose a receiver-side phase-only D2NN is modeled as a sampled, scalar,
+monochromatic, lossless operator $H$. Can such a fixed operator improve the
+field similarity between a turbulent realization $U_t$ and its vacuum reference
+$U_v$?
+
+The scope is intentionally narrow. The operator $H$ in this chapter refers only
+to the sampled phase-mask plus band-limited angular spectrum propagation block
+on the propagating subspace. Zero-padding, finite detector windows, cropping,
+and focal-lens measurements are outside the theorem statements below.
+
+\section{Unitary Block Model}
+
+Each layer is a phase-only multiplier and each inter-layer propagation step is a
+band-limited angular spectrum propagator. Under the model used in this project,
+their composition is unitary on the sampled propagating subspace.
+
+\begin{definition}[Complex overlap used in Theorem 1]
+For two sampled complex fields $U_1$ and $U_2$ on the same receiver grid, the
+complex overlap is
+\begin{equation}
+\CO(U_1,U_2)=
+\frac{|\langle U_1,U_2\rangle|}{\|U_1\|_2\,\|U_2\|_2}.
+\end{equation}
+Mixed quantities such as $\CO(HU_t,U_v)$ are different observables and are not
+covered by the invariance theorem.
+\end{definition}
+
+\begin{theorem}[Complex-overlap invariance]
+Let $H$ be a unitary phase-only D2NN block. Then
+\begin{equation}
+\CO(HU_t, HU_v) = \CO(U_t, U_v).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+The complex overlap is the normalized inner product. Because $H^\dagger H = I$,
+\begin{equation}
+\langle HU_t, HU_v \rangle = \langle U_t, H^\dagger H U_v \rangle
+= \langle U_t, U_v \rangle.
+\end{equation}
+Norms are also preserved, so the normalized ratio is unchanged.
+\end{proof}
+
+\begin{theorem}[Distance invariance]
+If $H$ is unitary, then
+\begin{equation}
+\|HU_t - HU_v\|_2 = \|U_t - U_v\|_2.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Expand the squared norm and use $H^\dagger H = I$:
+\begin{align}
+\|HU_t - HU_v\|_2^2
+&= \langle H(U_t-U_v), H(U_t-U_v) \rangle \\
+&= \langle U_t-U_v, H^\dagger H (U_t-U_v) \rangle \\
+&= \|U_t-U_v\|_2^2.
+\end{align}
+\end{proof}
+
+\section{What Is Not Invariant}
+
+Intensity observables are different. A detector-plane bucket metric can be
+written as
+\begin{equation}
+\PIB(U) = \frac{\langle U, B U \rangle}{\langle U, U \rangle},
+\end{equation}
+where $B$ is a quadratic observable selecting the bucket support. After a
+unitary transform,
+\begin{equation}
+\PIB(HU) = \frac{\langle U, H^\dagger B H U \rangle}{\langle U, U \rangle},
+\end{equation}
+which only equals the original value when $H^\dagger B H = B$. In general, that
+condition does not hold. This is why a static D2NN can alter detector-plane
+intensity metrics without improving field-level similarity.
+
+\section{Numerical Verification}
+
+\runfigure{0327-theorem-verify-defocus-1layer/deterministic_verification.png}
+  {Deterministic defocus verification}
+  {A deterministic defocus aberration can be corrected by a simple phase-only
+  optical element. This confirms that the later random-turbulence limitation is
+  not a statement about every deterministic distortion.}
+
+\runfigure{0329-paper-figures-static-d2nn/theorem1_co_verification.png}
+  {Theorem 1 verification}
+  {Numerical verification that $\CO(U_t,U_v)$ and $\CO(HU_t,HU_v)$ are
+  preserved to numerical precision, while mixed comparisons such as
+  $\CO(HU_t,U_v)$ can change dramatically.}
+
+\runfigure{0329-paper-figures-static-d2nn/theorem2_l2_verification.png}
+  {Theorem 2 verification}
+  {Numerical verification of $L_2$-distance preservation for the same
+  strategies.}
+
+\runfigure{0329-paper-figures-static-d2nn/theorem_verification_table.png}
+  {Invariant summary}
+  {Summary of preserved versus non-preserved quantities in the sampled unitary
+  model.}
+
+\runfigure{0329-paper-figures-static-d2nn/fig3_deterministic_vs_random.png}
+  {Deterministic versus random distortion}
+  {Deterministic aberrations can be conjugated, whereas random turbulence still
+  respects the unitary invariants above.}
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{lccc}
+    \toprule
+    \smalltablehead{Strategy} & \smalltablehead{$\CO(HU_t,HU_v)$} & \smalltablehead{Mixed $\CO(HU_t,U_v)$} & \smalltablehead{$L_2$ verdict} \\
+    \midrule
+    PIB only & 0.304446 & 0.014716 & preserved \\
+    CO+PIB hybrid & 0.304446 & 0.190252 & preserved \\
+    Strehl only & 0.304446 & 0.023102 & preserved \\
+    Intensity overlap & 0.304446 & 0.183928 & preserved \\
+    \bottomrule
+  \end{tabular}
+  \caption{Field-level invariants are preserved, while mixed comparisons can
+  vary widely. The preserved value $0.304446$ is taken from
+  \texttt{theorem\_verification\_results.json}.}
+\end{table}
+
+\section{Interpretation}
+
+\begin{discovery}
+Within the stated sampled unitary model and for field-level similarity, a
+static phase-only D2NN does not act as a random-turbulence wavefront corrector.
+It is better interpreted as a passive mode converter or detector-shaping optical
+front end.
+\end{discovery}
+
+This conclusion does \emph{not} say that every intensity-based observable is
+fixed. On the contrary, detector-plane quantities such as PIB can change
+substantially. The mistake would be to interpret that change as direct evidence
+of field recovery. That exact mistake is what the next chapter diagnoses in the
+legacy focal-PIB sweep.

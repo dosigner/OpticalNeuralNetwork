@@ -1,0 +1,76 @@
+{
+  "name": "focal_intensity_overlap",
+  "description": "Focal-plane intensity overlap loss",
+  "arch": {
+    "num_layers": 5,
+    "layer_spacing_m": 0.01,
+    "detector_distance_m": 0.01,
+    "propagation_pad_factor": 2
+  },
+  "focus_f_mm": 4.5,
+  "pib_bucket_radius_um": 10.0,
+  "propagation_pad_factor": 2,
+  "strehl_pad_factor": 4,
+  "co_output": 0.47187304496765137,
+  "io_output": 0.6763947606086731,
+  "co_baseline": 0.29456573724746704,
+  "focal_pib_10um": 0.25660789012908936,
+  "focal_pib_50um": 0.3547241687774658,
+  "focal_pib_10um_baseline": 0.784537672996521,
+  "focal_pib_50um_baseline": 0.9851964116096497,
+  "focal_pib_10um_vacuum": 0.942296028137207,
+  "focal_pib_50um_vacuum": 0.9884606003761292,
+  "focal_strehl": 0.26454034447669983,
+  "dx_focal_um": 3.40576171875,
+  "throughput": 0.0816398715113204,
+  "wf_rms_rad": 1.7399831801652907,
+  "wf_rms_baseline_rad": 1.7894283069372177,
+  "wf_rms_nm": 429.236732231096,
+  "wf_rms_baseline_nm": 441.4343585543103,
+  "training_seconds": 11988.210829734802,
+  "sanity_checks": [
+    {
+      "name": "Energy Throughput",
+      "passed": false,
+      "value": 0.08103518406781712,
+      "threshold": "[0.9, 1.1]",
+      "message": "Throughput=0.0810, energy lost"
+    },
+    {
+      "name": "Unitary CO Preservation",
+      "passed": false,
+      "value": 0.20464305579662323,
+      "threshold": "|delta| < 0.01",
+      "message": "CO delta=0.204643, D2NN may not be unitary"
+    },
+    {
+      "name": "Strehl Upper Bound",
+      "passed": true,
+      "value": 0.27873891592025757,
+      "threshold": "<= 1.05",
+      "message": "Strehl=0.2787 exceeds passive limit"
+    }
+  ],
+  "history": {
+    "epoch": [
+      0,
+      29
+    ],
+    "loss": [
+      0.6966313500404357,
+      0.027843993842601777
+    ],
+    "val_co": [
+      0.27720731496810913,
+      0.4734434187412262
+    ],
+    "val_focal_pib_10": [
+      0.7951235175132751,
+      0.25782516598701477
+    ],
+    "lr": [
+      0.0016,
+      1e-05
+    ]
+  }
+}

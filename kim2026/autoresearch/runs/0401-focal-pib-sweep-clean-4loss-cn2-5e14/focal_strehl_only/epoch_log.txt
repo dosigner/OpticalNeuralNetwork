@@ -1,0 +1,34 @@
+ep  0 loss=0.46863 lr=1.60e-03 497.7s
+  -> starting eval at epoch 0...
+  Epoch   0/29 | loss=0.46863 | co=0.2753 | fpib10=0.7968 | fpib50=0.9936 | fstrehl=0.5379 | lr=1.60e-03 | 497.7s
+ep  1 loss=0.45243 lr=3.20e-03 458.6s
+ep  2 loss=0.44662 lr=4.80e-03 446.6s
+ep  3 loss=0.44011 lr=6.40e-03 451.4s
+ep  4 loss=0.43082 lr=8.00e-03 541.3s
+ep  5 loss=0.42056 lr=7.97e-03 462.9s
+ep  6 loss=0.41136 lr=7.87e-03 478.3s
+ep  7 loss=0.40331 lr=7.72e-03 450.8s
+ep  8 loss=0.39605 lr=7.51e-03 457.6s
+ep  9 loss=0.38917 lr=7.24e-03 443.6s
+ep 10 loss=0.38319 lr=6.92e-03 441.5s
+ep 11 loss=0.37700 lr=6.55e-03 444.4s
+ep 12 loss=0.37065 lr=6.15e-03 475.1s
+ep 13 loss=0.36518 lr=5.71e-03 463.8s
+ep 14 loss=0.36006 lr=5.24e-03 446.6s
+ep 15 loss=0.35557 lr=4.75e-03 446.0s
+ep 16 loss=0.35106 lr=4.26e-03 443.8s
+ep 17 loss=0.34741 lr=3.75e-03 438.9s
+ep 18 loss=0.34360 lr=3.26e-03 446.1s
+ep 19 loss=0.34074 lr=2.77e-03 447.8s
+ep 20 loss=0.33803 lr=2.30e-03 453.3s
+ep 21 loss=0.33571 lr=1.86e-03 443.6s
+ep 22 loss=0.33385 lr=1.46e-03 451.2s
+ep 23 loss=0.33223 lr=1.09e-03 446.2s
+ep 24 loss=0.33094 lr=7.73e-04 445.2s
+ep 25 loss=0.33003 lr=5.04e-04 448.9s
+ep 26 loss=0.32937 lr=2.91e-04 439.9s
+ep 27 loss=0.32892 lr=1.36e-04 437.5s
+ep 28 loss=0.32867 lr=4.15e-05 437.6s
+ep 29 loss=0.32855 lr=1.00e-05 443.2s
+  -> starting eval at epoch 29...
+  Epoch  29/29 | loss=0.32855 | co=0.3075 | fpib10=0.8134 | fpib50=0.9922 | fstrehl=0.6800 | lr=1.00e-05 | 443.2s

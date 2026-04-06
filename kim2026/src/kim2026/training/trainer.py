@@ -9,9 +9,10 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
 
+from kim2026.data.canonical_pupil import enforce_reducer_validation_gate
 from kim2026.data.dataset import CachedFieldDataset
 from kim2026.models.d2nn import BeamCleanupD2NN
-from kim2026.models.fd2nn import BeamCleanupFD2NN
+from kim2026.models.fd2nn import MultiLayerFD2NN
 from kim2026.optics import MIN_PAD_FACTOR, propagate_padded_same_window
 from kim2026.training.losses import beam_cleanup_loss, complex_field_loss, roi_complex_loss
 from kim2026.training.targets import apply_receiver_aperture, make_detector_plane_target
@@ -30,21 +31,15 @@ def _build_model(cfg: dict[str, Any], n: int) -> nn.Module:
     model_type = str(cfg["model"].get("type", "d2nn"))
     if model_type == "fd2nn":
         dual_2f = cfg["optics"]["dual_2f"]
-        return BeamCleanupFD2NN(
+        na_val = None if dual_2f.get("na1") is None else float(dual_2f["na1"])
+        return MultiLayerFD2NN(
             n=n,
             wavelength_m=float(cfg["optics"]["lambda_m"]),
             window_m=float(cfg["grid"]["receiver_window_m"]),
             num_layers=int(cfg["model"]["num_layers"]),
+            f_m=float(dual_2f["f1_m"]),
             layer_spacing_m=float(cfg["model"].get("layer_spacing_m", 0.0)),
-            phase_max=float(cfg["model"].get("phase_max", 3.14159265)),
-            phase_constraint=str(cfg["model"].get("phase_constraint", "unconstrained")),
-            phase_init=str(cfg["model"].get("phase_init", "uniform")),
-            phase_init_scale=float(cfg["model"].get("phase_init_scale", 0.1)),
-            dual_2f_f1_m=float(dual_2f["f1_m"]),
-            dual_2f_f2_m=float(dual_2f["f2_m"]),
-            dual_2f_na1=None if dual_2f.get("na1") is None else float(dual_2f["na1"]),
-            dual_2f_na2=None if dual_2f.get("na2") is None else float(dual_2f["na2"]),
-            dual_2f_apply_scaling=bool(dual_2f.get("apply_scaling", False)),
+            na=na_val,
         )
     return BeamCleanupD2NN(
         n=n,
@@ -192,16 +187,19 @@ def train_model(cfg: dict[str, Any], *, run_dir: str | Path, resume_path: str | 
 
     strict = bool(cfg["runtime"].get("strict_reproducibility", True))
     set_global_seed(int(cfg["runtime"]["seed"]), strict_reproducibility=strict)
+    enforce_reducer_validation_gate(cfg["data"])
 
     train_ds = CachedFieldDataset(
         cache_dir=cfg["data"]["cache_dir"],
         manifest_path=cfg["data"]["split_manifest_path"],
         split="train",
+        plane_selector=str(cfg["data"].get("plane_selector", "stored")),
     )
     val_ds = CachedFieldDataset(
         cache_dir=cfg["data"]["cache_dir"],
         manifest_path=cfg["data"]["split_manifest_path"],
         split="val",
+        plane_selector=str(cfg["data"].get("plane_selector", "stored")),
     )
     if len(train_ds) == 0:
         raise ValueError("training dataset is empty")

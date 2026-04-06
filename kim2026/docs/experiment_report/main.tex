@@ -1,0 +1,147 @@
+\documentclass[11pt, a4paper, twoside]{report}
+
+% ── Fonts & Korean ──
+\usepackage{fontspec}
+\setmainfont{NanumSquare}
+\setsansfont{NanumSquare}
+\setmonofont{DejaVu Sans Mono}[Scale=0.85]
+
+% ── Layout ──
+\usepackage[top=25mm, bottom=25mm, left=30mm, right=25mm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+
+% ── Math ──
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}{Lemma}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
+
+% ── Figures & Tables ──
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{caption}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{tabularx}
+\graphicspath{
+  {../../autoresearch/runs/}
+}
+\captionsetup{font=small, labelfont=bf}
+
+% ── Colors & Hyperlinks ──
+\usepackage[dvipsnames]{xcolor}
+\definecolor{navy}{HTML}{1E2761}
+\definecolor{accent}{HTML}{4A90D9}
+\definecolor{codegreen}{HTML}{27AE60}
+\definecolor{codered}{HTML}{E74C3C}
+\definecolor{codegray}{HTML}{6B7B8D}
+\usepackage[colorlinks=true, linkcolor=navy, citecolor=accent, urlcolor=accent]{hyperref}
+
+% ── Code Listings ──
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{gray!5},
+  frame=single,
+  rulecolor=\color{gray!30},
+  breaklines=true,
+  numbers=left,
+  numberstyle=\tiny\color{codegray},
+  keywordstyle=\color{accent}\bfseries,
+  commentstyle=\color{codegreen},
+  stringstyle=\color{codered},
+}
+
+% ── Headers ──
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\leftmark}
+\fancyhead[RO]{\rightmark}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{14pt}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ── Chapter Styling ──
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\color{navy}}
+  {\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titlespacing*{\chapter}{0pt}{-20pt}{40pt}
+
+% ── Misc ──
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, breakable}
+\newtcolorbox{keyinsight}{
+  colback=accent!5, colframe=accent, title=Key Insight,
+  fonttitle=\bfseries, breakable
+}
+\newtcolorbox{discovery}{
+  colback=codered!5, colframe=codered, title=Critical Discovery,
+  fonttitle=\bfseries, breakable
+}
+\newtcolorbox{breakthrough}{
+  colback=codegreen!5, colframe=codegreen, title=Breakthrough,
+  fonttitle=\bfseries, breakable
+}
+
+\newcommand{\runfigure}[4][0.88\textwidth]{
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=#1]{#2}
+    \caption[#3]{#4}
+  \end{figure}
+}
+
+\newcommand{\smalltablehead}[1]{\textbf{#1}}
+\newcommand{\CO}{\mathrm{CO}}
+\newcommand{\WF}{\mathrm{WF}}
+\newcommand{\PIB}{\mathrm{PIB}}
+\newcommand{\RP}{\mathrm{RP}}
+\newcommand{\TP}{\mathrm{TP}}
+
+% ══════════════════════════════════════════════
+\title{
+  \vspace{-2cm}
+  {\LARGE\color{navy} D2NN for Free-Space Optical Communication}\\[0.5cm]
+  {\Huge\bfseries Experiment Chronology\\[0.3cm]
+  \Large 실험 보고서: 2026년 3월--4월}\\[1cm]
+  {\large Static D2NN의 한계 발견에서 Received Power 돌파까지}
+}
+\author{D2NN Lab}
+\date{2026-04-06}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\listoffigures
+\listoftables
+
+% ── Chapter files ──
+\input{ch01_introduction}
+\input{ch02_beam_reducer_sweep}
+\input{ch03_optics_crisis}
+\input{ch04_static_limit}
+\input{ch05_focal_pib_bug}
+\input{ch06_data_generation}
+\input{ch07_focal_pib_sweep}
+\input{ch08_tp_preserving_loss}
+\input{ch09_loss_optimization}
+\input{ch10_distance_sweep}
+\input{ch11_fd2nn_4f}
+\input{ch12_fd2nn_fundamental_limit}
+\input{ch13_conclusions}
+
+\appendix
+\input{appendix_configs}
+\input{appendix_full_results}
+
+\end{document}

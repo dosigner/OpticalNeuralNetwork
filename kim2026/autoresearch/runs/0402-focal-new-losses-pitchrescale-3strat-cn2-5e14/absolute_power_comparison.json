@@ -1,0 +1,23 @@
+{
+  "absolute_bucket_10um": {
+    "vacuum": 277.16632080078125,
+    "turbulent": 217.94664001464844,
+    "focal_absolute_bucket": 230.68002319335938,
+    "focal_tp_penalized_pib": 230.55946350097656,
+    "focal_multiplane_co_pib_amp": 96.3905029296875
+  },
+  "absolute_total_focal": {
+    "vacuum": 290.1770324707031,
+    "turbulent": 278.6690673828125,
+    "focal_absolute_bucket": 283.2210693359375,
+    "focal_tp_penalized_pib": 282.6090087890625,
+    "focal_multiplane_co_pib_amp": 113.55306243896484
+  },
+  "wf_rms_nm": {
+    "turbulent": 365.26388022298863,
+    "focal_absolute_bucket": 366.04082314166783,
+    "focal_tp_penalized_pib": 366.14991831067545,
+    "focal_multiplane_co_pib_amp": 331.85734834255555
+  },
+  "vacuum_bucket_ref": 277.16632080078125
+}
